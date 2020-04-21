@@ -32,4 +32,5 @@ Assets/Networking/Plugins. As with the IgnoredAssets folder this folder is also 
 
 * Compiling gRPC and Protobuf files for the API
 
+When opening the project you might encounter errors telling you that you are missing certain gRPC or Protobuf source files.
 
