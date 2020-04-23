@@ -42,9 +42,9 @@ if __name__ == '__main__':
     surface = pygame.display.set_mode((1200, 800))
 
     #canvas = pygame.Surface((1600, 900))
-    canvas = pygame.Surface((1200, 800))
+    canvas = pygame.Surface((800, 640))
 
-    camera1 = pygame.Rect(0, 0, 1024, 534)
+    camera1 = pygame.Rect(0, 0, 800, 640)
     #camera1 = pygame.Rect(0, 0, 800, 450)
     #camera2 = pygame.Rect(800, 0, 800, 450)
     #camera3 = pygame.Rect(0, 450, 800, 450)
@@ -83,8 +83,8 @@ if __name__ == '__main__':
 
         for imgChunk in stub1.StreamImagedata(cameradata_pb2.CameradataRequest(operation="streaming")):
             #img = pygame.image.frombuffer(imgChunk.imagedata, (800, 450), "RGB")
-            img = pygame.image.frombuffer(imgChunk.imagedata, (1024, 534), "RGB")
-            img = pygame.transform.rotate(img, 180)
+            img = pygame.image.frombuffer(imgChunk.imagedata, (800, 640), "RGB")
+            #img = pygame.transform.rotate(img, 180)
 
             sub1.blit(img, [100, 100])
 
@@ -93,6 +93,7 @@ if __name__ == '__main__':
             #sub4.blit(img, [100, 100])
 
             surface.blit(sub1, (0, 0))
+            surface.blit(pygame.transform.flip(sub1, False, True), (0, 0))
             #surface.blit(sub2, (600, 0))
             #surface.blit(sub3, (0, 450))
             #surface.blit(sub4, (600, 450))

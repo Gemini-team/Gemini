@@ -19,4 +19,5 @@ fi
 
 # Generating the python protobuf and grpc files.
 # Here one must provide the name of the protobuf file.
-#py -m grpc_tools.protoc -I protos --python_out=./python_client/ --grpc_python_out=./python_client/ protos/$1/$1.proto
+# This is assumed that host OS is Windows
+py -m grpc_tools.protoc -I $SRC_DIR --python_out=../../Clients/PythonClients/ --grpc_python_out=../../Clients/PythonClients/ $SRC_DIR/$1/$1.proto

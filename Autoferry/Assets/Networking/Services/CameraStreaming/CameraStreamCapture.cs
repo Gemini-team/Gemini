@@ -10,7 +10,7 @@ using Google.Protobuf;
 public class CameraStreamCapture : MonoBehaviour
 {
     int frameCounter = 0;
-    public CameradataServer cameradataService = new CameradataServer();
+    public CameradataServer cameradataServer = new CameradataServer();
     CameradataImpl tempCameraDataImpl = new CameradataImpl(ByteString.CopyFromUtf8(""), 0);
     int id = 0;
     Unity.Collections.NativeArray<byte> imageBytes = new Unity.Collections.NativeArray<byte>();
@@ -65,6 +65,6 @@ public class CameraStreamCapture : MonoBehaviour
         // This should be no problem since the length of the imagedata should always be > 0.
         //tempCameraDataImpl.SetImagedataLength((uint)tempCameraDataImpl.GetImagedata().Length);
 
-        cameradataService.SetCameradata(id, tempCameraDataImpl);
+        cameradataServer.SetCameradata(id, tempCameraDataImpl);
     }
 }
