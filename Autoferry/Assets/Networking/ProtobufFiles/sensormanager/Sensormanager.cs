@@ -27,19 +27,20 @@ namespace Sensormanager {
             "CiFzZW5zb3JtYW5hZ2VyL3NlbnNvcm1hbmFnZXIucHJvdG8SDXNlbnNvcm1h",
             "bmFnZXIiLQoZQWxsU2Vuc29yc09uVmVzc2VsUmVxdWVzdBIQCgh2ZXNzZWxJ",
             "RBgBIAEoCSJEChpBbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZRImCgdzZW5z",
-            "b3JzGAEgAygLMhUuc2Vuc29ybWFuYWdlci5TZW5zb3IiQQoGU2Vuc29yEgwK",
+            "b3JzGAEgAygLMhUuc2Vuc29ybWFuYWdlci5TZW5zb3IiYgoGU2Vuc29yEgwK",
             "BHR5cGUYASABKAkSEwoLc2Vuc29yV2lkdGgYAiABKAUSFAoMc2Vuc29ySGVp",
-            "Z2h0GAMgASgFMn8KDVNlbnNvck1hbmFnZXISbgoVR2V0QWxsU2Vuc29yc09u",
-            "VmVzc2VsEiguc2Vuc29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXF1",
-            "ZXN0Gikuc2Vuc29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXNwb25z",
-            "ZSIAQjcKHmlvLmdycGMuZXhhbXBsZXMuc2Vuc29ybWFuYWdlckINU2Vuc29y",
-            "TWFuYWdlclABogIDSExXYgZwcm90bzM="));
+            "Z2h0GAMgASgFEhEKCWlwQWRkcmVzcxgEIAEoCRIMCgRwb3J0GAUgASgFMn8K",
+            "DVNlbnNvck1hbmFnZXISbgoVR2V0QWxsU2Vuc29yc09uVmVzc2VsEiguc2Vu",
+            "c29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXF1ZXN0Gikuc2Vuc29y",
+            "bWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZSIAQjcKHmlvLmdy",
+            "cGMuZXhhbXBsZXMuc2Vuc29ybWFuYWdlckINU2Vuc29yTWFuYWdlclABogID",
+            "SExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOnVesselRequest), global::Sensormanager.AllSensorsOnVesselRequest.Parser, new[]{ "VesselID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOnVesselResponse), global::Sensormanager.AllSensorsOnVesselResponse.Parser, new[]{ "Sensors" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.Sensor), global::Sensormanager.Sensor.Parser, new[]{ "Type", "SensorWidth", "SensorHeight" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.Sensor), global::Sensormanager.Sensor.Parser, new[]{ "Type", "SensorWidth", "SensorHeight", "IpAddress", "Port" }, null, null, null)
           }));
     }
     #endregion
@@ -324,6 +325,8 @@ namespace Sensormanager {
       type_ = other.type_;
       sensorWidth_ = other.sensorWidth_;
       sensorHeight_ = other.sensorHeight_;
+      ipAddress_ = other.ipAddress_;
+      port_ = other.port_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -365,6 +368,28 @@ namespace Sensormanager {
       }
     }
 
+    /// <summary>Field number for the "ipAddress" field.</summary>
+    public const int IpAddressFieldNumber = 4;
+    private string ipAddress_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string IpAddress {
+      get { return ipAddress_; }
+      set {
+        ipAddress_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "port" field.</summary>
+    public const int PortFieldNumber = 5;
+    private int port_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Port {
+      get { return port_; }
+      set {
+        port_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Sensor);
@@ -381,6 +406,8 @@ namespace Sensormanager {
       if (Type != other.Type) return false;
       if (SensorWidth != other.SensorWidth) return false;
       if (SensorHeight != other.SensorHeight) return false;
+      if (IpAddress != other.IpAddress) return false;
+      if (Port != other.Port) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -390,6 +417,8 @@ namespace Sensormanager {
       if (Type.Length != 0) hash ^= Type.GetHashCode();
       if (SensorWidth != 0) hash ^= SensorWidth.GetHashCode();
       if (SensorHeight != 0) hash ^= SensorHeight.GetHashCode();
+      if (IpAddress.Length != 0) hash ^= IpAddress.GetHashCode();
+      if (Port != 0) hash ^= Port.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -415,6 +444,14 @@ namespace Sensormanager {
         output.WriteRawTag(24);
         output.WriteInt32(SensorHeight);
       }
+      if (IpAddress.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(IpAddress);
+      }
+      if (Port != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(Port);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -431,6 +468,12 @@ namespace Sensormanager {
       }
       if (SensorHeight != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SensorHeight);
+      }
+      if (IpAddress.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(IpAddress);
+      }
+      if (Port != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Port);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -451,6 +494,12 @@ namespace Sensormanager {
       }
       if (other.SensorHeight != 0) {
         SensorHeight = other.SensorHeight;
+      }
+      if (other.IpAddress.Length != 0) {
+        IpAddress = other.IpAddress;
+      }
+      if (other.Port != 0) {
+        Port = other.Port;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -473,6 +522,14 @@ namespace Sensormanager {
           }
           case 24: {
             SensorHeight = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            IpAddress = input.ReadString();
+            break;
+          }
+          case 40: {
+            Port = input.ReadInt32();
             break;
           }
         }
