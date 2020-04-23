@@ -68,8 +68,6 @@ public class RemoteControlServer : MonoBehaviour
         {
             server.Start();
             
-
-            //Debug.Log("RemoteControlService server listening on port: " + PORT);
             Debug.Log("RemoteControlService server listening on port: " + port);
             Debug.Log("Press ESC to kill the server");
             string input = Console.ReadLine();

@@ -10,7 +10,7 @@ using Google.Protobuf;
 public class CameraStreamCapture : MonoBehaviour
 {
     int frameCounter = 0;
-    public CameradataService cameradataService = new CameradataService();
+    public CameradataServer cameradataService = new CameradataServer();
     CameradataImpl tempCameraDataImpl = new CameradataImpl(ByteString.CopyFromUtf8(""), 0);
     int id = 0;
     Unity.Collections.NativeArray<byte> imageBytes = new Unity.Collections.NativeArray<byte>();
