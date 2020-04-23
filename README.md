@@ -34,3 +34,4 @@ Assets/Networking/Plugins. As with the IgnoredAssets folder this folder is also 
 
 When opening the project you might encounter errors telling you that you are missing certain gRPC or Protobuf source files.
 
+

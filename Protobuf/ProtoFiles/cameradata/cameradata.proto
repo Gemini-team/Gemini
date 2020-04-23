@@ -1,0 +1,25 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.cameradata";
+option java_outer_classname = "Cameradata";
+option objc_class_prefix = "HLW";
+
+package cameradata;
+
+// The data service definition
+service CameradataService {
+    rpc TransferImagedata (CameradataRequest) returns (CameradataResponse) {}
+    rpc StreamImagedata(CameradataRequest) returns (stream CameradataResponse) {}
+}
+
+// The requeset message containing the user's name.
+message CameradataRequest {
+    string operation = 1;
+}
+
+message CameradataResponse {
+    bytes imagedata = 1;
+    uint32 imagedataLength = 2;
+}
