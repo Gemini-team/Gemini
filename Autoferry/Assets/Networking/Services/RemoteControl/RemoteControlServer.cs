@@ -8,8 +8,10 @@ using System.IO;
 
 public class RemoteControlServer : MonoBehaviour
 {
-    const string HOST = "localhost";
-    const int PORT = 50060;
+    //const string HOST = "localhost";
+    //const int PORT = 50060;
+    public string host = "192.168.1.183";
+    public int port = 50060;
     Thread thread;
     Server server;
 
@@ -32,7 +34,8 @@ public class RemoteControlServer : MonoBehaviour
     
             // Insecure
             Services = { Remotecontrol.RemoteControl.BindService(new RemoteControlServiceImpl())},
-            Ports = { new ServerPort("localhost", PORT, ServerCredentials.Insecure) }
+            //Ports = { new ServerPort("localhost", PORT, ServerCredentials.Insecure) }
+            Ports = { new ServerPort(host, port, ServerCredentials.Insecure) }
 
 
             // Secure
@@ -66,7 +69,8 @@ public class RemoteControlServer : MonoBehaviour
             server.Start();
             
 
-            Debug.Log("RemoteControlService server listening on port: " + PORT);
+            //Debug.Log("RemoteControlService server listening on port: " + PORT);
+            Debug.Log("RemoteControlService server listening on port: " + port);
             Debug.Log("Press ESC to kill the server");
             string input = Console.ReadLine();
 
