@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.vesseldata";
+option java_outer_classname = "Vesseldata";
+option objc_class_prefix = "HLW";
+
+package vesseldata;
+
+// The data service definition
+service DataService {
+    rpc TransferData (VesseldataRequest) returns (VesseldataResponse) {}
+}
+
+// The requeset message containing the user's name.
+message VesseldataRequest {
+    string operation = 1;
+}
+
+message VesseldataResponse {
+    repeated float position = 1 [packed=true];
+    repeated float velocity = 2 [packed=true];
+}

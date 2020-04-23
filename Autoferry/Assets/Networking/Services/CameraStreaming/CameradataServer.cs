@@ -6,7 +6,7 @@ using Cameradata;
 using Grpc.Core;
 using System;
 
-public class CameradataService : MonoBehaviour
+public class CameradataServer : MonoBehaviour
 {
     //const int PORT = 50070;
     private Thread cameradataServerThread;
