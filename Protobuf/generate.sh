@@ -3,9 +3,15 @@
 # Generating the csharp protobuf and grpc files.
 # Need to check wheter the directory already exists
 OUTDIR=../Autoferry/Assets/Networking/ProtobufFiles/$1
+PYTHON_OUTDIR=../Clients/PythonClients/
 SRC_DIR=ProtoFiles/
-echo "Writing compiled protobuf and grpc files to: " $OUTDIR
+if [ $# -eq 0 ]; then
+    echo "Name of protobuf file not given"
+    exit 1
+fi
+
 if [ -d "$OUTDIR" ]; then
+    echo "Writing compiled protobuf and grpc files to: " $OUTDIR
     # if the directory exists, just overwrite the files
     ./Plugins/protoc -I=$SRC_DIR --csharp_out=$OUTDIR/ $SRC_DIR/$1/$1.proto --grpc_out=$OUTDIR/ --plugin=protoc-gen-grpc=Plugins/grpc_csharp_plugin.exe
 else 
@@ -19,4 +25,18 @@ fi
 
 # Generating the python protobuf and grpc files.
 # Here one must provide the name of the protobuf file.
-#py -m grpc_tools.protoc -I protos --python_out=./python_client/ --grpc_python_out=./python_client/ protos/$1/$1.proto
+# This is assumed that host OS is Windows
+# Check if second argument is given
+if [ $# -ge 2 ]; then
+    if [ $2 == "python" ]; then
+
+        if [ -d "$PYTHON_OUTDIR" ]; then
+            echo "Writing compiled protobuf and grpc files to: " $PYTHON_OUTDIR
+            py -m grpc_tools.protoc -I $SRC_DIR --python_out=$PYTHON_OUTDIR --grpc_python_out=$PYTHON_OUTDIR $SRC_DIR/$1/$1.proto
+        else 
+            echo "The python client output directory did not exist, creating the directory for you!"
+            mkdir $PYTHON_OUTDIR
+            py -m grpc_tools.protoc -I $SRC_DIR --python_out=$PYTHON_OUTDIR --grpc_python_out=$PYTHON_OUTDIR $SRC_DIR/$1/$1.proto
+        fi
+    fi
+fi
