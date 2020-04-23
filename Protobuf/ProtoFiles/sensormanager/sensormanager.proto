@@ -25,4 +25,6 @@ message Sensor {
     string type = 1;
     int32 sensorWidth = 2;
     int32 sensorHeight = 3;
+    string ipAddress = 4;
+    int32 port = 5;
 }
