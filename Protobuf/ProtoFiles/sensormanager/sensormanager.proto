@@ -1,0 +1,28 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.sensormanager";
+option java_outer_classname = "SensorManager";
+option objc_class_prefix = "HLW";
+
+package sensormanager;
+
+// The data service definition
+service SensorManager {
+    rpc GetAllSensorsOnVessel (AllSensorsOnVesselRequest) returns (AllSensorsOnVesselResponse) {}
+}
+
+message AllSensorsOnVesselRequest {
+    string vesselID = 1;
+}
+
+message AllSensorsOnVesselResponse {
+    repeated Sensor sensors = 1;
+}
+
+message Sensor {
+    string type = 1;
+    int32 sensorWidth = 2;
+    int32 sensorHeight = 3;
+}
