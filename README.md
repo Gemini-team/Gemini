@@ -1,5 +1,10 @@
+
+<img src="GeminiLogo.png" width="300" height="300">
+
+# Note!
 **This is the HDRP version of the simulator, this is the version that will be maintained, the old repository has been renamed Autoferry Gemini Legacy
 and will not be maintained.**
+
 
 
 Autoferry Gemini is a realtime 3D simulation of the **Autoferry** project residing at **NTNU Trondheim**.
@@ -13,7 +18,7 @@ project we were using Git LFS (Large File Storage), but we ran into issues with 
 large assets in a specific folder which we are ignoring in git, and we rather package the contents of the folder into
 a untiypackage and store it in the cloud using onedrive.
 
-**Getting started**
+# Getting started
 
 * Large assets
 
