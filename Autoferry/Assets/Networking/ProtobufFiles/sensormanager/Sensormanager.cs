@@ -25,21 +25,28 @@ namespace Sensormanager {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiFzZW5zb3JtYW5hZ2VyL3NlbnNvcm1hbmFnZXIucHJvdG8SDXNlbnNvcm1h",
-            "bmFnZXIiLQoZQWxsU2Vuc29yc09uVmVzc2VsUmVxdWVzdBIQCgh2ZXNzZWxJ",
-            "RBgBIAEoCSJEChpBbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZRImCgdzZW5z",
-            "b3JzGAEgAygLMhUuc2Vuc29ybWFuYWdlci5TZW5zb3IifQoGU2Vuc29yEicK",
-            "BHR5cGUYASABKA4yGS5zZW5zb3JtYW5hZ2VyLlNlbnNvclR5cGUSEwoLc2Vu",
-            "c29yV2lkdGgYAiABKAUSFAoMc2Vuc29ySGVpZ2h0GAMgASgFEhEKCWlwQWRk",
-            "cmVzcxgEIAEoCRIMCgRwb3J0GAUgASgFKj0KClNlbnNvclR5cGUSCwoHT1BU",
-            "SUNBTBAAEgwKCElORlJBUkVEEAESCQoFUkFEQVIQAhIJCgVMSURBUhADMn8K",
-            "DVNlbnNvck1hbmFnZXISbgoVR2V0QWxsU2Vuc29yc09uVmVzc2VsEiguc2Vu",
-            "c29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXF1ZXN0Gikuc2Vuc29y",
-            "bWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZSIAQjcKHmlvLmdy",
-            "cGMuZXhhbXBsZXMuc2Vuc29ybWFuYWdlckINU2Vuc29yTWFuYWdlclABogID",
-            "SExXYgZwcm90bzM="));
+            "bmFnZXIiQgoXQWxsU2Vuc29yc09mVHlwZVJlcXVlc3QSJwoEdHlwZRgBIAEo",
+            "DjIZLnNlbnNvcm1hbmFnZXIuU2Vuc29yVHlwZSJCChhBbGxTZW5zb3JzT2ZU",
+            "eXBlUmVzcG9uc2USJgoHc2Vuc29ycxgBIAMoCzIVLnNlbnNvcm1hbmFnZXIu",
+            "U2Vuc29yIi0KGUFsbFNlbnNvcnNPblZlc3NlbFJlcXVlc3QSEAoIdmVzc2Vs",
+            "SUQYASABKAkiRAoaQWxsU2Vuc29yc09uVmVzc2VsUmVzcG9uc2USJgoHc2Vu",
+            "c29ycxgBIAMoCzIVLnNlbnNvcm1hbmFnZXIuU2Vuc29yIn0KBlNlbnNvchIn",
+            "CgR0eXBlGAEgASgOMhkuc2Vuc29ybWFuYWdlci5TZW5zb3JUeXBlEhMKC3Nl",
+            "bnNvcldpZHRoGAIgASgFEhQKDHNlbnNvckhlaWdodBgDIAEoBRIRCglpcEFk",
+            "ZHJlc3MYBCABKAkSDAoEcG9ydBgFIAEoBSo9CgpTZW5zb3JUeXBlEgsKB09Q",
+            "VElDQUwQABIMCghJTkZSQVJFRBABEgkKBVJBREFSEAISCQoFTElEQVIQAzLp",
+            "AQoNU2Vuc29yTWFuYWdlchJoChNHZXRBbGxTZW5zb3JzT2ZUeXBlEiYuc2Vu",
+            "c29ybWFuYWdlci5BbGxTZW5zb3JzT2ZUeXBlUmVxdWVzdBonLnNlbnNvcm1h",
+            "bmFnZXIuQWxsU2Vuc29yc09mVHlwZVJlc3BvbnNlIgASbgoVR2V0QWxsU2Vu",
+            "c29yc09uVmVzc2VsEiguc2Vuc29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNz",
+            "ZWxSZXF1ZXN0Gikuc2Vuc29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxS",
+            "ZXNwb25zZSIAQjcKHmlvLmdycGMuZXhhbXBsZXMuc2Vuc29ybWFuYWdlckIN",
+            "U2Vuc29yTWFuYWdlclABogIDSExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Sensormanager.SensorType), }, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOfTypeRequest), global::Sensormanager.AllSensorsOfTypeRequest.Parser, new[]{ "Type" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOfTypeResponse), global::Sensormanager.AllSensorsOfTypeResponse.Parser, new[]{ "Sensors" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOnVesselRequest), global::Sensormanager.AllSensorsOnVesselRequest.Parser, new[]{ "VesselID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOnVesselResponse), global::Sensormanager.AllSensorsOnVesselResponse.Parser, new[]{ "Sensors" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.Sensor), global::Sensormanager.Sensor.Parser, new[]{ "Type", "SensorWidth", "SensorHeight", "IpAddress", "Port" }, null, null, null)
@@ -59,6 +66,256 @@ namespace Sensormanager {
   #endregion
 
   #region Messages
+  public sealed partial class AllSensorsOfTypeRequest : pb::IMessage<AllSensorsOfTypeRequest> {
+    private static readonly pb::MessageParser<AllSensorsOfTypeRequest> _parser = new pb::MessageParser<AllSensorsOfTypeRequest>(() => new AllSensorsOfTypeRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AllSensorsOfTypeRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AllSensorsOfTypeRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AllSensorsOfTypeRequest(AllSensorsOfTypeRequest other) : this() {
+      type_ = other.type_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AllSensorsOfTypeRequest Clone() {
+      return new AllSensorsOfTypeRequest(this);
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 1;
+    private global::Sensormanager.SensorType type_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Sensormanager.SensorType Type {
+      get { return type_; }
+      set {
+        type_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AllSensorsOfTypeRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AllSensorsOfTypeRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Type != other.Type) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Type != 0) hash ^= Type.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Type != 0) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Type);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Type != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AllSensorsOfTypeRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Type != 0) {
+        Type = other.Type;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Type = (global::Sensormanager.SensorType) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AllSensorsOfTypeResponse : pb::IMessage<AllSensorsOfTypeResponse> {
+    private static readonly pb::MessageParser<AllSensorsOfTypeResponse> _parser = new pb::MessageParser<AllSensorsOfTypeResponse>(() => new AllSensorsOfTypeResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AllSensorsOfTypeResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AllSensorsOfTypeResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AllSensorsOfTypeResponse(AllSensorsOfTypeResponse other) : this() {
+      sensors_ = other.sensors_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AllSensorsOfTypeResponse Clone() {
+      return new AllSensorsOfTypeResponse(this);
+    }
+
+    /// <summary>Field number for the "sensors" field.</summary>
+    public const int SensorsFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::Sensormanager.Sensor> _repeated_sensors_codec
+        = pb::FieldCodec.ForMessage(10, global::Sensormanager.Sensor.Parser);
+    private readonly pbc::RepeatedField<global::Sensormanager.Sensor> sensors_ = new pbc::RepeatedField<global::Sensormanager.Sensor>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Sensormanager.Sensor> Sensors {
+      get { return sensors_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AllSensorsOfTypeResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AllSensorsOfTypeResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!sensors_.Equals(other.sensors_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= sensors_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      sensors_.WriteTo(output, _repeated_sensors_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += sensors_.CalculateSize(_repeated_sensors_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AllSensorsOfTypeResponse other) {
+      if (other == null) {
+        return;
+      }
+      sensors_.Add(other.sensors_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            sensors_.AddEntriesFrom(input, _repeated_sensors_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class AllSensorsOnVesselRequest : pb::IMessage<AllSensorsOnVesselRequest> {
     private static readonly pb::MessageParser<AllSensorsOnVesselRequest> _parser = new pb::MessageParser<AllSensorsOnVesselRequest>(() => new AllSensorsOnVesselRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -67,7 +324,7 @@ namespace Sensormanager {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -196,7 +453,7 @@ namespace Sensormanager {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -317,7 +574,7 @@ namespace Sensormanager {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Sensormanager.SensormanagerReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

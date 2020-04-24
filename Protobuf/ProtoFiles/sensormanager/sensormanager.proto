@@ -10,7 +10,16 @@ package sensormanager;
 
 // The data service definition
 service SensorManager {
-    rpc GetAllSensorsOnVessel (AllSensorsOnVesselRequest) returns (AllSensorsOnVesselResponse) {}
+    rpc GetAllSensorsOfType(AllSensorsOfTypeRequest) returns (AllSensorsOfTypeResponse) {}
+    rpc GetAllSensorsOnVessel(AllSensorsOnVesselRequest) returns (AllSensorsOnVesselResponse) {}
+}
+
+message AllSensorsOfTypeRequest {
+    SensorType type = 1;
+}
+
+message AllSensorsOfTypeResponse {
+    repeated Sensor sensors = 1;
 }
 
 message AllSensorsOnVesselRequest {

@@ -397,13 +397,14 @@ GameObject:
   - component: {fileID: 297391735}
   - component: {fileID: 297391734}
   - component: {fileID: 297391732}
-  m_Layer: 8
+  - component: {fileID: 297391733}
+  m_Layer: 9
   m_Name: IR_camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &297391732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +509,20 @@ MonoBehaviour:
       data1: 1073741824
       data2: 0
   defaultFrameSettings: 0
+--- !u!114 &297391733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297391731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9536d670715e3594bb68ee835a6456e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  host: localhost
 --- !u!20 &297391734
 Camera:
   m_ObjectHideFlags: 0
@@ -527,16 +542,16 @@ Camera:
   m_FocalLength: 20.78461
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
+    x: 0
     y: 0
-    width: 0.5
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 10000
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 567
@@ -576,6 +591,7 @@ GameObject:
   - component: {fileID: 340116749}
   - component: {fileID: 340116748}
   - component: {fileID: 340116750}
+  - component: {fileID: 340116747}
   m_Layer: 8
   m_Name: Optical_camera
   m_TagString: MainCamera
@@ -583,6 +599,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &340116747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340116746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9536d670715e3594bb68ee835a6456e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  host: localhost
 --- !u!20 &340116748
 Camera:
   m_ObjectHideFlags: 0
@@ -611,7 +641,7 @@ Camera:
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 311
@@ -757,12 +787,12 @@ GameObject:
   - component: {fileID: 435498646}
   - component: {fileID: 435498645}
   m_Layer: 8
-  m_Name: Optical_camera_streaming
+  m_Name: Fly_optical_camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &435498644
 Transform:
   m_ObjectHideFlags: 0
@@ -784,7 +814,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435498643}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a532b40fbb764141aaf4660c9b54778, type: 3}
   m_Name: 
@@ -922,12 +952,12 @@ Camera:
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 311
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 50450063c1c3928449be0a271809b78d, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -1156,7 +1186,7 @@ PrefabInstance:
     - target: {fileID: 4661590559120355433, guid: 238f0004f306e854584b240556af9e9a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6300463611672833362, guid: 238f0004f306e854584b240556af9e9a,
         type: 3}
@@ -1247,7 +1277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!73398921 &881786213
 VFXRenderer:
   m_ObjectHideFlags: 2
@@ -1255,7 +1285,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881786212}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1558,7 +1588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1012117187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,7 +1919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1826559666
 Transform:
   m_ObjectHideFlags: 0
@@ -1936,7 +1966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!73398921 &1843110317
 VFXRenderer:
   m_ObjectHideFlags: 2
@@ -1944,7 +1974,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843110316}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2060,7 +2090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2005111484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2143,7 +2173,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017458025}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a5dbf55aa5d2144aacd509a73099e19, type: 3}
   m_Name: 
@@ -2166,7 +2196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2033338945
 MonoBehaviour:
   m_ObjectHideFlags: 0
