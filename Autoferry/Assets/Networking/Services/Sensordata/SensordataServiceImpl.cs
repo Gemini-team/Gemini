@@ -6,45 +6,50 @@ using Grpc.Core;
 using System.Threading.Tasks;
 using Google.Protobuf;
 
-public class SensordataServiceImpl : Sensordata.Sensordata.SensordataBase 
+namespace Assets.Networking.Services
 {
-    private ByteString _data = ByteString.CopyFromUtf8("");
-    private int _dataLength = 0;
-
-    private SensordataResponse sensordataResponse;
-
-    public ByteString Data
+    
+    public class SensordataServiceImpl : Sensordata.Sensordata.SensordataBase 
     {
-        get => _data;
-        set => _data = value;
-    }
-    public int DataLength
-    {
-        get => _dataLength;
-        set => _dataLength = value;
-    }
+        private ByteString _data = ByteString.CopyFromUtf8("");
+        private int _dataLength = 0;
 
-    public SensordataServiceImpl(ByteString data, int dataLength)
-    {
-        this._data = data;
-        this._dataLength = dataLength;
-    }
+        private SensordataResponse sensordataResponse;
 
-    public override async Task StreamSensordata(
-        SensordataRequest request,
-        IServerStreamWriter<SensordataResponse> responseStream,
-        ServerCallContext context
-        )
-    {
-
-        sensordataResponse = new SensordataResponse
+        public ByteString Data
         {
-            Data = _data,
-            DataLength = _dataLength,
-        };
+            get => _data;
+            set => _data = value;
+        }
+        public int DataLength
+        {
+            get => _dataLength;
+            set => _dataLength = value;
+        }
 
-        await responseStream.WriteAsync(sensordataResponse);
+        public SensordataServiceImpl(ByteString data, int dataLength)
+        {
+            this._data = data;
+            this._dataLength = dataLength;
+        }
+
+        public override async Task StreamSensordata(
+            SensordataRequest request,
+            IServerStreamWriter<SensordataResponse> responseStream,
+            ServerCallContext context
+            )
+        {
+
+            sensordataResponse = new SensordataResponse
+            {
+                Data = _data,
+                DataLength = _dataLength,
+            };
+
+            await responseStream.WriteAsync(sensordataResponse);
+            
+        }
         
     }
-    
+
 }
