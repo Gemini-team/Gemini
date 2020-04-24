@@ -4,6 +4,7 @@
 
 import sys
 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
+from google.protobuf.internal import enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
@@ -20,9 +21,44 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='sensormanager',
   syntax='proto3',
   serialized_options=_b('\n\036io.grpc.examples.sensormanagerB\rSensorManagerP\001\242\002\003HLW'),
-  serialized_pb=_b('\n!sensormanager/sensormanager.proto\x12\rsensormanager\"-\n\x19\x41llSensorsOnVesselRequest\x12\x10\n\x08vesselID\x18\x01 \x01(\t\"D\n\x1a\x41llSensorsOnVesselResponse\x12&\n\x07sensors\x18\x01 \x03(\x0b\x32\x15.sensormanager.Sensor\"b\n\x06Sensor\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x13\n\x0bsensorWidth\x18\x02 \x01(\x05\x12\x14\n\x0csensorHeight\x18\x03 \x01(\x05\x12\x11\n\tipAddress\x18\x04 \x01(\t\x12\x0c\n\x04port\x18\x05 \x01(\x05\x32\x7f\n\rSensorManager\x12n\n\x15GetAllSensorsOnVessel\x12(.sensormanager.AllSensorsOnVesselRequest\x1a).sensormanager.AllSensorsOnVesselResponse\"\x00\x42\x37\n\x1eio.grpc.examples.sensormanagerB\rSensorManagerP\x01\xa2\x02\x03HLWb\x06proto3')
+  serialized_pb=_b('\n!sensormanager/sensormanager.proto\x12\rsensormanager\"-\n\x19\x41llSensorsOnVesselRequest\x12\x10\n\x08vesselID\x18\x01 \x01(\t\"D\n\x1a\x41llSensorsOnVesselResponse\x12&\n\x07sensors\x18\x01 \x03(\x0b\x32\x15.sensormanager.Sensor\"}\n\x06Sensor\x12\'\n\x04type\x18\x01 \x01(\x0e\x32\x19.sensormanager.SensorType\x12\x13\n\x0bsensorWidth\x18\x02 \x01(\x05\x12\x14\n\x0csensorHeight\x18\x03 \x01(\x05\x12\x11\n\tipAddress\x18\x04 \x01(\t\x12\x0c\n\x04port\x18\x05 \x01(\x05*=\n\nSensorType\x12\x0b\n\x07OPTICAL\x10\x00\x12\x0c\n\x08INFRARED\x10\x01\x12\t\n\x05RADAR\x10\x02\x12\t\n\x05LIDAR\x10\x03\x32\x7f\n\rSensorManager\x12n\n\x15GetAllSensorsOnVessel\x12(.sensormanager.AllSensorsOnVesselRequest\x1a).sensormanager.AllSensorsOnVesselResponse\"\x00\x42\x37\n\x1eio.grpc.examples.sensormanagerB\rSensorManagerP\x01\xa2\x02\x03HLWb\x06proto3')
 )
 
+_SENSORTYPE = _descriptor.EnumDescriptor(
+  name='SensorType',
+  full_name='sensormanager.SensorType',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='OPTICAL', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='INFRARED', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='RADAR', index=2, number=2,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='LIDAR', index=3, number=3,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=296,
+  serialized_end=357,
+)
+_sym_db.RegisterEnumDescriptor(_SENSORTYPE)
+
+SensorType = enum_type_wrapper.EnumTypeWrapper(_SENSORTYPE)
+OPTICAL = 0
+INFRARED = 1
+RADAR = 2
+LIDAR = 3
 
 
 
@@ -97,8 +133,8 @@ _SENSOR = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='type', full_name='sensormanager.Sensor.type', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -143,13 +179,15 @@ _SENSOR = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=169,
-  serialized_end=267,
+  serialized_end=294,
 )
 
 _ALLSENSORSONVESSELRESPONSE.fields_by_name['sensors'].message_type = _SENSOR
+_SENSOR.fields_by_name['type'].enum_type = _SENSORTYPE
 DESCRIPTOR.message_types_by_name['AllSensorsOnVesselRequest'] = _ALLSENSORSONVESSELREQUEST
 DESCRIPTOR.message_types_by_name['AllSensorsOnVesselResponse'] = _ALLSENSORSONVESSELRESPONSE
 DESCRIPTOR.message_types_by_name['Sensor'] = _SENSOR
+DESCRIPTOR.enum_types_by_name['SensorType'] = _SENSORTYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AllSensorsOnVesselRequest = _reflection.GeneratedProtocolMessageType('AllSensorsOnVesselRequest', (_message.Message,), {
@@ -182,8 +220,8 @@ _SENSORMANAGER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=269,
-  serialized_end=396,
+  serialized_start=359,
+  serialized_end=486,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetAllSensorsOnVessel',

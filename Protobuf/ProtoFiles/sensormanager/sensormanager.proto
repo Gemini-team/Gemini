@@ -21,8 +21,15 @@ message AllSensorsOnVesselResponse {
     repeated Sensor sensors = 1;
 }
 
+enum SensorType {
+   OPTICAL = 0;
+   INFRARED = 1;
+   RADAR = 2;
+   LIDAR = 3;
+}
+
 message Sensor {
-    string type = 1;
+    SensorType type = 1;
     int32 sensorWidth = 2;
     int32 sensorHeight = 3;
     string ipAddress = 4;

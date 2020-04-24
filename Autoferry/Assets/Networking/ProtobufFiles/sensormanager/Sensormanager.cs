@@ -27,9 +27,11 @@ namespace Sensormanager {
             "CiFzZW5zb3JtYW5hZ2VyL3NlbnNvcm1hbmFnZXIucHJvdG8SDXNlbnNvcm1h",
             "bmFnZXIiLQoZQWxsU2Vuc29yc09uVmVzc2VsUmVxdWVzdBIQCgh2ZXNzZWxJ",
             "RBgBIAEoCSJEChpBbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZRImCgdzZW5z",
-            "b3JzGAEgAygLMhUuc2Vuc29ybWFuYWdlci5TZW5zb3IiYgoGU2Vuc29yEgwK",
-            "BHR5cGUYASABKAkSEwoLc2Vuc29yV2lkdGgYAiABKAUSFAoMc2Vuc29ySGVp",
-            "Z2h0GAMgASgFEhEKCWlwQWRkcmVzcxgEIAEoCRIMCgRwb3J0GAUgASgFMn8K",
+            "b3JzGAEgAygLMhUuc2Vuc29ybWFuYWdlci5TZW5zb3IifQoGU2Vuc29yEicK",
+            "BHR5cGUYASABKA4yGS5zZW5zb3JtYW5hZ2VyLlNlbnNvclR5cGUSEwoLc2Vu",
+            "c29yV2lkdGgYAiABKAUSFAoMc2Vuc29ySGVpZ2h0GAMgASgFEhEKCWlwQWRk",
+            "cmVzcxgEIAEoCRIMCgRwb3J0GAUgASgFKj0KClNlbnNvclR5cGUSCwoHT1BU",
+            "SUNBTBAAEgwKCElORlJBUkVEEAESCQoFUkFEQVIQAhIJCgVMSURBUhADMn8K",
             "DVNlbnNvck1hbmFnZXISbgoVR2V0QWxsU2Vuc29yc09uVmVzc2VsEiguc2Vu",
             "c29ybWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXF1ZXN0Gikuc2Vuc29y",
             "bWFuYWdlci5BbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZSIAQjcKHmlvLmdy",
@@ -37,7 +39,7 @@ namespace Sensormanager {
             "SExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Sensormanager.SensorType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOnVesselRequest), global::Sensormanager.AllSensorsOnVesselRequest.Parser, new[]{ "VesselID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.AllSensorsOnVesselResponse), global::Sensormanager.AllSensorsOnVesselResponse.Parser, new[]{ "Sensors" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanager.Sensor), global::Sensormanager.Sensor.Parser, new[]{ "Type", "SensorWidth", "SensorHeight", "IpAddress", "Port" }, null, null, null)
@@ -46,6 +48,16 @@ namespace Sensormanager {
     #endregion
 
   }
+  #region Enums
+  public enum SensorType {
+    [pbr::OriginalName("OPTICAL")] Optical = 0,
+    [pbr::OriginalName("INFRARED")] Infrared = 1,
+    [pbr::OriginalName("RADAR")] Radar = 2,
+    [pbr::OriginalName("LIDAR")] Lidar = 3,
+  }
+
+  #endregion
+
   #region Messages
   public sealed partial class AllSensorsOnVesselRequest : pb::IMessage<AllSensorsOnVesselRequest> {
     private static readonly pb::MessageParser<AllSensorsOnVesselRequest> _parser = new pb::MessageParser<AllSensorsOnVesselRequest>(() => new AllSensorsOnVesselRequest());
@@ -337,12 +349,12 @@ namespace Sensormanager {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private string type_ = "";
+    private global::Sensormanager.SensorType type_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Type {
+    public global::Sensormanager.SensorType Type {
       get { return type_; }
       set {
-        type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        type_ = value;
       }
     }
 
@@ -414,7 +426,7 @@ namespace Sensormanager {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type.Length != 0) hash ^= Type.GetHashCode();
+      if (Type != 0) hash ^= Type.GetHashCode();
       if (SensorWidth != 0) hash ^= SensorWidth.GetHashCode();
       if (SensorHeight != 0) hash ^= SensorHeight.GetHashCode();
       if (IpAddress.Length != 0) hash ^= IpAddress.GetHashCode();
@@ -432,9 +444,9 @@ namespace Sensormanager {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Type.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Type);
+      if (Type != 0) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) Type);
       }
       if (SensorWidth != 0) {
         output.WriteRawTag(16);
@@ -460,8 +472,8 @@ namespace Sensormanager {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Type.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
+      if (Type != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (SensorWidth != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SensorWidth);
@@ -486,7 +498,7 @@ namespace Sensormanager {
       if (other == null) {
         return;
       }
-      if (other.Type.Length != 0) {
+      if (other.Type != 0) {
         Type = other.Type;
       }
       if (other.SensorWidth != 0) {
@@ -512,8 +524,8 @@ namespace Sensormanager {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            Type = input.ReadString();
+          case 8: {
+            Type = (global::Sensormanager.SensorType) input.ReadEnum();
             break;
           }
           case 16: {
