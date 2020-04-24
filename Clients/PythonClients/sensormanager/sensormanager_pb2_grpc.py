@@ -14,6 +14,11 @@ class SensorManagerStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.GetAllSensorsOfType = channel.unary_unary(
+        '/sensormanager.SensorManager/GetAllSensorsOfType',
+        request_serializer=sensormanager_dot_sensormanager__pb2.AllSensorsOfTypeRequest.SerializeToString,
+        response_deserializer=sensormanager_dot_sensormanager__pb2.AllSensorsOfTypeResponse.FromString,
+        )
     self.GetAllSensorsOnVessel = channel.unary_unary(
         '/sensormanager.SensorManager/GetAllSensorsOnVessel',
         request_serializer=sensormanager_dot_sensormanager__pb2.AllSensorsOnVesselRequest.SerializeToString,
@@ -25,6 +30,13 @@ class SensorManagerServicer(object):
   """The data service definition
   """
 
+  def GetAllSensorsOfType(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def GetAllSensorsOnVessel(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -35,6 +47,11 @@ class SensorManagerServicer(object):
 
 def add_SensorManagerServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'GetAllSensorsOfType': grpc.unary_unary_rpc_method_handler(
+          servicer.GetAllSensorsOfType,
+          request_deserializer=sensormanager_dot_sensormanager__pb2.AllSensorsOfTypeRequest.FromString,
+          response_serializer=sensormanager_dot_sensormanager__pb2.AllSensorsOfTypeResponse.SerializeToString,
+      ),
       'GetAllSensorsOnVessel': grpc.unary_unary_rpc_method_handler(
           servicer.GetAllSensorsOnVessel,
           request_deserializer=sensormanager_dot_sensormanager__pb2.AllSensorsOnVesselRequest.FromString,
