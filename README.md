@@ -1,5 +1,10 @@
+
+<img src="GeminiLogo.png" width="300" height="300">
+
+# Note!
 **This is the HDRP version of the simulator, this is the version that will be maintained, the old repository has been renamed Autoferry Gemini Legacy
 and will not be maintained.**
+
 
 
 Autoferry Gemini is a realtime 3D simulation of the **Autoferry** project residing at **NTNU Trondheim**.
@@ -13,7 +18,7 @@ project we were using Git LFS (Large File Storage), but we ran into issues with 
 large assets in a specific folder which we are ignoring in git, and we rather package the contents of the folder into
 a untiypackage and store it in the cloud using onedrive.
 
-**Getting started**
+# Getting started
 
 * Large assets
 
@@ -40,8 +45,9 @@ Assets/Networking/Plugins. As with the IgnoredAssets folder this folder is also 
 When opening the project you might encounter errors telling you that you are missing certain gRPC or Protobuf source files.
 These can be corrected by running the generate.sh script under the Protobuf/ folder. 
 To be able to compile the .proto files into protobuf and grpc source files the Protobuf and grpc compilers have to be downloaded.
-To download these compilers choose the latest package under the **Build ID** column and download the then choose the gRPC protoc Plugins that fits
-your system e.g Windows x64 for 64-bit Windows OS. When the package is finished downloading, unpack the protoc executable and grpc_csharp_plugin into
+To download these compilers choose the latest package under the **Build ID** column  from this URL: https://packages.grpc.io/
+and download the gRPC protoc Plugins package that fits your system e.g Windows x64 for 64-bit Windows OS. 
+When the package is finished downloading, unpack the protoc executable and grpc_csharp_plugin into
 the Protobuf/Plugins/ folder. This folder is ignored by Git and will not be pushed up to the repository when pushing changes.
 
 The generate.sh script takes in 2 arguments, where the first one is requires. The first argument has to be the name of the .proto file which are placed in
