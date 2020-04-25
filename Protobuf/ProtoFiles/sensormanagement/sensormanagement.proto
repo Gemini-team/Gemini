@@ -2,14 +2,14 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "io.grpc.examples.sensormanager";
-option java_outer_classname = "SensorManager";
+option java_package = "io.grpc.examples.sensormanagement";
+option java_outer_classname = "SensorManagement";
 option objc_class_prefix = "HLW";
 
-package sensormanager;
+package sensormanagement;
 
 // The data service definition
-service SensorManager {
+service SensorManagement {
     rpc GetAllSensorsOfType(AllSensorsOfTypeRequest) returns (AllSensorsOfTypeResponse) {}
     rpc GetAllSensorsOnVessel(AllSensorsOnVesselRequest) returns (AllSensorsOnVesselResponse) {}
 }
