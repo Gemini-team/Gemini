@@ -1,0 +1,26 @@
+
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.sensordata";
+option java_outer_classname = "Sensordata";
+option objc_class_prefix = "HLW";
+
+package sensordata;
+
+// The data service definition
+service Sensordata {
+    rpc TransferSensordata (SensordataRequest) returns (SensordataResponse) {}
+    rpc StreamSensordata(SensordataRequest) returns (stream SensordataResponse) {}
+}
+
+// The requeset message containing the user's name.
+message SensordataRequest {
+    string operation = 1;
+}
+
+message SensordataResponse {
+    bytes data = 1;
+    int32 dataLength = 2;
+}
