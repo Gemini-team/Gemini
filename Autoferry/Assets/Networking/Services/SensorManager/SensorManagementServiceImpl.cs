@@ -21,9 +21,6 @@ public class SensorManagementServiceImpl : Sensormanagement.SensorManagement.Sen
     {
         Debug.Log("GetAllSensorsOnVessel vesselID: " + request.VesselID);
 
-
-
-
         return await Task.FromResult(new Sensormanagement.AllSensorsOnVesselResponse
         {
             

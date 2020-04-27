@@ -27,7 +27,7 @@ namespace Assets.Networking.Services
 
         public SensorType type;
 
-        public string host = "localhost";
+        public string host = "192.168.1.106";
 
         private int _port = ServicePortGenerator.GenPort();
 
