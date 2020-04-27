@@ -25,6 +25,7 @@ namespace Assets.Networking.Services
     public class Sensor : MonoBehaviour
     {
 
+
         public SensorType type;
 
         public string host = "192.168.1.106";
@@ -34,6 +35,13 @@ namespace Assets.Networking.Services
         public int Port
         {
             get => _port;
+        }
+
+        private static int _id = SensorIDGenerator.GenID();
+
+        public int ID
+        {
+            get => _id;
         }
 
         private RenderTexture _renderTexture;
@@ -58,6 +66,7 @@ namespace Assets.Networking.Services
             get => _dataLength;
         }
 
+        public bool RenderFlag { get; set; }
 
 
         private Camera camera;
@@ -66,14 +75,18 @@ namespace Assets.Networking.Services
 
         public Sensor()
         {
+            RenderFlag = true;
         }
 
 
         void Start()
         {
-
-            camera = gameObject.GetComponent<Camera>();
-            _renderTexture = camera.targetTexture;
+            
+            if (gameObject.GetComponent<Camera>() != null)
+            {
+                camera = gameObject.GetComponent<Camera>();
+                _renderTexture = camera.targetTexture;
+            }
 
             if ( _renderTexture == null)
             {
@@ -108,11 +121,16 @@ namespace Assets.Networking.Services
 
         void EndFrameRendering(ScriptableRenderContext context, Camera[] cameras)
         {
-            if (type == SensorType.Optical || type == SensorType.Infrared)
+
+            if ( RenderFlag )
             {
-                if (!camera.name.Equals("Fly_optical_camera"))
-                    AsyncGPUReadback.Request(camera.activeTexture, 0, TextureFormat.RGB24, ReadbackCompleted);
+                if (type == SensorType.Optical || type == SensorType.Infrared)
+                {
+                    if (!camera.name.Equals("Fly_optical_camera"))
+                        AsyncGPUReadback.Request(camera.activeTexture, 0, TextureFormat.RGB24, ReadbackCompleted);
+                }
             }
+
         }
 
         void ReadbackCompleted(AsyncGPUReadbackRequest request)

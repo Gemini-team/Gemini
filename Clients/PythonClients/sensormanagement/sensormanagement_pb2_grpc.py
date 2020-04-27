@@ -14,6 +14,16 @@ class SensorManagementStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.StartRendering = channel.unary_unary(
+        '/sensormanagement.SensorManagement/StartRendering',
+        request_serializer=sensormanagement_dot_sensormanagement__pb2.StartRenderingRequest.SerializeToString,
+        response_deserializer=sensormanagement_dot_sensormanagement__pb2.StartRenderingResponse.FromString,
+        )
+    self.StopRendering = channel.unary_unary(
+        '/sensormanagement.SensorManagement/StopRendering',
+        request_serializer=sensormanagement_dot_sensormanagement__pb2.StopRenderingRequest.SerializeToString,
+        response_deserializer=sensormanagement_dot_sensormanagement__pb2.StopRenderingResponse.FromString,
+        )
     self.GetAllSensorsOfType = channel.unary_unary(
         '/sensormanagement.SensorManagement/GetAllSensorsOfType',
         request_serializer=sensormanagement_dot_sensormanagement__pb2.AllSensorsOfTypeRequest.SerializeToString,
@@ -29,6 +39,20 @@ class SensorManagementStub(object):
 class SensorManagementServicer(object):
   """The data service definition
   """
+
+  def StartRendering(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def StopRendering(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
   def GetAllSensorsOfType(self, request, context):
     # missing associated documentation comment in .proto file
@@ -47,6 +71,16 @@ class SensorManagementServicer(object):
 
 def add_SensorManagementServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'StartRendering': grpc.unary_unary_rpc_method_handler(
+          servicer.StartRendering,
+          request_deserializer=sensormanagement_dot_sensormanagement__pb2.StartRenderingRequest.FromString,
+          response_serializer=sensormanagement_dot_sensormanagement__pb2.StartRenderingResponse.SerializeToString,
+      ),
+      'StopRendering': grpc.unary_unary_rpc_method_handler(
+          servicer.StopRendering,
+          request_deserializer=sensormanagement_dot_sensormanagement__pb2.StopRenderingRequest.FromString,
+          response_serializer=sensormanagement_dot_sensormanagement__pb2.StopRenderingResponse.SerializeToString,
+      ),
       'GetAllSensorsOfType': grpc.unary_unary_rpc_method_handler(
           servicer.GetAllSensorsOfType,
           request_deserializer=sensormanagement_dot_sensormanagement__pb2.AllSensorsOfTypeRequest.FromString,

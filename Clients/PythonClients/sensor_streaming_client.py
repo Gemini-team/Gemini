@@ -95,9 +95,21 @@ if __name__ == '__main__':
                     # Port when in build
                     #sensordata_channel = grpc.insecure_channel('localhost:50081')
 
+
                     sensordata_stub = sensordata_pb2_grpc.SensordataStub(sensordata_channel)
                     optical = True
 
+
+            # TODO: Figure out why the client freezes when this is run, but the game server is fine.
+            # Stopping sensor from rendering
+            #if e.type == KEYDOWN and e.key == K_x:
+                #success = sensormanagement_stub.StopRendering(sensormanagement_pb2.StopRenderingRequest(sensorID = 1))
+            #if e.type == KEYDOWN and e.key == K_z:
+                #success = sensormanagement_stub.StartRendering(sensormanagement_pb2.StopRenderingRequest(sensorID = 1))
+        
+
+
+            # Controlling vessel
             if e.type == KEYDOWN and e.key == K_w:
                 success = remotecontrol_stub.ApplyForce(remotecontrol_pb2.ForceRequest(vesselId = "Ferry", generalizedForce = forces.fwdForce))
             if e.type == KEYDOWN and e.key == K_a:
@@ -110,6 +122,7 @@ if __name__ == '__main__':
                 success = remotecontrol_stub.ApplyForce(remotecontrol_pb2.ForceRequest(vesselId = "Ferry", generalizedForce = forces.noForce))
 
 
+        # Recieving sensordata
         for dataChunk in sensordata_stub.StreamSensordata(sensordata_pb2.SensordataRequest(operation="streaming")):
             #print("data length:", dataChunk.dataLength)
             img = pygame.image.frombuffer(dataChunk.data, (800, 640), "RGB")
