@@ -31,10 +31,11 @@ message AllSensorsOnVesselResponse {
 }
 
 enum SensorType {
-   OPTICAL = 0;
-   INFRARED = 1;
-   RADAR = 2;
-   LIDAR = 3;
+    UNKNOWN = 0;
+    OPTICAL = 1;
+    INFRARED = 2;
+    RADAR = 3;
+    LIDAR = 4;
 }
 
 message Sensor {

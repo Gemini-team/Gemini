@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='sensormanagement',
   syntax='proto3',
   serialized_options=_b('\n!io.grpc.examples.sensormanagementB\020SensorManagementP\001\242\002\003HLW'),
-  serialized_pb=_b('\n\'sensormanagement/sensormanagement.proto\x12\x10sensormanagement\"E\n\x17\x41llSensorsOfTypeRequest\x12*\n\x04type\x18\x01 \x01(\x0e\x32\x1c.sensormanagement.SensorType\"E\n\x18\x41llSensorsOfTypeResponse\x12)\n\x07sensors\x18\x01 \x03(\x0b\x32\x18.sensormanagement.Sensor\"-\n\x19\x41llSensorsOnVesselRequest\x12\x10\n\x08vesselID\x18\x01 \x01(\t\"G\n\x1a\x41llSensorsOnVesselResponse\x12)\n\x07sensors\x18\x01 \x03(\x0b\x32\x18.sensormanagement.Sensor\"\x80\x01\n\x06Sensor\x12*\n\x04type\x18\x01 \x01(\x0e\x32\x1c.sensormanagement.SensorType\x12\x13\n\x0bsensorWidth\x18\x02 \x01(\x05\x12\x14\n\x0csensorHeight\x18\x03 \x01(\x05\x12\x11\n\tipAddress\x18\x04 \x01(\t\x12\x0c\n\x04port\x18\x05 \x01(\x05*=\n\nSensorType\x12\x0b\n\x07OPTICAL\x10\x00\x12\x0c\n\x08INFRARED\x10\x01\x12\t\n\x05RADAR\x10\x02\x12\t\n\x05LIDAR\x10\x03\x32\xf8\x01\n\x10SensorManagement\x12n\n\x13GetAllSensorsOfType\x12).sensormanagement.AllSensorsOfTypeRequest\x1a*.sensormanagement.AllSensorsOfTypeResponse\"\x00\x12t\n\x15GetAllSensorsOnVessel\x12+.sensormanagement.AllSensorsOnVesselRequest\x1a,.sensormanagement.AllSensorsOnVesselResponse\"\x00\x42=\n!io.grpc.examples.sensormanagementB\x10SensorManagementP\x01\xa2\x02\x03HLWb\x06proto3')
+  serialized_pb=_b('\n\'sensormanagement/sensormanagement.proto\x12\x10sensormanagement\"E\n\x17\x41llSensorsOfTypeRequest\x12*\n\x04type\x18\x01 \x01(\x0e\x32\x1c.sensormanagement.SensorType\"E\n\x18\x41llSensorsOfTypeResponse\x12)\n\x07sensors\x18\x01 \x03(\x0b\x32\x18.sensormanagement.Sensor\"-\n\x19\x41llSensorsOnVesselRequest\x12\x10\n\x08vesselID\x18\x01 \x01(\t\"G\n\x1a\x41llSensorsOnVesselResponse\x12)\n\x07sensors\x18\x01 \x03(\x0b\x32\x18.sensormanagement.Sensor\"\x80\x01\n\x06Sensor\x12*\n\x04type\x18\x01 \x01(\x0e\x32\x1c.sensormanagement.SensorType\x12\x13\n\x0bsensorWidth\x18\x02 \x01(\x05\x12\x14\n\x0csensorHeight\x18\x03 \x01(\x05\x12\x11\n\tipAddress\x18\x04 \x01(\t\x12\x0c\n\x04port\x18\x05 \x01(\x05*J\n\nSensorType\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0b\n\x07OPTICAL\x10\x01\x12\x0c\n\x08INFRARED\x10\x02\x12\t\n\x05RADAR\x10\x03\x12\t\n\x05LIDAR\x10\x04\x32\xf8\x01\n\x10SensorManagement\x12n\n\x13GetAllSensorsOfType\x12).sensormanagement.AllSensorsOfTypeRequest\x1a*.sensormanagement.AllSensorsOfTypeResponse\"\x00\x12t\n\x15GetAllSensorsOnVessel\x12+.sensormanagement.AllSensorsOnVesselRequest\x1a,.sensormanagement.AllSensorsOnVesselResponse\"\x00\x42=\n!io.grpc.examples.sensormanagementB\x10SensorManagementP\x01\xa2\x02\x03HLWb\x06proto3')
 )
 
 _SENSORTYPE = _descriptor.EnumDescriptor(
@@ -31,34 +31,39 @@ _SENSORTYPE = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='OPTICAL', index=0, number=0,
+      name='UNKNOWN', index=0, number=0,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='INFRARED', index=1, number=1,
+      name='OPTICAL', index=1, number=1,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='RADAR', index=2, number=2,
+      name='INFRARED', index=2, number=2,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='LIDAR', index=3, number=3,
+      name='RADAR', index=3, number=3,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='LIDAR', index=4, number=4,
       serialized_options=None,
       type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=454,
-  serialized_end=515,
+  serialized_end=528,
 )
 _sym_db.RegisterEnumDescriptor(_SENSORTYPE)
 
 SensorType = enum_type_wrapper.EnumTypeWrapper(_SENSORTYPE)
-OPTICAL = 0
-INFRARED = 1
-RADAR = 2
-LIDAR = 3
+UNKNOWN = 0
+OPTICAL = 1
+INFRARED = 2
+RADAR = 3
+LIDAR = 4
 
 
 
@@ -300,8 +305,8 @@ _SENSORMANAGEMENT = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=518,
-  serialized_end=766,
+  serialized_start=531,
+  serialized_end=779,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetAllSensorsOfType',

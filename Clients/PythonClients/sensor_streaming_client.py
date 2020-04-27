@@ -10,6 +10,8 @@ import grpc
 
 from sensordata import sensordata_pb2
 from sensordata import sensordata_pb2_grpc
+from sensormanagement import sensormanagement_pb2
+from sensormanagement import sensormanagement_pb2_grpc
 
 #import PIL.Image as image
 
@@ -33,8 +35,21 @@ if __name__ == '__main__':
 
     pygame.display.set_caption("Streaming")
 
-    channel = grpc.insecure_channel('localhost:50083')
-    stub = sensordata_pb2_grpc.SensordataStub(channel)
+    # Sensormanagement
+    sensormanagement_channel = grpc.insecure_channel('localhost:50085')
+    sensormanagement_stub = sensormanagement_pb2_grpc.SensorManagementStub(sensormanagement_channel)
+
+    #for dataChunk in sensordata_stub.StreamSensordata(sensordata_pb2.SensordataRequest(operation="streaming")):
+    #sensors = sensormanagement_stub.GetAllSensorsOnVessel(sensormanagement_pb2.AllSensorsOnVesselRequest(vesselID="Ferry"))
+    sensors = sensormanagement_stub.GetAllSensorsOfType(
+        sensormanagement_pb2.AllSensorsOfTypeRequest(type=sensormanagement_pb2.OPTICAL))
+
+    print(sensors)
+
+
+    # Sensordata
+    sensordata_channel = grpc.insecure_channel('localhost:50083')
+    sensordata_stub = sensordata_pb2_grpc.SensordataStub(sensordata_channel)
 
     optical = True
     running = True
@@ -46,16 +61,16 @@ if __name__ == '__main__':
                 running = False     
             if e.type == KEYDOWN and e.key == K_k:
                 if optical == True:
-                    channel = grpc.insecure_channel('localhost:50082')
-                    stub = sensordata_pb2_grpc.SensordataStub(channel)
+                    sensordata_channel = grpc.insecure_channel('localhost:50083')
+                    sensordata_stub = sensordata_pb2_grpc.SensordataStub(sensordata_channel)
                     optical = False
                 else:
-                    channel = grpc.insecure_channel('localhost:50083')
-                    stub = sensordata_pb2_grpc.SensordataStub(channel)
+                    sensordata_channel = grpc.insecure_channel('localhost:50084')
+                    sensordata_stub = sensordata_pb2_grpc.SensordataStub(sensordata_channel)
                     optical = True
 
 
-        for dataChunk in stub.StreamSensordata(sensordata_pb2.SensordataRequest(operation="streaming")):
+        for dataChunk in sensordata_stub.StreamSensordata(sensordata_pb2.SensordataRequest(operation="streaming")):
             #print("data length:", dataChunk.dataLength)
             img = pygame.image.frombuffer(dataChunk.data, (800, 640), "RGB")
 

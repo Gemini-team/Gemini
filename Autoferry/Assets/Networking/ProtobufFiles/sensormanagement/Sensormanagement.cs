@@ -34,15 +34,15 @@ namespace Sensormanagement {
             "U2Vuc29yIoABCgZTZW5zb3ISKgoEdHlwZRgBIAEoDjIcLnNlbnNvcm1hbmFn",
             "ZW1lbnQuU2Vuc29yVHlwZRITCgtzZW5zb3JXaWR0aBgCIAEoBRIUCgxzZW5z",
             "b3JIZWlnaHQYAyABKAUSEQoJaXBBZGRyZXNzGAQgASgJEgwKBHBvcnQYBSAB",
-            "KAUqPQoKU2Vuc29yVHlwZRILCgdPUFRJQ0FMEAASDAoISU5GUkFSRUQQARIJ",
-            "CgVSQURBUhACEgkKBUxJREFSEAMy+AEKEFNlbnNvck1hbmFnZW1lbnQSbgoT",
-            "R2V0QWxsU2Vuc29yc09mVHlwZRIpLnNlbnNvcm1hbmFnZW1lbnQuQWxsU2Vu",
-            "c29yc09mVHlwZVJlcXVlc3QaKi5zZW5zb3JtYW5hZ2VtZW50LkFsbFNlbnNv",
-            "cnNPZlR5cGVSZXNwb25zZSIAEnQKFUdldEFsbFNlbnNvcnNPblZlc3NlbBIr",
-            "LnNlbnNvcm1hbmFnZW1lbnQuQWxsU2Vuc29yc09uVmVzc2VsUmVxdWVzdBos",
-            "LnNlbnNvcm1hbmFnZW1lbnQuQWxsU2Vuc29yc09uVmVzc2VsUmVzcG9uc2Ui",
-            "AEI9CiFpby5ncnBjLmV4YW1wbGVzLnNlbnNvcm1hbmFnZW1lbnRCEFNlbnNv",
-            "ck1hbmFnZW1lbnRQAaICA0hMV2IGcHJvdG8z"));
+            "KAUqSgoKU2Vuc29yVHlwZRILCgdVTktOT1dOEAASCwoHT1BUSUNBTBABEgwK",
+            "CElORlJBUkVEEAISCQoFUkFEQVIQAxIJCgVMSURBUhAEMvgBChBTZW5zb3JN",
+            "YW5hZ2VtZW50Em4KE0dldEFsbFNlbnNvcnNPZlR5cGUSKS5zZW5zb3JtYW5h",
+            "Z2VtZW50LkFsbFNlbnNvcnNPZlR5cGVSZXF1ZXN0Giouc2Vuc29ybWFuYWdl",
+            "bWVudC5BbGxTZW5zb3JzT2ZUeXBlUmVzcG9uc2UiABJ0ChVHZXRBbGxTZW5z",
+            "b3JzT25WZXNzZWwSKy5zZW5zb3JtYW5hZ2VtZW50LkFsbFNlbnNvcnNPblZl",
+            "c3NlbFJlcXVlc3QaLC5zZW5zb3JtYW5hZ2VtZW50LkFsbFNlbnNvcnNPblZl",
+            "c3NlbFJlc3BvbnNlIgBCPQohaW8uZ3JwYy5leGFtcGxlcy5zZW5zb3JtYW5h",
+            "Z2VtZW50QhBTZW5zb3JNYW5hZ2VtZW50UAGiAgNITFdiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Sensormanagement.SensorType), }, new pbr::GeneratedClrTypeInfo[] {
@@ -58,10 +58,11 @@ namespace Sensormanagement {
   }
   #region Enums
   public enum SensorType {
-    [pbr::OriginalName("OPTICAL")] Optical = 0,
-    [pbr::OriginalName("INFRARED")] Infrared = 1,
-    [pbr::OriginalName("RADAR")] Radar = 2,
-    [pbr::OriginalName("LIDAR")] Lidar = 3,
+    [pbr::OriginalName("UNKNOWN")] Unknown = 0,
+    [pbr::OriginalName("OPTICAL")] Optical = 1,
+    [pbr::OriginalName("INFRARED")] Infrared = 2,
+    [pbr::OriginalName("RADAR")] Radar = 3,
+    [pbr::OriginalName("LIDAR")] Lidar = 4,
   }
 
   #endregion

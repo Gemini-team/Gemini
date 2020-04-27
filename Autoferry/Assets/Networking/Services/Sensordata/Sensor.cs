@@ -14,6 +14,7 @@ namespace Assets.Networking.Services
 
     public enum SensorType
     {
+        Unknown,
         Optical,
         Infrared, 
         Radar,
@@ -21,20 +22,47 @@ namespace Assets.Networking.Services
     }
 
 
-    class Sensor : MonoBehaviour
+    public class Sensor : MonoBehaviour
     {
+
         public SensorType type;
+
         public string host = "localhost";
 
-        private int port = ServicePortGenerator.GenPort();
-        private Server server;
-        private SensordataServiceImpl serviceImpl;
+        private int _port = ServicePortGenerator.GenPort();
 
-        private ByteString data = ByteString.CopyFromUtf8("");
-        private int dataLength = 0;
+        public int Port
+        {
+            get => _port;
+        }
+
+        private RenderTexture _renderTexture;
+
+        public RenderTexture RenderTexture
+        {
+            get => _renderTexture;
+            set => _renderTexture = value;
+        }
+        
+        private readonly ByteString _data = ByteString.CopyFromUtf8("");
+
+        public ByteString Data
+        {
+            get => _data;
+        }
+
+        private readonly int _dataLength = 0;
+        
+        public int DataLength
+        {
+            get => _dataLength;
+        }
+
+
 
         private Camera camera;
-        private RenderTexture renderTexture;
+        private Server server;
+        private SensordataServiceImpl serviceImpl;
 
         public Sensor()
         {
@@ -45,23 +73,23 @@ namespace Assets.Networking.Services
         {
 
             camera = gameObject.GetComponent<Camera>();
-            renderTexture = camera.targetTexture;
+            _renderTexture = camera.targetTexture;
 
-            if ( renderTexture == null)
+            if ( _renderTexture == null)
             {
-                renderTexture = new RenderTexture(800, 640, 24, RenderTextureFormat.Default, 0);
-                camera.targetTexture = renderTexture;
+                _renderTexture = new RenderTexture(800, 640, 24, RenderTextureFormat.Default, 0);
+                camera.targetTexture = _renderTexture;
             } 
 
-            serviceImpl = new SensordataServiceImpl(data, dataLength);
+            serviceImpl = new SensordataServiceImpl(_data, _dataLength);
 
             server = new Server
             {
                 Services = { Sensordata.Sensordata.BindService(serviceImpl) },
-                Ports = { new ServerPort(host, port, ServerCredentials.Insecure) }
+                Ports = { new ServerPort(host, _port, ServerCredentials.Insecure) }
             };
 
-            Debug.Log("Sensordata server listening on port: " + port);
+            Debug.Log("Sensordata server listening on port: " + _port);
             server.Start();
            
         }
@@ -82,18 +110,8 @@ namespace Assets.Networking.Services
         {
             if (type == SensorType.Optical || type == SensorType.Infrared)
             {
-                /*
-                foreach (Camera cam in cameras)
-                {
-                    // TODO: Need to add logic to only use the camera on this sensor
-                    if (!cam.name.Equals("Fly_optical_camera"))
-                        AsyncGPUReadback.Request(cam.activeTexture, 0, TextureFormat.RGB24, ReadbackCompleted);
-                }
-                */
-
                 if (!camera.name.Equals("Fly_optical_camera"))
                     AsyncGPUReadback.Request(camera.activeTexture, 0, TextureFormat.RGB24, ReadbackCompleted);
-
             }
         }
 
@@ -104,6 +122,11 @@ namespace Assets.Networking.Services
             serviceImpl.Data = data;
             serviceImpl.DataLength = data.Length;
 
+        }
+
+        public SensorType GetType()
+        {
+            return type;
         }
     }
 }
