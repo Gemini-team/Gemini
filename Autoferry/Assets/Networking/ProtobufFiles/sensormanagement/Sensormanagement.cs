@@ -25,32 +25,45 @@ namespace Sensormanagement {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CidzZW5zb3JtYW5hZ2VtZW50L3NlbnNvcm1hbmFnZW1lbnQucHJvdG8SEHNl",
-            "bnNvcm1hbmFnZW1lbnQiRQoXQWxsU2Vuc29yc09mVHlwZVJlcXVlc3QSKgoE",
-            "dHlwZRgBIAEoDjIcLnNlbnNvcm1hbmFnZW1lbnQuU2Vuc29yVHlwZSJFChhB",
-            "bGxTZW5zb3JzT2ZUeXBlUmVzcG9uc2USKQoHc2Vuc29ycxgBIAMoCzIYLnNl",
-            "bnNvcm1hbmFnZW1lbnQuU2Vuc29yIi0KGUFsbFNlbnNvcnNPblZlc3NlbFJl",
-            "cXVlc3QSEAoIdmVzc2VsSUQYASABKAkiRwoaQWxsU2Vuc29yc09uVmVzc2Vs",
-            "UmVzcG9uc2USKQoHc2Vuc29ycxgBIAMoCzIYLnNlbnNvcm1hbmFnZW1lbnQu",
-            "U2Vuc29yIoABCgZTZW5zb3ISKgoEdHlwZRgBIAEoDjIcLnNlbnNvcm1hbmFn",
-            "ZW1lbnQuU2Vuc29yVHlwZRITCgtzZW5zb3JXaWR0aBgCIAEoBRIUCgxzZW5z",
-            "b3JIZWlnaHQYAyABKAUSEQoJaXBBZGRyZXNzGAQgASgJEgwKBHBvcnQYBSAB",
-            "KAUqSgoKU2Vuc29yVHlwZRILCgdVTktOT1dOEAASCwoHT1BUSUNBTBABEgwK",
-            "CElORlJBUkVEEAISCQoFUkFEQVIQAxIJCgVMSURBUhAEMvgBChBTZW5zb3JN",
-            "YW5hZ2VtZW50Em4KE0dldEFsbFNlbnNvcnNPZlR5cGUSKS5zZW5zb3JtYW5h",
-            "Z2VtZW50LkFsbFNlbnNvcnNPZlR5cGVSZXF1ZXN0Giouc2Vuc29ybWFuYWdl",
-            "bWVudC5BbGxTZW5zb3JzT2ZUeXBlUmVzcG9uc2UiABJ0ChVHZXRBbGxTZW5z",
-            "b3JzT25WZXNzZWwSKy5zZW5zb3JtYW5hZ2VtZW50LkFsbFNlbnNvcnNPblZl",
-            "c3NlbFJlcXVlc3QaLC5zZW5zb3JtYW5hZ2VtZW50LkFsbFNlbnNvcnNPblZl",
-            "c3NlbFJlc3BvbnNlIgBCPQohaW8uZ3JwYy5leGFtcGxlcy5zZW5zb3JtYW5h",
-            "Z2VtZW50QhBTZW5zb3JNYW5hZ2VtZW50UAGiAgNITFdiBnByb3RvMw=="));
+            "bnNvcm1hbmFnZW1lbnQiKQoVU3RhcnRSZW5kZXJpbmdSZXF1ZXN0EhAKCHNl",
+            "bnNvcklEGAEgASgFIikKFlN0YXJ0UmVuZGVyaW5nUmVzcG9uc2USDwoHc3Vj",
+            "Y2VzcxgBIAEoCCIoChRTdG9wUmVuZGVyaW5nUmVxdWVzdBIQCghzZW5zb3JJ",
+            "RBgBIAEoBSIoChVTdG9wUmVuZGVyaW5nUmVzcG9uc2USDwoHc3VjY2VzcxgB",
+            "IAEoCCJFChdBbGxTZW5zb3JzT2ZUeXBlUmVxdWVzdBIqCgR0eXBlGAEgASgO",
+            "Mhwuc2Vuc29ybWFuYWdlbWVudC5TZW5zb3JUeXBlIkUKGEFsbFNlbnNvcnNP",
+            "ZlR5cGVSZXNwb25zZRIpCgdzZW5zb3JzGAEgAygLMhguc2Vuc29ybWFuYWdl",
+            "bWVudC5TZW5zb3IiLQoZQWxsU2Vuc29yc09uVmVzc2VsUmVxdWVzdBIQCgh2",
+            "ZXNzZWxJRBgBIAEoCSJHChpBbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZRIp",
+            "CgdzZW5zb3JzGAEgAygLMhguc2Vuc29ybWFuYWdlbWVudC5TZW5zb3IijAEK",
+            "BlNlbnNvchIKCgJpZBgBIAEoBRIqCgR0eXBlGAIgASgOMhwuc2Vuc29ybWFu",
+            "YWdlbWVudC5TZW5zb3JUeXBlEhMKC3NlbnNvcldpZHRoGAMgASgFEhQKDHNl",
+            "bnNvckhlaWdodBgEIAEoBRIRCglpcEFkZHJlc3MYBSABKAkSDAoEcG9ydBgG",
+            "IAEoBSpKCgpTZW5zb3JUeXBlEgsKB1VOS05PV04QABILCgdPUFRJQ0FMEAES",
+            "DAoISU5GUkFSRUQQAhIJCgVSQURBUhADEgkKBUxJREFSEAQywwMKEFNlbnNv",
+            "ck1hbmFnZW1lbnQSZQoOU3RhcnRSZW5kZXJpbmcSJy5zZW5zb3JtYW5hZ2Vt",
+            "ZW50LlN0YXJ0UmVuZGVyaW5nUmVxdWVzdBooLnNlbnNvcm1hbmFnZW1lbnQu",
+            "U3RhcnRSZW5kZXJpbmdSZXNwb25zZSIAEmIKDVN0b3BSZW5kZXJpbmcSJi5z",
+            "ZW5zb3JtYW5hZ2VtZW50LlN0b3BSZW5kZXJpbmdSZXF1ZXN0Gicuc2Vuc29y",
+            "bWFuYWdlbWVudC5TdG9wUmVuZGVyaW5nUmVzcG9uc2UiABJuChNHZXRBbGxT",
+            "ZW5zb3JzT2ZUeXBlEikuc2Vuc29ybWFuYWdlbWVudC5BbGxTZW5zb3JzT2ZU",
+            "eXBlUmVxdWVzdBoqLnNlbnNvcm1hbmFnZW1lbnQuQWxsU2Vuc29yc09mVHlw",
+            "ZVJlc3BvbnNlIgASdAoVR2V0QWxsU2Vuc29yc09uVmVzc2VsEisuc2Vuc29y",
+            "bWFuYWdlbWVudC5BbGxTZW5zb3JzT25WZXNzZWxSZXF1ZXN0Giwuc2Vuc29y",
+            "bWFuYWdlbWVudC5BbGxTZW5zb3JzT25WZXNzZWxSZXNwb25zZSIAQj0KIWlv",
+            "LmdycGMuZXhhbXBsZXMuc2Vuc29ybWFuYWdlbWVudEIQU2Vuc29yTWFuYWdl",
+            "bWVudFABogIDSExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Sensormanagement.SensorType), }, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.StartRenderingRequest), global::Sensormanagement.StartRenderingRequest.Parser, new[]{ "SensorID" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.StartRenderingResponse), global::Sensormanagement.StartRenderingResponse.Parser, new[]{ "Success" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.StopRenderingRequest), global::Sensormanagement.StopRenderingRequest.Parser, new[]{ "SensorID" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.StopRenderingResponse), global::Sensormanagement.StopRenderingResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.AllSensorsOfTypeRequest), global::Sensormanagement.AllSensorsOfTypeRequest.Parser, new[]{ "Type" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.AllSensorsOfTypeResponse), global::Sensormanagement.AllSensorsOfTypeResponse.Parser, new[]{ "Sensors" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.AllSensorsOnVesselRequest), global::Sensormanagement.AllSensorsOnVesselRequest.Parser, new[]{ "VesselID" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.AllSensorsOnVesselResponse), global::Sensormanagement.AllSensorsOnVesselResponse.Parser, new[]{ "Sensors" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.Sensor), global::Sensormanagement.Sensor.Parser, new[]{ "Type", "SensorWidth", "SensorHeight", "IpAddress", "Port" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensormanagement.Sensor), global::Sensormanagement.Sensor.Parser, new[]{ "Id", "Type", "SensorWidth", "SensorHeight", "IpAddress", "Port" }, null, null, null)
           }));
     }
     #endregion
@@ -68,6 +81,522 @@ namespace Sensormanagement {
   #endregion
 
   #region Messages
+  public sealed partial class StartRenderingRequest : pb::IMessage<StartRenderingRequest> {
+    private static readonly pb::MessageParser<StartRenderingRequest> _parser = new pb::MessageParser<StartRenderingRequest>(() => new StartRenderingRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StartRenderingRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StartRenderingRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StartRenderingRequest(StartRenderingRequest other) : this() {
+      sensorID_ = other.sensorID_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StartRenderingRequest Clone() {
+      return new StartRenderingRequest(this);
+    }
+
+    /// <summary>Field number for the "sensorID" field.</summary>
+    public const int SensorIDFieldNumber = 1;
+    private int sensorID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SensorID {
+      get { return sensorID_; }
+      set {
+        sensorID_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StartRenderingRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StartRenderingRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SensorID != other.SensorID) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SensorID != 0) hash ^= SensorID.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (SensorID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SensorID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (SensorID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SensorID);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StartRenderingRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SensorID != 0) {
+        SensorID = other.SensorID;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            SensorID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class StartRenderingResponse : pb::IMessage<StartRenderingResponse> {
+    private static readonly pb::MessageParser<StartRenderingResponse> _parser = new pb::MessageParser<StartRenderingResponse>(() => new StartRenderingResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StartRenderingResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StartRenderingResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StartRenderingResponse(StartRenderingResponse other) : this() {
+      success_ = other.success_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StartRenderingResponse Clone() {
+      return new StartRenderingResponse(this);
+    }
+
+    /// <summary>Field number for the "success" field.</summary>
+    public const int SuccessFieldNumber = 1;
+    private bool success_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Success {
+      get { return success_; }
+      set {
+        success_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StartRenderingResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StartRenderingResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Success != other.Success) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Success != false) hash ^= Success.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Success != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(Success);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Success != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StartRenderingResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Success != false) {
+        Success = other.Success;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Success = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class StopRenderingRequest : pb::IMessage<StopRenderingRequest> {
+    private static readonly pb::MessageParser<StopRenderingRequest> _parser = new pb::MessageParser<StopRenderingRequest>(() => new StopRenderingRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StopRenderingRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRenderingRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRenderingRequest(StopRenderingRequest other) : this() {
+      sensorID_ = other.sensorID_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRenderingRequest Clone() {
+      return new StopRenderingRequest(this);
+    }
+
+    /// <summary>Field number for the "sensorID" field.</summary>
+    public const int SensorIDFieldNumber = 1;
+    private int sensorID_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SensorID {
+      get { return sensorID_; }
+      set {
+        sensorID_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StopRenderingRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StopRenderingRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SensorID != other.SensorID) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SensorID != 0) hash ^= SensorID.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (SensorID != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SensorID);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (SensorID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SensorID);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StopRenderingRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SensorID != 0) {
+        SensorID = other.SensorID;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            SensorID = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class StopRenderingResponse : pb::IMessage<StopRenderingResponse> {
+    private static readonly pb::MessageParser<StopRenderingResponse> _parser = new pb::MessageParser<StopRenderingResponse>(() => new StopRenderingResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StopRenderingResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRenderingResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRenderingResponse(StopRenderingResponse other) : this() {
+      success_ = other.success_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRenderingResponse Clone() {
+      return new StopRenderingResponse(this);
+    }
+
+    /// <summary>Field number for the "success" field.</summary>
+    public const int SuccessFieldNumber = 1;
+    private bool success_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Success {
+      get { return success_; }
+      set {
+        success_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StopRenderingResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StopRenderingResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Success != other.Success) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Success != false) hash ^= Success.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Success != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(Success);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Success != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StopRenderingResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Success != false) {
+        Success = other.Success;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Success = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class AllSensorsOfTypeRequest : pb::IMessage<AllSensorsOfTypeRequest> {
     private static readonly pb::MessageParser<AllSensorsOfTypeRequest> _parser = new pb::MessageParser<AllSensorsOfTypeRequest>(() => new AllSensorsOfTypeRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -76,7 +605,7 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -205,7 +734,7 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -326,7 +855,7 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -455,7 +984,7 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -576,7 +1105,7 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Sensormanagement.SensormanagementReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -593,6 +1122,7 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Sensor(Sensor other) : this() {
+      id_ = other.id_;
       type_ = other.type_;
       sensorWidth_ = other.sensorWidth_;
       sensorHeight_ = other.sensorHeight_;
@@ -606,8 +1136,19 @@ namespace Sensormanagement {
       return new Sensor(this);
     }
 
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
     /// <summary>Field number for the "type" field.</summary>
-    public const int TypeFieldNumber = 1;
+    public const int TypeFieldNumber = 2;
     private global::Sensormanagement.SensorType type_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Sensormanagement.SensorType Type {
@@ -618,7 +1159,7 @@ namespace Sensormanagement {
     }
 
     /// <summary>Field number for the "sensorWidth" field.</summary>
-    public const int SensorWidthFieldNumber = 2;
+    public const int SensorWidthFieldNumber = 3;
     private int sensorWidth_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int SensorWidth {
@@ -629,7 +1170,7 @@ namespace Sensormanagement {
     }
 
     /// <summary>Field number for the "sensorHeight" field.</summary>
-    public const int SensorHeightFieldNumber = 3;
+    public const int SensorHeightFieldNumber = 4;
     private int sensorHeight_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int SensorHeight {
@@ -640,7 +1181,7 @@ namespace Sensormanagement {
     }
 
     /// <summary>Field number for the "ipAddress" field.</summary>
-    public const int IpAddressFieldNumber = 4;
+    public const int IpAddressFieldNumber = 5;
     private string ipAddress_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string IpAddress {
@@ -651,7 +1192,7 @@ namespace Sensormanagement {
     }
 
     /// <summary>Field number for the "port" field.</summary>
-    public const int PortFieldNumber = 5;
+    public const int PortFieldNumber = 6;
     private int port_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int Port {
@@ -674,6 +1215,7 @@ namespace Sensormanagement {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
       if (Type != other.Type) return false;
       if (SensorWidth != other.SensorWidth) return false;
       if (SensorHeight != other.SensorHeight) return false;
@@ -685,6 +1227,7 @@ namespace Sensormanagement {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Type != 0) hash ^= Type.GetHashCode();
       if (SensorWidth != 0) hash ^= SensorWidth.GetHashCode();
       if (SensorHeight != 0) hash ^= SensorHeight.GetHashCode();
@@ -703,24 +1246,28 @@ namespace Sensormanagement {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Type != 0) {
+      if (Id != 0) {
         output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+      if (Type != 0) {
+        output.WriteRawTag(16);
         output.WriteEnum((int) Type);
       }
       if (SensorWidth != 0) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteInt32(SensorWidth);
       }
       if (SensorHeight != 0) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(32);
         output.WriteInt32(SensorHeight);
       }
       if (IpAddress.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(IpAddress);
       }
       if (Port != 0) {
-        output.WriteRawTag(40);
+        output.WriteRawTag(48);
         output.WriteInt32(Port);
       }
       if (_unknownFields != null) {
@@ -731,6 +1278,9 @@ namespace Sensormanagement {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
       if (Type != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
@@ -756,6 +1306,9 @@ namespace Sensormanagement {
     public void MergeFrom(Sensor other) {
       if (other == null) {
         return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
       }
       if (other.Type != 0) {
         Type = other.Type;
@@ -784,22 +1337,26 @@ namespace Sensormanagement {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Type = (global::Sensormanagement.SensorType) input.ReadEnum();
+            Id = input.ReadInt32();
             break;
           }
           case 16: {
-            SensorWidth = input.ReadInt32();
+            Type = (global::Sensormanagement.SensorType) input.ReadEnum();
             break;
           }
           case 24: {
+            SensorWidth = input.ReadInt32();
+            break;
+          }
+          case 32: {
             SensorHeight = input.ReadInt32();
             break;
           }
-          case 34: {
+          case 42: {
             IpAddress = input.ReadString();
             break;
           }
-          case 40: {
+          case 48: {
             Port = input.ReadInt32();
             break;
           }

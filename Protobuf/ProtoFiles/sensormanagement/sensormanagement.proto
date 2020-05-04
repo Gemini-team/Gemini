@@ -10,8 +10,28 @@ package sensormanagement;
 
 // The data service definition
 service SensorManagement {
+
+    rpc StartRendering(StartRenderingRequest) returns (StartRenderingResponse) {}
+    rpc StopRendering(StopRenderingRequest) returns (StopRenderingResponse) {}
+
     rpc GetAllSensorsOfType(AllSensorsOfTypeRequest) returns (AllSensorsOfTypeResponse) {}
     rpc GetAllSensorsOnVessel(AllSensorsOnVesselRequest) returns (AllSensorsOnVesselResponse) {}
+}
+
+message StartRenderingRequest {
+    int32 sensorID = 1;
+}
+
+message StartRenderingResponse {
+    bool success = 1;
+}
+
+message StopRenderingRequest {
+    int32 sensorID = 1;
+}
+
+message StopRenderingResponse {
+    bool success = 1;
 }
 
 message AllSensorsOfTypeRequest {
@@ -39,9 +59,10 @@ enum SensorType {
 }
 
 message Sensor {
-    SensorType type = 1;
-    int32 sensorWidth = 2;
-    int32 sensorHeight = 3;
-    string ipAddress = 4;
-    int32 port = 5;
+    int32 id = 1;
+    SensorType type = 2;
+    int32 sensorWidth = 3;
+    int32 sensorHeight = 4;
+    string ipAddress = 5;
+    int32 port = 6;
 }

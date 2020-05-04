@@ -48,6 +48,51 @@ namespace Assets.Networking.Services
         }
 
         /// <summary>
+        /// Stops specified sensor from rendering. Returns whether it
+        /// successfully set the sensor's RenderFlag or not.
+        /// </summary>
+        /// <param name="sensorID"></param>
+        /// <returns></returns>
+        public static bool StopSensorRendering(int sensorID)
+        {
+            var sensors = FindObjectsOfType<Sensor>();
+
+            foreach (Sensor sensor in sensors)
+            {
+                if (sensor.ID == sensorID)
+                {
+                    sensor.RenderFlag = false;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Starts specified sensor from rendering. Returns whether it
+        /// successfully set the sensor's RenderFlag or not.
+        /// </summary>
+        /// <param name="sensorID"></param>
+        /// <returns></returns>
+        public static bool StartSensorRendering(int sensorID)
+        {
+            var sensors = FindObjectsOfType<Sensor>();
+
+            foreach (Sensor sensor in sensors)
+            {
+                if (sensor.ID == sensorID)
+                {
+                    sensor.RenderFlag = true;
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+        /// <summary>
         /// Finds all sensors in the scene.
         /// </summary>
         /// <returns></returns>
