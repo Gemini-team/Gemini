@@ -80,7 +80,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // glfw window creation
     // --------------------
-    let (mut window, events) = glfw.create_window(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", glfw::WindowMode::Windowed)
+    let (mut window, events) = glfw.create_window(SCR_WIDTH, SCR_HEIGHT, "Rust Streaming Client", glfw::WindowMode::Windowed)
         .expect("Failed to create GLFW window");
 
     // Fullscreen
@@ -105,7 +105,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     window.set_scroll_polling(true);
 
     // Tell glfw to capture mouse input
-    window.set_cursor_mode(glfw::CursorMode::Disabled);
+    //window.set_cursor_mode(glfw::CursorMode::Enabled);
 
     // gl: load all OpenGL function pointers
     // ---------------------------------------
@@ -121,6 +121,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
         // HINT: type annotation is crucial since default for float literals is f64
+        /*
         let vertices: [f32; 32] = [
             // positions       // colors        // texture coords
              0.5,  0.5, 0.0,   1.0, 0.0, 0.0,   1.0, 1.0, // top right
@@ -128,6 +129,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             -0.5, -0.5, 0.0,   0.0, 0.0, 1.0,   0.0, 0.0, // bottom left
             -0.5,  0.5, 0.0,   1.0, 1.0, 0.0,   0.0, 1.0  // top left
         ];
+
+        */
+
+        let vertices: [f32; 32] = [
+            // positions       // colors        // texture coords
+             1.0,  1.0, 0.0,   1.0, 0.0, 0.0,   1.0, 1.0, // top right
+             1.0, -1.0, 0.0,   0.0, 1.0, 0.0,   1.0, 0.0, // bottom right
+            -1.0, -1.0, 0.0,   0.0, 0.0, 1.0,   0.0, 0.0, // bottom left
+            -1.0,  1.0, 0.0,   1.0, 1.0, 0.0,   0.0, 1.0  // top left
+        ];
+
         let indices = [
             0, 1, 3,  // first Triangle
             1, 2, 3   // second Triangle
