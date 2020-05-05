@@ -20,6 +20,8 @@ nalgebra-glm = "0.7.0"
 num = "0.2.1"
 rand = "0.7.3"
 byte-strings = "0.1.3"
+tobj = "0.1.11"
+
 
 [dependencies.glfw]
 git = "https://github.com/bjz/glfw-rs.git"
