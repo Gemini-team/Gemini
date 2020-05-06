@@ -10,7 +10,7 @@ public class RemoteControlServer : MonoBehaviour
 {
     //const string HOST = "localhost";
     //const int PORT = 50060;
-    public string host = "192.168.1.106";
+    public string host = "localhost";
     public int port = 50060;
     Thread thread;
     Server server;

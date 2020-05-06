@@ -13,7 +13,7 @@ namespace Assets.Networking.Services
 
         public static SensorManager instance;
 
-        public string host = "192.168.1.106";
+        public string host = "localhost";
 
         private int port = ServicePortGenerator.GenPort();
         private Server server;
