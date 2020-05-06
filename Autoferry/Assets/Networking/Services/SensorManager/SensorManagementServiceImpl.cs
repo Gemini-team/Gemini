@@ -9,11 +9,63 @@ using System;
 
 public class SensorManagementServiceImpl : Sensormanagement.SensorManagement.SensorManagementBase
 {
-    //public Sensor[] sensors;
-    //Sensormanagement.Sensor[] protobufSensors = new Sensormanagement.Sensor[0];
 
     public SensorManagementServiceImpl()
     {
+    }
+
+    public override async Task<Sensormanagement.StartRenderingResponse> StartRendering(
+        Sensormanagement.StartRenderingRequest request, ServerCallContext context)
+    {
+
+        int sensorID = request.SensorID;
+
+        // Create the event that triggers when the execution of the action is finished.
+        ManualResetEvent signalEvent = new ManualResetEvent(false);
+
+        bool success = false;
+
+        ThreadManager.ExecuteOnMainThread(() =>
+        {
+            success = SensorManager.StartSensorRendering(sensorID);
+        });
+
+        // Wait for the event to be triggered from the action, signaling that the action is finished
+        signalEvent.WaitOne();
+        signalEvent.Close();
+
+        return await Task.FromResult(new Sensormanagement.StartRenderingResponse
+        {
+            Success = success
+        });
+
+    }
+
+    public override async Task<Sensormanagement.StopRenderingResponse> StopRendering(
+        Sensormanagement.StopRenderingRequest request, ServerCallContext context)
+    {
+
+        int sensorID = request.SensorID;
+
+        // Create the event that triggers when the execution of the action is finished.
+        ManualResetEvent signalEvent = new ManualResetEvent(false);
+
+        bool success = false;
+
+        ThreadManager.ExecuteOnMainThread(() =>
+        {
+            success = SensorManager.StopSensorRendering(sensorID);
+        });
+
+        // Wait for the event to be triggered from the action, signaling that the action is finished
+        signalEvent.WaitOne();
+        signalEvent.Close();
+
+        return await Task.FromResult(new Sensormanagement.StopRenderingResponse
+        {
+            Success = success
+        });
+
     }
 
     public override async Task<Sensormanagement.AllSensorsOnVesselResponse> GetAllSensorsOnVessel(
@@ -74,6 +126,8 @@ public class SensorManagementServiceImpl : Sensormanagement.SensorManagement.Sen
 
         // TODO: sensor.type should be accessed from a get
         SensorType sensorType = sensor.GetType();
+
+        managementSensor.Id = sensor.ID;
 
         if (sensorType == SensorType.Infrared)
         {

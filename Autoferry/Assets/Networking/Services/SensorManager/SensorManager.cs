@@ -13,7 +13,7 @@ namespace Assets.Networking.Services
 
         public static SensorManager instance;
 
-        public string host = "192.168.1.106";
+        public string host = "localhost";
 
         private int port = ServicePortGenerator.GenPort();
         private Server server;
@@ -44,6 +44,51 @@ namespace Assets.Networking.Services
 
             Debug.Log("Sensormanager server listening on port: " + port);
             server.Start();
+
+        }
+
+        /// <summary>
+        /// Stops specified sensor from rendering. Returns whether it
+        /// successfully set the sensor's RenderFlag or not.
+        /// </summary>
+        /// <param name="sensorID"></param>
+        /// <returns></returns>
+        public static bool StopSensorRendering(int sensorID)
+        {
+            var sensors = FindObjectsOfType<Sensor>();
+
+            foreach (Sensor sensor in sensors)
+            {
+                if (sensor.ID == sensorID)
+                {
+                    sensor.RenderFlag = false;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Starts specified sensor from rendering. Returns whether it
+        /// successfully set the sensor's RenderFlag or not.
+        /// </summary>
+        /// <param name="sensorID"></param>
+        /// <returns></returns>
+        public static bool StartSensorRendering(int sensorID)
+        {
+            var sensors = FindObjectsOfType<Sensor>();
+
+            foreach (Sensor sensor in sensors)
+            {
+                if (sensor.ID == sensorID)
+                {
+                    sensor.RenderFlag = true;
+                    return true;
+                }
+            }
+
+            return false;
 
         }
 

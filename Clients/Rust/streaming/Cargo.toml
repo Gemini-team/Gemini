@@ -1,0 +1,30 @@
+[package]
+name = "streaming"
+version = "0.1.0"
+authors = ["Thomas Skarshaug <thomskar@stud.ntnu.no>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# tonic grpc
+
+tonic = "0.2"
+prost = "0.6"
+tokio = { version = "0.2", features = ["macros"] }
+
+# opengl
+gl = "0.14.0"
+image = "0.23.4"
+nalgebra-glm = "0.7.0"
+num = "0.2.1"
+rand = "0.7.3"
+byte-strings = "0.1.3"
+tobj = "0.1.11"
+
+
+[dependencies.glfw]
+git = "https://github.com/bjz/glfw-rs.git"
+
+[build-dependencies]
+tonic-build = "0.2"

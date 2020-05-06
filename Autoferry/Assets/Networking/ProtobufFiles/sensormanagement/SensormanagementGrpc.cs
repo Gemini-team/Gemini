@@ -15,10 +15,28 @@ namespace Sensormanagement {
   {
     static readonly string __ServiceName = "sensormanagement.SensorManagement";
 
+    static readonly grpc::Marshaller<global::Sensormanagement.StartRenderingRequest> __Marshaller_sensormanagement_StartRenderingRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.StartRenderingRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Sensormanagement.StartRenderingResponse> __Marshaller_sensormanagement_StartRenderingResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.StartRenderingResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Sensormanagement.StopRenderingRequest> __Marshaller_sensormanagement_StopRenderingRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.StopRenderingRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Sensormanagement.StopRenderingResponse> __Marshaller_sensormanagement_StopRenderingResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.StopRenderingResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Sensormanagement.AllSensorsOfTypeRequest> __Marshaller_sensormanagement_AllSensorsOfTypeRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.AllSensorsOfTypeRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Sensormanagement.AllSensorsOfTypeResponse> __Marshaller_sensormanagement_AllSensorsOfTypeResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.AllSensorsOfTypeResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Sensormanagement.AllSensorsOnVesselRequest> __Marshaller_sensormanagement_AllSensorsOnVesselRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.AllSensorsOnVesselRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Sensormanagement.AllSensorsOnVesselResponse> __Marshaller_sensormanagement_AllSensorsOnVesselResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Sensormanagement.AllSensorsOnVesselResponse.Parser.ParseFrom);
+
+    static readonly grpc::Method<global::Sensormanagement.StartRenderingRequest, global::Sensormanagement.StartRenderingResponse> __Method_StartRendering = new grpc::Method<global::Sensormanagement.StartRenderingRequest, global::Sensormanagement.StartRenderingResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "StartRendering",
+        __Marshaller_sensormanagement_StartRenderingRequest,
+        __Marshaller_sensormanagement_StartRenderingResponse);
+
+    static readonly grpc::Method<global::Sensormanagement.StopRenderingRequest, global::Sensormanagement.StopRenderingResponse> __Method_StopRendering = new grpc::Method<global::Sensormanagement.StopRenderingRequest, global::Sensormanagement.StopRenderingResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "StopRendering",
+        __Marshaller_sensormanagement_StopRenderingRequest,
+        __Marshaller_sensormanagement_StopRenderingResponse);
 
     static readonly grpc::Method<global::Sensormanagement.AllSensorsOfTypeRequest, global::Sensormanagement.AllSensorsOfTypeResponse> __Method_GetAllSensorsOfType = new grpc::Method<global::Sensormanagement.AllSensorsOfTypeRequest, global::Sensormanagement.AllSensorsOfTypeResponse>(
         grpc::MethodType.Unary,
@@ -44,6 +62,16 @@ namespace Sensormanagement {
     [grpc::BindServiceMethod(typeof(SensorManagement), "BindService")]
     public abstract partial class SensorManagementBase
     {
+      public virtual global::System.Threading.Tasks.Task<global::Sensormanagement.StartRenderingResponse> StartRendering(global::Sensormanagement.StartRenderingRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Sensormanagement.StopRenderingResponse> StopRendering(global::Sensormanagement.StopRenderingRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
       public virtual global::System.Threading.Tasks.Task<global::Sensormanagement.AllSensorsOfTypeResponse> GetAllSensorsOfType(global::Sensormanagement.AllSensorsOfTypeRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
@@ -79,6 +107,38 @@ namespace Sensormanagement {
       {
       }
 
+      public virtual global::Sensormanagement.StartRenderingResponse StartRendering(global::Sensormanagement.StartRenderingRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StartRendering(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Sensormanagement.StartRenderingResponse StartRendering(global::Sensormanagement.StartRenderingRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_StartRendering, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Sensormanagement.StartRenderingResponse> StartRenderingAsync(global::Sensormanagement.StartRenderingRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StartRenderingAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Sensormanagement.StartRenderingResponse> StartRenderingAsync(global::Sensormanagement.StartRenderingRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_StartRendering, null, options, request);
+      }
+      public virtual global::Sensormanagement.StopRenderingResponse StopRendering(global::Sensormanagement.StopRenderingRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StopRendering(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Sensormanagement.StopRenderingResponse StopRendering(global::Sensormanagement.StopRenderingRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_StopRendering, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Sensormanagement.StopRenderingResponse> StopRenderingAsync(global::Sensormanagement.StopRenderingRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StopRenderingAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Sensormanagement.StopRenderingResponse> StopRenderingAsync(global::Sensormanagement.StopRenderingRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_StopRendering, null, options, request);
+      }
       public virtual global::Sensormanagement.AllSensorsOfTypeResponse GetAllSensorsOfType(global::Sensormanagement.AllSensorsOfTypeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetAllSensorsOfType(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -123,6 +183,8 @@ namespace Sensormanagement {
     public static grpc::ServerServiceDefinition BindService(SensorManagementBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_StartRendering, serviceImpl.StartRendering)
+          .AddMethod(__Method_StopRendering, serviceImpl.StopRendering)
           .AddMethod(__Method_GetAllSensorsOfType, serviceImpl.GetAllSensorsOfType)
           .AddMethod(__Method_GetAllSensorsOnVessel, serviceImpl.GetAllSensorsOnVessel).Build();
     }
@@ -133,6 +195,8 @@ namespace Sensormanagement {
     /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
     public static void BindService(grpc::ServiceBinderBase serviceBinder, SensorManagementBase serviceImpl)
     {
+      serviceBinder.AddMethod(__Method_StartRendering, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Sensormanagement.StartRenderingRequest, global::Sensormanagement.StartRenderingResponse>(serviceImpl.StartRendering));
+      serviceBinder.AddMethod(__Method_StopRendering, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Sensormanagement.StopRenderingRequest, global::Sensormanagement.StopRenderingResponse>(serviceImpl.StopRendering));
       serviceBinder.AddMethod(__Method_GetAllSensorsOfType, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Sensormanagement.AllSensorsOfTypeRequest, global::Sensormanagement.AllSensorsOfTypeResponse>(serviceImpl.GetAllSensorsOfType));
       serviceBinder.AddMethod(__Method_GetAllSensorsOnVessel, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Sensormanagement.AllSensorsOnVesselRequest, global::Sensormanagement.AllSensorsOnVesselResponse>(serviceImpl.GetAllSensorsOnVessel));
     }
