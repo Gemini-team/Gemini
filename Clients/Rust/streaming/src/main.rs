@@ -184,6 +184,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut img = texture.image.as_mut_rgb8();
 
+    let mut counter = 0;
     // render loop
     // -----------
     while !window.should_close() {
@@ -221,7 +222,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 let buffer: &[u8] = &data.data;
                 texture.data = buffer.to_vec();
                 //image::save_buffer("image.png", buffer, 800, 640, image::ColorType::Rgb8).unwrap();
-
+                
+                // TODO: Find a way to use gl::TexSubImage2D for updating the texture instead.
                 gl::TexImage2D(
                     gl::TEXTURE_2D, 
                     0, 
