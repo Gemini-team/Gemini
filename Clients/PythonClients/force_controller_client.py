@@ -29,7 +29,6 @@ def run():
         n = 0.0
     )
 
-
     bckwdForce = force_pb2.GeneralizedForce(
         x = 0.0, 
         y = -5000.0,
