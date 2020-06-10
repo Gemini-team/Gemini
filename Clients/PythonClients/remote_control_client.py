@@ -8,7 +8,7 @@ import time
 
 def run():
     #channel = grpc.insecure_channel('localhost:50060')
-    channel = grpc.insecure_channel('192.168.1.183:50060')
+    channel = grpc.insecure_channel('localhost:50060')
     stub = remotecontrol_pb2_grpc.RemoteControlStub(channel)
 
     fwdForce = remotecontrol_pb2.GeneralizedForce(

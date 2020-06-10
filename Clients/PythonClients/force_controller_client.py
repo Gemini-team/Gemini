@@ -21,8 +21,8 @@ def run():
     )
 
     leftForce = force_pb2.GeneralizedForce(
-        x = -5000.0, 
-        y = 0.0,
+        x = 0.0, 
+        y = -5000.0,
         z = 0.0,
         k = 0.0,
         m = 0.0,
@@ -30,8 +30,8 @@ def run():
     )
 
     bckwdForce = force_pb2.GeneralizedForce(
-        x = 0.0, 
-        y = -5000.0,
+        x = -5000.0, 
+        y = 0.0,
         z = 0.0,
         k = 0.0,
         m = 0.0,
