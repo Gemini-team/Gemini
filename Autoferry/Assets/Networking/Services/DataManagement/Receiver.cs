@@ -16,7 +16,6 @@ public class Receiver : MonoBehaviour, IReceiver
     public static Dictionary<string, IReceiver> receivers = new Dictionary<string, IReceiver>();
 
 
-
     public void Awake()
     {
         name = gameObject.name;
