@@ -1,5 +1,5 @@
 
-<img src="GeminiLogo.png" width="300" height="300">
+<img src="GeminiLogo.png" width="500" height="300">
 
 # Note!
 **This is the HDRP version of the simulator, this is the version that will be maintained, the old repository has been renamed Autoferry Gemini Legacy
