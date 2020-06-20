@@ -649,7 +649,7 @@ Transform:
   - {fileID: 1228501258}
   - {fileID: 809460999}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1228501255
 GameObject:
@@ -876,7 +876,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1335618145
 GameObject:
@@ -908,7 +908,7 @@ Transform:
   m_Children:
   - {fileID: 1995214706}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1335618147
 MonoBehaviour:
@@ -3568,7 +3568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeShader: {fileID: 7200000, guid: 3f008542af185b041bd6e4be09bc495c, type: 3}
-  NrOfCameras: 4
+  NrOfCameras: 32
   HeightRes: 16
   WidthRes: 2048
   MinDistance: 0.1
