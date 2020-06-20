@@ -25,9 +25,15 @@ namespace Assets.Networking.Services
 
         private Rigidbody _rigidBody;
 
+        private float _timer;
+        private float _stepSize;
+
         // Start is called before the first frame update
         void Start()
         {
+
+            Physics.autoSimulation = false;
+
             if (gameObject.GetComponent<Rigidbody>())
             {
                 _rigidBody = gameObject.GetComponent<Rigidbody>();
@@ -45,8 +51,33 @@ namespace Assets.Networking.Services
             server.Start();
         }
 
+        void Update()
+        {
+            // Return early if the autosimulation is set
+            if (Physics.autoSimulation)
+                return;
+
+            
+            // The following is a code snippet from the documentation
+            /*
+            _timer += Time.deltaTime;
+
+            while (_timer >= Time.fixedDeltaTime)
+            {
+                _timer -= Time.fixedDeltaTime;
+                Physics.Simulate(Time.fixedDeltaTime);
+            }
+            */
+
+            // Not sure if this works as expected
+            Physics.Simulate(Time.fixedDeltaTime);
+
+        }
+
         void FixedUpdate()
         {
+            // Should this be done in FixedUpdate when the
+            // simulation timeStep is controlled from somewhere else?
             _rigidBody.AddRelativeForce(_force);
             _rigidBody.AddRelativeTorque(_torque);
 
@@ -61,5 +92,12 @@ namespace Assets.Networking.Services
         {
             _torque = torque;
         }
+
+
+        public void SetStepSize(float stepSize)
+        {
+            _stepSize = stepSize;
+        }
+
     }
 }

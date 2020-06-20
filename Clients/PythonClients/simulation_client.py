@@ -134,31 +134,31 @@ def run():
     while True:
         command = input()
         if command == "w":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = fwdForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = fwdForce, stepSize = 0.1))
         elif command == "s":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = bckwdForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = bckwdForce, stepSize = 0.1))
         elif command == "d":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = rightForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = rightForce, stepSize = 0.1))
         elif command == "a":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = leftForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = leftForce, stepSize = 0.1))
         elif command == "r":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = upForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = upForce, stepSize = 0.1))
         elif command == "f":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = downForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = downForce, stepSize = 0.1))
         elif command == "j":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = leftTorque, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = leftTorque, stepSize = 0.1))
         elif command == "l":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = rightTorque, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = rightTorque, stepSize = 0.1))
         elif command == "i":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = upTorque, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = upTorque, stepSize = 0.1))
         elif command == "k":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = downTorque, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = downTorque, stepSize = 0.1))
         elif command == "y":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = posNTorque, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = posNTorque, stepSize = 0.1))
         elif command == "h":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = negNTorque, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = negNTorque, stepSize = 0.1))
         elif command == " ":
-            success = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = noForce, stepSize = 10.0))
+            result = stub.DoStep(simulation_pb2.StepRequest(vesselId = "Ferry", force = noForce, stepSize = 0.1))
 
 if __name__ == '__main__':
     run()

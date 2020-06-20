@@ -12,20 +12,22 @@ namespace Assets.Networking.Services {
     {
         private Dictionary<string, GameObject> vesselsDict = new Dictionary<string, GameObject>();
 
-        private Rigidbody _rigidbody;
         private SimulationController _simulationController;
+
 
         public SimulationServiceImpl(SimulationController simulationController)
         {
             _simulationController = simulationController;
         }
 
-        public override async Task<Simulation.StepResponse> DoStep(
-            Simulation.StepRequest request, ServerCallContext context)
+        public override async Task<StepResponse> DoStep(
+            StepRequest request, ServerCallContext context)
         {
 
             // Create the event that triggers when the execution of the action is finished.
             ManualResetEvent signalEvent = new ManualResetEvent(false);
+
+            // Need to convert the force and torque from a Simulation.Force to a Vector3
 
             Vector3 force = new Vector3(
                 request.Force.X,
@@ -39,14 +41,32 @@ namespace Assets.Networking.Services {
                 request.Force.N
                 );
 
+            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
+            Vector3 angle = new Vector3(0.0f, 0.0f, 0.0f);
+
+            Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
+            Vector3 angularVelocity = new Vector3(0.0f, 0.0f, 0.0f);
+
             if (vesselsDict.ContainsKey(request.VesselId))
             {
+
+                GameObject vessel = vesselsDict[request.VesselId];
+
                 ThreadManager.ExecuteOnMainThread(() =>
                 {
-                    // Perform physics.simulate
-                    Debug.Log("Doing stepping!");
 
+                    // Reads state from the vessel gameobject
+                    position = vessel.transform.position;
+                    angle = vessel.transform.eulerAngles;
+
+                    velocity = vessel.GetComponent<Rigidbody>().velocity;
+                    angularVelocity = vessel.GetComponent<Rigidbody>().angularVelocity;
+
+                    // Setting the signal is required here because it signals that the
+                    // signalEvent does not need to block anymore since the action has
+                    // executed on the main thread.
                     signalEvent.Set();
+
                 });
             }
             else
@@ -59,21 +79,62 @@ namespace Assets.Networking.Services {
                     // already checked wether the vesselId is already in the dictionary
                     vesselsDict.Add(request.VesselId, vessel);
 
+                    position = vessel.transform.position;
+                    angle = vessel.transform.eulerAngles;
+
+                    velocity = vessel.GetComponent<Rigidbody>().velocity;
+                    angularVelocity = vessel.GetComponent<Rigidbody>().angularVelocity;
+                    
+                    // Setting the signal is required here because it signals that the
+                    // signalEvent does not need to block anymore since the action has
+                    // executed on the main thread.
                     signalEvent.Set();
                 });
 
             }
 
             // Wait for the event to be triggered from the action, signaling that the action is finished
+            // This is required becaue we are reading and depending on state from a resource running on the
+            // Unity main thread.
             signalEvent.WaitOne();
             signalEvent.Close();
 
+                
+            // Sets the step size in simulation controller
+            _simulationController.SetStepSize(request.StepSize);
+
+            // Setting force and torque, gets updated every FixedUpdate by the SimulationController
             _simulationController.SetForce(ForceNEDToUnity(force));
             _simulationController.SetTorque(TorqueNEDToUnity(torque));
 
-            return await Task.FromResult(new Simulation.StepResponse 
+            // TODO: Verify that this is the correct way of doing this.
+            Vector3 convertedVelocity = TranslationUnityToNED(velocity);
+            Vector3 convertedAngularVelocity = RotationUnityToNED(angularVelocity);
+
+            
+            return await Task.FromResult(new StepResponse
             {
 
+                // TODO: Verify that these are the correct values.
+                // A bit unsure whether this fits
+                Pos = new Position { 
+                    North = position.x,
+                    East = position.y,
+                    Down = position.z,
+                    Roll = angle.x,
+                    Pitch = angle.y,
+                    Yaw = angle.z
+                }, 
+
+                Vel = new Velocity
+                {
+                    Surge = convertedVelocity.x,
+                    Sway = convertedVelocity.y,
+                    Heave = convertedVelocity.z,
+                    Roll = convertedAngularVelocity.x,
+                    Pitch = convertedAngularVelocity.y,
+                    Yaw = convertedAngularVelocity.z
+                }
             });
         }
 
