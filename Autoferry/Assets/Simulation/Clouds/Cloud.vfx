@@ -18,10 +18,10 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 606
-    y: -422
-    width: 730
-    height: 2677
+    x: 730
+    y: -397
+    width: 633
+    height: 1651
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +181,7 @@ VisualEffectResource:
       VFX_USE_ALIVE_CURRENT 1\n#define VFX_USE_AXISX_CURRENT 1\n#define VFX_USE_AXISY_CURRENT
       1\n#define VFX_USE_AXISZ_CURRENT 1\n#define VFX_USE_AGE_CURRENT 1\n#define
       VFX_USE_COLOR_CURRENT 1\n#define VFX_LOCAL_SPACE 1\n#include \"Packages/com.unity.render-pipelines.high-definition/Runtime/VFXGraph/Shaders/VFXDefines.hlsl\"\n\n\r\nCBUFFER_START(parameters)\n   
-      float uniform_b;\n    uint3 PADDING_0;\nCBUFFER_END\n\nstruct Attributes\n{\n   
+      float uniform_a;\n    uint3 PADDING_0;\nCBUFFER_END\n\nstruct Attributes\n{\n   
       float lifetime;\n    uint seed;\n    float angleZ;\n    float3 position;\n   
       float3 direction;\n    float3 velocity;\n    float texIndex;\n    float size;\n   
       float alpha;\n    bool alive;\n    float3 axisX;\n    float3 axisY;\n    float3
@@ -258,7 +258,7 @@ VisualEffectResource:
       }\n        {\n            SetAttribute_48A7BD6E( /*inout */attributes.angleZ, 
       /*inout */attributes.seed, (float)0, (float)360);\n        }\n        {\n           
       float tmp_z = Rand(attributes.seed);\n            float tmp_bb = pow(tmp_z,
-      (float)0.5);\n            float tmp_bc = tmp_bb * uniform_b;\n            float
+      (float)0.5);\n            float tmp_bc = tmp_bb * uniform_a;\n            float
       tmp_be = Rand(attributes.seed);\n            float tmp_bf = (float)6.28318548
       * tmp_be;\n            float tmp_bg = sin(tmp_bf);\n            float tmp_bh
       = cos(tmp_bf);\n            PositionCircle_18D( /*inout */attributes.position, 
@@ -307,8 +307,8 @@ VisualEffectResource:
       FlipbookPlay_0(inout float texIndex, float FrameRate, float deltaTime) /*mode:Constant
       */\n{\n    texIndex += FrameRate * deltaTime;\n}\nvoid Turbulence_18C(float3
       position, inout float3 velocity, float mass, float4x4 InvFieldTransform, float4x4
-      FieldTransform, float Intensity, float Drag, float frequency, float roughness,
-      float lacunarity, int octaves, float deltaTime) /*Mode:Relative NoiseType:Perlin
+      FieldTransform, float Intensity, float Drag, float frequency, int octaves,
+      float roughness, float lacunarity, float deltaTime) /*Mode:Relative NoiseType:Perlin
       */\n{\n    float3 vectorFieldCoord = mul(InvFieldTransform, float4(position,1.0f)).xyz;\n   
       \n    float3 value = GeneratePerlinCurlNoise(vectorFieldCoord + 0.5f, frequency,
       octaves, roughness, lacunarity);\n    value = mul(FieldTransform,float4(value,0.0f)).xyz
@@ -345,7 +345,7 @@ VisualEffectResource:
       FrameRate_a, deltaTime_a);\n\t\t\t{\n\t\t\t    Turbulence_18C(attributes.position, 
       /*inout */attributes.velocity, attributes.mass, float4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),
       float4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1), (float)1.29999995, (float)1, (float)1,
-      (float)0.546142995, (float)2, (int)1, deltaTime_a);\n\t\t\t}\n\t\t\t{\n\t\t\t   
+      (int)1, (float)0.546142995, (float)2, deltaTime_a);\n\t\t\t}\n\t\t\t{\n\t\t\t   
       Force_1( /*inout */attributes.velocity, attributes.mass, float3(20, 0, 0),
       (float)1, deltaTime_a);\n\t\t\t}\n\t\t\t{\n\t\t\t    Drag_1( /*inout */attributes.velocity,
       attributes.mass, attributes.size, attributes.scaleX, attributes.scaleY, (float)0.100000001,
@@ -385,7 +385,7 @@ VisualEffectResource:
       /*inout */attributes.texIndex, FrameRate_a, deltaTime_a);\n\t\t{\n\t\t    Turbulence_18C(attributes.position, 
       /*inout */attributes.velocity, attributes.mass, float4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1),
       float4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1), (float)1.29999995, (float)1, (float)1,
-      (float)0.546142995, (float)2, (int)1, deltaTime_a);\n\t\t}\n\t\t{\n\t\t   
+      (int)1, (float)0.546142995, (float)2, deltaTime_a);\n\t\t}\n\t\t{\n\t\t   
       Force_1( /*inout */attributes.velocity, attributes.mass, float3(20, 0, 0),
       (float)1, deltaTime_a);\n\t\t}\n\t\t{\n\t\t    Drag_1( /*inout */attributes.velocity,
       attributes.mass, attributes.size, attributes.scaleX, attributes.scaleY, (float)0.100000001,
@@ -436,9 +436,9 @@ VisualEffectResource:
       angleX;\n\t\t    float angleY;\n\t\t    float pivotX;\n\t\t    float pivotY;\n\t\t   
       float pivotZ;\n\t\t    float scaleZ;\n\t\t    float age;\n\t\t    float3 color;\n\t\t};\n\t\t\n\t\tstruct
       SourceAttributes\n\t\t{\n\t\t};\n\t\t\n\t\tTexture2D baseColorMap;\n\t\tSamplerState
-      samplerbaseColorMap;\n\t\tfloat4 baseColorMap_TexelSize;\n\t\tTexture2D normalMap;\n\t\tSamplerState
-      samplernormalMap;\n\t\tfloat4 normalMap_TexelSize;\n\t\tTexture2D emissiveMap;\n\t\tSamplerState
-      sampleremissiveMap;\n\t\tfloat4 emissiveMap_TexelSize;\n\t\t\n\n\t\t\n\t\t#define
+      samplerbaseColorMap;\n\t\tfloat4 baseColorMap_TexelSize;\n\t\t\n\t\tTexture2D
+      normalMap;\n\t\tSamplerState samplernormalMap;\n\t\tfloat4 normalMap_TexelSize;\n\t\t\n\t\tTexture2D
+      emissiveMap;\n\t\tSamplerState sampleremissiveMap;\n\t\tfloat4 emissiveMap_TexelSize;\n\t\t\n\t\t\n\n\t\t\n\t\t#define
       VFX_NEEDS_COLOR_INTERPOLATOR (VFX_USE_COLOR_CURRENT || VFX_USE_ALPHA_CURRENT)\n\t\t#if
       HAS_STRIPS\n\t\t#define VFX_OPTIONAL_INTERPOLATION \n\t\t#else\n\t\t#define
       VFX_OPTIONAL_INTERPOLATION nointerpolation\n\t\t#endif\n\t\t\n\t\tByteAddressBuffer
@@ -1076,9 +1076,9 @@ VisualEffectResource:
       axisX;\n    float3 axisY;\n    float3 axisZ;\n    float angleX;\n    float
       angleY;\n    float pivotX;\n    float pivotY;\n    float pivotZ;\n    float
       scaleZ;\n    float age;\n    float3 color;\n};\n\nstruct SourceAttributes\n{\n};\n\nTexture2D
-      baseColorMap;\nSamplerState samplerbaseColorMap;\nfloat4 baseColorMap_TexelSize;\nTexture2D
-      normalMap;\nSamplerState samplernormalMap;\nfloat4 normalMap_TexelSize;\nTexture2D
-      emissiveMap;\nSamplerState sampleremissiveMap;\nfloat4 emissiveMap_TexelSize;\n\n\r\n#include
+      baseColorMap;\nSamplerState samplerbaseColorMap;\nfloat4 baseColorMap_TexelSize;\n\nTexture2D
+      normalMap;\nSamplerState samplernormalMap;\nfloat4 normalMap_TexelSize;\n\nTexture2D
+      emissiveMap;\nSamplerState sampleremissiveMap;\nfloat4 emissiveMap_TexelSize;\n\n\n\r\n#include
       \"Packages/com.unity.render-pipelines.high-definition/Runtime/VFXGraph/Shaders/VFXCommon.hlsl\"\n#include
       \"Packages/com.unity.visualeffectgraph/Shaders/VFXCommon.hlsl\"\n\n\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n\r\nByteAddressBuffer
       attributeBuffer;\r\nRWByteAddressBuffer elementToVFXBuffer;\r\n#if VFX_USE_ALIVE_CURRENT\r\nStructuredBuffer<uint>
@@ -1362,7 +1362,7 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
+        data[3]: 5
       - op: 1
         valueIndex: 58
         data[0]: -1
@@ -1452,7 +1452,7 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 5
+        data[3]: 1
       - op: 1
         valueIndex: 98
         data[0]: -1
@@ -1509,8 +1509,6 @@ VisualEffectResource:
           m_Value: 0.3096774
         - m_ExpressionIndex: 24
           m_Value: 0.0001
-        - m_ExpressionIndex: 36
-          m_Value: 0.546143
         - m_ExpressionIndex: 40
           m_Value: 0
         - m_ExpressionIndex: 41
@@ -1521,6 +1519,8 @@ VisualEffectResource:
           m_Value: 360
         - m_ExpressionIndex: 49
           m_Value: 1.3
+        - m_ExpressionIndex: 51
+          m_Value: 0.546143
         - m_ExpressionIndex: 53
           m_Value: 0.1
       m_Vector2f:
@@ -1563,7 +1563,7 @@ VisualEffectResource:
           m_Value: 1079901616
       m_Int:
         m_Array:
-        - m_ExpressionIndex: 51
+        - m_ExpressionIndex: 36
           m_Value: 1
       m_Matrix4x4f:
         m_Array:
@@ -1878,7 +1878,7 @@ VisualEffectResource:
         index: 1
       temporaryBuffers: []
       values:
-      - nameId: uniform_b
+      - nameId: uniform_a
         index: 10
       params:
       - nameId: bounds_center
@@ -1997,7 +1997,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614556}
-  m_UIPosition: {x: 944, y: -422}
+  m_UIPosition: {x: 937, y: -397}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -2101,7 +2101,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614678}
   - {fileID: 8926484042661614643}
   - {fileID: 8926484042661614655}
-  m_UIPosition: {x: 940, y: 528}
+  m_UIPosition: {x: 937, y: 311}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -2139,13 +2139,13 @@ MonoBehaviour:
   - {fileID: 8926484042661614629}
   - {fileID: 8926484042661614658}
   - {fileID: 8926484042661614859}
-  m_UIPosition: {x: 941, y: 1305}
+  m_UIPosition: {x: 934, y: 624}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614626}
   - {fileID: 8926484042661615074}
-  - {fileID: 8926484042661615027}
+  - {fileID: 8926484042661615089}
   - {fileID: 8926484042661614619}
   - {fileID: 8926484042661614657}
   - {fileID: 8926484042661614867}
@@ -2471,7 +2471,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614618}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614980}
@@ -2495,7 +2495,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614618}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614642}
@@ -2557,7 +2557,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614583}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614844}
@@ -2580,7 +2580,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614583}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614656}
@@ -2691,7 +2691,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614618}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614659}
@@ -2753,7 +2753,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614583}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614679}
@@ -3401,6 +3401,12 @@ MonoBehaviour:
       m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
     attributes:
+    - m_Type: 0
+      m_Min: 1
+      m_Max: 8
+      m_Tooltip: 
+      m_Regex: 
+      m_RegexMaxLength: 0
     - m_Type: 3
       m_Min: -Infinity
       m_Max: Infinity
@@ -3553,7 +3559,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614765}
   m_Children: []
   m_UIPosition: {x: 233.38269, y: 57.572144}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614767}
@@ -3944,7 +3950,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614765}
   m_Children: []
   m_UIPosition: {x: 233.38269, y: 57.572144}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614778}
@@ -4053,7 +4059,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614765}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614781}
@@ -4729,7 +4735,7 @@ MonoBehaviour:
   m_Parent: {fileID: 8926484042661614618}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_InputSlots:
   - {fileID: 8926484042661614860}
@@ -5787,7 +5793,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615009}
       inputSlot: {fileID: 8926484042661614989}
-    position: {x: 790, y: 652}
+    position: {x: 756, y: 440}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615009
@@ -5864,7 +5870,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615014}
       inputSlot: {fileID: 8926484042661614973}
-    position: {x: 769, y: 333}
+    position: {x: 775, y: 187}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615014
@@ -5941,7 +5947,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615019}
       inputSlot: {fileID: 8926484042661614557}
-    position: {x: 767, y: -325}
+    position: {x: 762, y: -295}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615019
@@ -6018,7 +6024,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615024}
       inputSlot: {fileID: 8926484042661614630}
-    position: {x: 789, y: 1896}
+    position: {x: 755, y: 1102}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615024
@@ -6056,46 +6062,6 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661614630}
---- !u!114 &8926484042661615027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615027}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661614618}
-    m_Value:
-      m_Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 10000
-    m_Space: 2147483647
-  m_Property:
-    name: softParticlesFadeDistance
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-    attributes:
-    - m_Type: 1
-      m_Min: 0.001
-      m_Max: Infinity
-      m_Tooltip: 
-      m_Regex: 
-      m_RegexMaxLength: 0
-  m_Direction: 0
-  m_LinkedSlots: []
 --- !u!114 &8926484042661615066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6137,7 +6103,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615067}
       inputSlot: {fileID: 8926484042661614619}
-    position: {x: 747, y: 1424}
+    position: {x: 730, y: 802}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615067
@@ -6216,7 +6182,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615069}
       inputSlot: {fileID: 8926484042661614657}
-    position: {x: 682, y: 1485}
+    position: {x: 739, y: 845}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615069
@@ -6295,7 +6261,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615071}
       inputSlot: {fileID: 8926484042661614866}
-    position: {x: 728, y: 1586}
+    position: {x: 730, y: 898}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615071
@@ -6499,7 +6465,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661615088}
       inputSlot: {fileID: 8926484042661615086}
-    position: {x: 606, y: 1624}
+    position: {x: 749, y: 939}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661615088
@@ -6537,3 +6503,43 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 8926484042661615086}
+--- !u!114 &8926484042661615089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Parent: {fileID: 0}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 1
+  m_UISuperCollapsed: 0
+  m_MasterSlot: {fileID: 8926484042661615089}
+  m_MasterData:
+    m_Owner: {fileID: 8926484042661614618}
+    m_Value:
+      m_Type:
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      m_SerializableObject: 10000
+    m_Space: 2147483647
+  m_Property:
+    name: softParticleFadeDistance
+    m_serializedType:
+      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    attributes:
+    - m_Type: 1
+      m_Min: 0.001
+      m_Max: Infinity
+      m_Tooltip: 
+      m_Regex: 
+      m_RegexMaxLength: 0
+  m_Direction: 0
+  m_LinkedSlots: []
