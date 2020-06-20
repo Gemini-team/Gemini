@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "autoferry.clients.simulation";
+option java_outer_classname = "simulation";
+option objc_class_prefix = "HLW";
+
+package simulation;
+
+//Input forces from OSP, step Unity the duration of "stepSize", return position and velocity
+service Simulation {
+    rpc DoStep(StepRequest) returns (StepResponse) {}
+
+//Reset the position and velocity of a vessel to the specified values
+	rpc Reset(ResetRequest) returns (ResetResponse) {}
+}
+
+//Includes all forces on ferry except rigid body inertial forces, added mass forces in the rotational DOFs, and collision forces.
+message Force {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+    float k = 4;
+    float m = 5;
+    float n = 6;
+}
+
+message Position {
+    float north = 1;
+    float east = 2;
+    float down = 3;
+    float roll = 4;
+    float pitch = 5;
+    float yaw = 6;
+}
+
+
+message Velocity {
+    float surge = 1;
+    float sway = 2;
+    float heave = 3;
+    float roll = 4;
+    float pitch = 5;
+    float yaw = 6;
+}
+
+message StepRequest {
+    string vesselId = 1;
+    Force force = 2;
+	float stepSize = 3;
+}
+
+message StepResponse {
+    Position pos = 1;
+	Velocity vel = 2;
+}
+
+message ResetRequest {
+	string vesselId = 1;
+	Position reset_pos = 2;
+	Velocity reset_vel = 3;
+}
+
+message ResetResponse {
+    bool success = 1;
+}
