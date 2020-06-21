@@ -67,7 +67,11 @@ namespace UDP
 #else
                 Console.WriteLine("RECV: {0}: {1}, {2}", epFrom.ToString(), bytes, Encoding.ASCII.GetString(so.buffer, 0, bytes));
 #endif
+                _socket.SendTo(Encoding.ASCII.GetBytes("Received something 14"), epFrom);
+
             }, state);
+
+
         }
 
     }
