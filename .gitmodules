@@ -1,0 +1,3 @@
+[submodule "Autoferry-Gemini-Unity/Assets/Gemini-Core"]
+	path = Autoferry-Gemini-Unity/Assets/Gemini-Core
+	url = git@github.com:Gemini-team/Gemini-Core.git
