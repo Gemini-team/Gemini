@@ -989,6 +989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1853108005}
   - component: {fileID: 1853108004}
+  - component: {fileID: 1853108003}
   - component: {fileID: 1853108002}
   - component: {fileID: 1853108001}
   m_Layer: 0
@@ -1042,6 +1043,21 @@ MonoBehaviour:
   _computeParticle: {fileID: 7200000, guid: 4b78f66eefc639f4193208e4035b6b7e, type: 3}
   _displaymentLayer: 
   _nrOfParticles: 0
+--- !u!114 &1853108003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853108000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222689b82cf492c4d839775d804da261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  computeFilter: {fileID: 7200000, guid: 4e620f4d3996eef4b810b30140f16b27, type: 3}
+  SphericalProjectionFilterImage: {fileID: 8400000, guid: 54740fc08b3106e458c4d624b1a71e75,
+    type: 2}
 --- !u!114 &1853108004
 MonoBehaviour:
   m_ObjectHideFlags: 0
