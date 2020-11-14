@@ -1,6 +1,4 @@
-[submodule "Autoferry-Gemini-Unity/Assets/Gemini-Core"]
-	path = Autoferry-Gemini-Unity/Assets/Gemini-Core
-	url = git@github.com:Gemini-team/Gemini-Core.git
 [submodule "OSP-Gemini-Unity/Assets/Gemini-Core"]
 	path = OSP-Gemini-Unity/Assets/Gemini-Core
 	url = https://github.com/Gemini-team/Gemini-Core
+
