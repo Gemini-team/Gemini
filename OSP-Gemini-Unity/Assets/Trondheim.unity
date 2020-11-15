@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b705778cb16edea40ba16e5bc19921f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serverIP: localhost
+  _serverIP: 192.168.0.116
 --- !u!114 &269743287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,6 +689,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1357569919786384354, guid: f62fa4bc55f96564d9e833ecc47cf6ff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3321477440709210067, guid: f62fa4bc55f96564d9e833ecc47cf6ff,
         type: 3}
       propertyPath: m_LocalPosition.x
