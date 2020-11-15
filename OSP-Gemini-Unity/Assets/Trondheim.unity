@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22120c138f21e894682b172b89d62c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorStreamingClient: {fileID: 0}
+  sensorStreamingClient: {fileID: 1700038490}
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
   NrOfCameras: 4
   LidarLayer: Lidar
@@ -886,7 +886,7 @@ MonoBehaviour:
   NumberOfLidarPoints: 0
   ShowPointCloud: 1
   lidarCameras: []
-  RunRecording: 0
+  RunRecording: 1
   SensorUpdateHz: 1
 --- !u!114 &1853108002
 MonoBehaviour:
