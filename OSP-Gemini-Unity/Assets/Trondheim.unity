@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400212, guid: e1e88a151e809a24298c418409c5022c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400212, guid: e1e88a151e809a24298c418409c5022c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730894611}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8ec47759a5768b4e9d3064e932c53e3, type: 3}
   m_Name: 
@@ -527,11 +527,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6300463611672833362, guid: 314d63769f954e945ad81911d1075ba8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6300463611672833710, guid: 314d63769f954e945ad81911d1075ba8,
         type: 3}
@@ -645,7 +640,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 9abfe8163253d57449120b2b2522d2c9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 9abfe8163253d57449120b2b2522d2c9,
         type: 3}
@@ -754,49 +749,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f62fa4bc55f96564d9e833ecc47cf6ff, type: 3}
---- !u!1 &1712654667
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1712654669}
-  - component: {fileID: 1712654668}
-  m_Layer: 0
-  m_Name: SensorStreaming
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1712654668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712654667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b705778cb16edea40ba16e5bc19921f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1712654669
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712654667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14251137, y: 0.7130916, z: 94.25009}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1812317788
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,6 +862,7 @@ GameObject:
   - component: {fileID: 1853108003}
   - component: {fileID: 1853108002}
   - component: {fileID: 1853108001}
+  - component: {fileID: 1853108006}
   m_Layer: 0
   m_Name: Lidar
   m_TagString: Untagged
@@ -929,7 +882,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22120c138f21e894682b172b89d62c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorClient: {fileID: 0}
+  SensorUpdateHz: 10
+  gate: 0
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
   NrOfCameras: 4
   LidarLayer: Lidar
@@ -944,10 +898,6 @@ MonoBehaviour:
   NumberOfLidarPoints: 0
   ShowPointCloud: 1
   lidarCameras: []
-  nextOSPtime: 0
-  OSPtime: 0
-  RunRecording: 1
-  SensorUpdateHz: 1
 --- !u!114 &1853108002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +973,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1853108006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853108000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b705778cb16edea40ba16e5bc19921f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1969900557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,8 +1012,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 232512824}
   - {fileID: 1833869455}
+  - {fileID: 232512824}
   - {fileID: 1531551104}
   - {fileID: 1812317792}
   m_Father: {fileID: 0}
@@ -1068,32 +1030,14 @@ GameObject:
   - component: {fileID: 1979724551}
   - component: {fileID: 1979724553}
   - component: {fileID: 1979724552}
-  - component: {fileID: 1979724549}
   - component: {fileID: 1979724550}
   m_Layer: 0
-  m_Name: OSPServer
+  m_Name: ScenarioServer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1979724549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979724548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eeee26d8e353004eb1e5ed6a3e97a5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
-  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
-  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
-  boats: []
 --- !u!114 &1979724550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,9 +1047,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1979724548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8abc2c83d7b871b48ad53fe91586515f, type: 3}
+  m_Script: {fileID: 11500000, guid: f0d4d7aa99d23574d8d250aa0897b05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BoatPrefabs:
+  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
+  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
+  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
   ScenarioNumber: 3
 --- !u!4 &1979724551
 Transform:
@@ -1128,7 +1076,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979724548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0375d086ab243ac488450b2bda245656, type: 3}
   m_Name: 
@@ -1145,7 +1093,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979724548}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b6faaba1cd11a0409f73ae8e8d4f00e, type: 3}
   m_Name: 
@@ -1219,6 +1167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3175a23c66787c48a9d2fae0f1c5f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SensorUpdateHz: 1
+  gate: 0
   computeShader: {fileID: 7200000, guid: 34b66d2f1ba225240adeba8f4e622856, type: 3}
   NrOfCameras: 16
   RadarLayer: Default
@@ -1240,9 +1190,6 @@ MonoBehaviour:
   Sensitivity: 30000
   SpokeAngle: 0
   radarCameras: []
-  nextOSPtime: 0
-  OSPtime: 0
-  SensorUpdateHz: 10
 --- !u!1 &7102921639195191721
 GameObject:
   m_ObjectHideFlags: 0
