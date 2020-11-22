@@ -862,7 +862,6 @@ GameObject:
   - component: {fileID: 1853108003}
   - component: {fileID: 1853108002}
   - component: {fileID: 1853108001}
-  - component: {fileID: 1853108006}
   m_Layer: 0
   m_Name: Lidar
   m_TagString: Untagged
@@ -883,10 +882,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SensorUpdateHz: 10
-  gate: 0
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
   NrOfCameras: 4
-  LidarLayer: Lidar
   WidthRes: 32768
   DepthBufferPrecision: 1
   LidarHorisontalRes: 1024
@@ -896,7 +893,6 @@ MonoBehaviour:
   VerticalAngle: 30
   NumberOfDepthPixels: 0
   NumberOfLidarPoints: 0
-  ShowPointCloud: 1
   lidarCameras: []
 --- !u!114 &1853108002
 MonoBehaviour:
@@ -912,7 +908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _particleMaterial: {fileID: 2100000, guid: d14ee8164951aa044a42462ab71a18b0, type: 2}
   _computeParticle: {fileID: 7200000, guid: 4b78f66eefc639f4193208e4035b6b7e, type: 3}
-  _displaymentLayer: 
+  _displaymentLayer: Lidar
   _nrOfParticles: 0
 --- !u!114 &1853108003
 MonoBehaviour:
@@ -973,18 +969,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1853108006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853108000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b705778cb16edea40ba16e5bc19921f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1969900557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SensorUpdateHz: 1
-  gate: 0
   computeShader: {fileID: 7200000, guid: 34b66d2f1ba225240adeba8f4e622856, type: 3}
   NrOfCameras: 16
   RadarLayer: Default
