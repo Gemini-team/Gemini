@@ -6587,7 +6587,7 @@ MonoBehaviour:
   - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
   - {fileID: 2830353872161908956, guid: 80833987d99342c4cb004dfe45923ea1, type: 3}
   - {fileID: 1437462241}
-  ScenarioNumber: 9
+  ScenarioNumber: 3
 --- !u!4 &1979724551
 Transform:
   m_ObjectHideFlags: 0
@@ -6617,8 +6617,8 @@ MonoBehaviour:
   host: localhost
   boatPrefabs:
   - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
-  - {fileID: 2830353872161908956, guid: 80833987d99342c4cb004dfe45923ea1, type: 3}
-  - {fileID: 1620858193621851451, guid: 4eeee256abd3f044fb2e3746326a4fb0, type: 3}
+  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
+  - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
 --- !u!114 &1979724553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7163,20 +7163,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1461548857205335058, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+    - target: {fileID: 359381281436106560, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
-      propertyPath: PixelWidth
-      value: 612
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461548857205335058, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: PixelHeight
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461548857205335058, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: SensorUpdateHz
-      value: 5
+      propertyPath: antialiasing
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1620858193621851451, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
@@ -7186,7 +7176,7 @@ PrefabInstance:
     - target: {fileID: 1620858193621851588, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.25
+      value: -6.12
       objectReference: {fileID: 0}
     - target: {fileID: 1620858193621851588, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
@@ -7196,7 +7186,7 @@ PrefabInstance:
     - target: {fileID: 1620858193621851588, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -111.33
+      value: -106.32
       objectReference: {fileID: 0}
     - target: {fileID: 1620858193621851588, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
@@ -7238,85 +7228,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2241541560532476171, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+    - target: {fileID: 5019609598030636595, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: antialiasing
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3505048992395768527, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+    - target: {fileID: 9045809383144632185, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
-      propertyPath: PixelWidth
-      value: 612
+      propertyPath: antialiasing
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3505048992395768527, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+    - target: {fileID: 9045809383282918035, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
-      propertyPath: PixelHeight
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 3505048992395768527, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: SensorUpdateHz
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6469857669286849159, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: field of view
-      value: 81.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6469857669286849159, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: m_FOVAxisMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7816338977059366054, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.07672136
-      objectReference: {fileID: 0}
-    - target: {fileID: 7816338977059366054, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.80209565
-      objectReference: {fileID: 0}
-    - target: {fileID: 7816338977059366054, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.10559787
-      objectReference: {fileID: 0}
-    - target: {fileID: 7816338977059366054, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5827568
-      objectReference: {fileID: 0}
-    - target: {fileID: 7816338977059366054, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -108
-      objectReference: {fileID: 0}
-    - target: {fileID: 8723274955415845532, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: field of view
-      value: 81.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9045809383144632190, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: PixelWidth
-      value: 612
-      objectReference: {fileID: 0}
-    - target: {fileID: 9045809383144632190, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: PixelHeight
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 9045809383144632190, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: SensorUpdateHz
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9045809383144632191, guid: 4eeee256abd3f044fb2e3746326a4fb0,
-        type: 3}
-      propertyPath: field of view
-      value: 81.9
+      propertyPath: rayDropProbability
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eeee256abd3f044fb2e3746326a4fb0, type: 3}
