@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "ca.andydbc.unity-texture-packer": {
-      "version": "file:C:/Users/Kjetil Vasstein/Downloads/unity-texture-packer-master",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,
