@@ -6587,7 +6587,7 @@ MonoBehaviour:
   - {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
   - {fileID: 2830353872161908956, guid: 80833987d99342c4cb004dfe45923ea1, type: 3}
   - {fileID: 1437462241}
-  ScenarioNumber: 3
+  ScenarioNumber: 9
 --- !u!4 &1979724551
 Transform:
   m_ObjectHideFlags: 0
@@ -7168,6 +7168,11 @@ PrefabInstance:
       propertyPath: antialiasing
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1461548857205335058, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+        type: 3}
+      propertyPath: SynchronousUpdate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1620858193621851451, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
       propertyPath: m_Name
@@ -7228,6 +7233,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3505048992395768527, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+        type: 3}
+      propertyPath: SynchronousUpdate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5019609598030636595, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
       propertyPath: antialiasing
@@ -7238,10 +7248,20 @@ PrefabInstance:
       propertyPath: antialiasing
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9045809383144632190, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+        type: 3}
+      propertyPath: SynchronousUpdate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9045809383282918035, guid: 4eeee256abd3f044fb2e3746326a4fb0,
         type: 3}
       propertyPath: rayDropProbability
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9045809383282918035, guid: 4eeee256abd3f044fb2e3746326a4fb0,
+        type: 3}
+      propertyPath: SynchronousUpdate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eeee256abd3f044fb2e3746326a4fb0, type: 3}
