@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.sensorstreaming";
+option java_outer_classname = "SensorStreaming";
+option objc_class_prefix = "HLW";
+
+package sensorstreaming;
+
+service SensorStreaming {
+    rpc StreamCameraSensor(CameraStreamingRequest) returns (CameraStreamingResponse) {}
+    rpc StreamLidarSensor(LidarStreamingRequest) returns (LidarStreamingResponse) {}
+    rpc StreamRadarSensor(RadarStreamingRequest) returns (RadarStreamingResponse) {}
+} 
+
+message CameraStreamingRequest {
+    bytes data = 1;
+    double timeStamp = 2;
+    uint32 width = 3;
+    uint32 height = 4;
+    string frame_id = 5;
+}
+
+message CameraStreamingResponse {
+    bool success = 1;
+}
+
+message Vec3 {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+message PointField {
+    uint32 INT8 = 1;
+    uint32 UINT8 = 2;
+    uint32 INT16 = 3;
+    uint32 UINT16 = 4;
+    uint32 INT32 = 5;
+    uint32 UINT32 = 6;
+    uint32 FLOAT32 = 7; 
+    uint32 FLOAT64 = 8;
+
+    string name = 9;
+    uint32 offset = 10;
+    uint32 datatype = 11;
+    uint32 count = 12;
+
+}
+
+message LidarStreamingRequest {
+    double timeInSeconds = 1;
+    uint32 height = 2;
+    uint32 width = 3;
+    repeated PointField fields = 4;
+    bool isBigEndian = 5;
+    uint32 point_step = 6;
+    uint32 row_step = 7;
+    bytes data = 8;
+    bool is_dense = 9;
+}
+
+message LidarStreamingResponse {
+    bool success = 1;
+}
+
+message RadarStreamingRequest {
+    float rangeIncrement = 1;
+    float rangeStart = 2;
+    uint32 numSamples = 3;
+    uint32 numSpokes = 4;
+    uint32 minIntensity = 5;
+    uint32 maxIntensity = 6;
+    repeated double timeInSeconds = 7;
+    repeated float azimuth = 8;
+    bytes radarSpokes = 9;
+
+}
+
+message RadarStreamingResponse {
+    bool success = 1;
+}

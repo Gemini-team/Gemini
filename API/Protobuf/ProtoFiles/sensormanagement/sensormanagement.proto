@@ -1,0 +1,68 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.sensormanagement";
+option java_outer_classname = "SensorManagement";
+option objc_class_prefix = "HLW";
+
+package sensormanagement;
+
+// The data service definition
+service SensorManagement {
+
+    rpc StartRendering(StartRenderingRequest) returns (StartRenderingResponse) {}
+    rpc StopRendering(StopRenderingRequest) returns (StopRenderingResponse) {}
+
+    rpc GetAllSensorsOfType(AllSensorsOfTypeRequest) returns (AllSensorsOfTypeResponse) {}
+    rpc GetAllSensorsOnVessel(AllSensorsOnVesselRequest) returns (AllSensorsOnVesselResponse) {}
+}
+
+message StartRenderingRequest {
+    int32 sensorID = 1;
+}
+
+message StartRenderingResponse {
+    bool success = 1;
+}
+
+message StopRenderingRequest {
+    int32 sensorID = 1;
+}
+
+message StopRenderingResponse {
+    bool success = 1;
+}
+
+message AllSensorsOfTypeRequest {
+    SensorType type = 1;
+}
+
+message AllSensorsOfTypeResponse {
+    repeated Sensor sensors = 1;
+}
+
+message AllSensorsOnVesselRequest {
+    string vesselID = 1;
+}
+
+message AllSensorsOnVesselResponse {
+    repeated Sensor sensors = 1;
+}
+
+enum SensorType {
+    UNKNOWN = 0;
+    OPTICAL = 1;
+    INFRARED = 2;
+    RADAR = 3;
+    LIDAR = 4;
+}
+
+message Sensor {
+    int32 id = 1;
+    SensorType type = 2;
+    int32 sensorWidth = 3;
+    int32 sensorHeight = 4;
+    string ipAddress = 5;
+    int32 port = 6;
+}
