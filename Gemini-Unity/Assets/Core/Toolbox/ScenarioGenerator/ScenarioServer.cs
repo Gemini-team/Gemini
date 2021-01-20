@@ -16,7 +16,6 @@ namespace Gemini.EMRS.ScenarioGenerator {
         {
             _sensors = Sensor.GetActiveSensors();
             Sensor.ResetSensorTime(_sensors);
-            //SetupSensors();
             SetupBoats();
             nextScenarioTime = 0;
         }
