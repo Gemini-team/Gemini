@@ -44,8 +44,6 @@ namespace Gemini.EMRS.Lidar {
 
         private PointCloudManager pointCloud;
         private SphericalProjectionFilter projectionFilter;
-        private SensorClient sensorClient;
-
 
         int kernelHandle;
         UnifiedArray<Vector3> particleUnifiedArray;
@@ -53,8 +51,6 @@ namespace Gemini.EMRS.Lidar {
 
         void Start()
         {
-
-	        sensorClient = new SensorClient();
 
             // Setting User information
 
