@@ -16,7 +16,6 @@ namespace Gemini.EMRS.ScenarioGenerator {
         {
             _sensors = Sensor.GetActiveSensors();
             Sensor.ResetSensorTime(_sensors);
-            //SetupSensors();
             SetupBoats();
             nextScenarioTime = 0;
         }
@@ -35,7 +34,7 @@ namespace Gemini.EMRS.ScenarioGenerator {
 
         private void SetupBoats()
         {
-            string filePath = Application.dataPath + "../../../Scenarioes/Scenario" + ScenarioNumber.ToString() + ".csv";
+            string filePath = Application.dataPath + "../../../Scenarios/Scenario" + ScenarioNumber.ToString() + ".csv";
             _boatScenarioes = new BoatScenario[BoatPrefabs.Length];
             for (int boatIndex = 0; boatIndex < _boatScenarioes.Length-1; boatIndex++)
             {
