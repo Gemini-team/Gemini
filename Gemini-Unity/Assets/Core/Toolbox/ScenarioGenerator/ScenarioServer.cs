@@ -34,7 +34,14 @@ namespace Gemini.EMRS.ScenarioGenerator {
 
         private void SetupBoats()
         {
-            string filePath = Application.dataPath + "../../../Scenarios/Scenario" + ScenarioNumber.ToString() + ".csv";
+            #if UNITY_EDITOR
+                string filePath = Application.dataPath + "../../../Scenarios/Scenario" + ScenarioNumber.ToString() + ".csv";
+
+            // TODO: This path is not entirely correct for a standalone build, since the scenarios are not packaged
+            // together with the rest of the build resource files when built.
+            #else
+                string filePath = Application.dataPath + "..\\..\\..\\..\\Scenarios\\Scenario" + ScenarioNumber.ToString() + ".csv";
+            #endif
             _boatScenarioes = new BoatScenario[BoatPrefabs.Length];
             for (int boatIndex = 0; boatIndex < _boatScenarioes.Length-1; boatIndex++)
             {
