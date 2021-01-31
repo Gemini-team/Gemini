@@ -13,11 +13,11 @@
 
 {% for file in site.static_files %}
     {% if file.image %}
-        <img src="{{file.path}}" alt="{file.name}" width="640" height="480">
+        <img src="{{site.url}}/Gemini{{file.path}}" alt="{file.name}" width="640" height="480">
         {{file.path}}
         {{site.url}}}
         <br>
-        {{site.url}}/Gemini/{{file.path}}
+        {{site.url}}/Gemini{{file.path}}
     {% endif %}
 {% endfor %}
 
