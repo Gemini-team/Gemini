@@ -1,13 +1,12 @@
 {% for post in site.posts %}
-    <li> <a href="{{site.url}}/Gemini{{ post.url }}">{{ post.title }}</a></li>
+    <li> <a href="{{ site.url }}{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
 {% endfor %}
 
 <br>
 
-
 {% for file in site.static_files %}
     {% if file.image %}
-        <img src="{{site.url}}/Gemini{{file.path}}" alt="{file.name}" width="640" height="480">
+        <img src="{{ site.url }}{{ site.baseurl }}{{ file.path }}" alt="{ file.name }" width="640" height="480">
     {% endif %}
 {% endfor %}
 
