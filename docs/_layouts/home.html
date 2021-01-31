@@ -1,23 +1,13 @@
-<!--
 {% for post in site.posts %}
     <li> <a href="{{ post.url }}">{{ post.title }}</a></li>
 {% endfor %}
--->
-
-
-<!--
-{{ site.data.people}}
 
 <br>
--->
+
 
 {% for file in site.static_files %}
     {% if file.image %}
         <img src="{{site.url}}/Gemini{{file.path}}" alt="{file.name}" width="640" height="480">
-        {{file.path}}
-        {{site.url}}}
-        <br>
-        {{site.url}}/Gemini{{file.path}}
     {% endif %}
 {% endfor %}
 
