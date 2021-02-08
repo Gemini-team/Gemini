@@ -168,7 +168,7 @@ namespace Gemini.EMRS.Lidar {
         // Memo: hadde lønnt seg å lage en konstruktor for dette i den autogenererte koden
         public override bool SendMessage()
         {
-            Debug.Log("Lidar message time: " + message.timeInSeconds.ToString());
+            //Debug.Log("Lidar message time: " + message.timeInSeconds.ToString());
             
             LidarStreamingRequest lidarStreamingRequest = new LidarStreamingRequest();
             
