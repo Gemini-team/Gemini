@@ -56,7 +56,7 @@ namespace Gemini.EMRS.RGB
         public ByteString Data { get; private set; } = ByteString.CopyFromUtf8("");
         public override bool SendMessage()
         {
-            Debug.Log("RGB " + FrameID + " message time: " + OSPtime);
+            //Debug.Log("RGB " + FrameID + " message time: " + OSPtime);
             if(SampleCameraImage != null)
             {
                 Graphics.Blit(camera.targetTexture, SampleCameraImage);

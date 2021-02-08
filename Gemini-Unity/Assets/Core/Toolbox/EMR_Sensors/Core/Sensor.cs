@@ -16,7 +16,7 @@ namespace Gemini.EMRS.Core
         //public bool RunRecording = false;
 
         // VM IP
-        public static string serverIP = "192.168.0.116";
+        public static string serverIP = "192.168.80.128";
 
         // Docker IP
         //public static string serverIP = "0.0.0.0";
@@ -63,7 +63,7 @@ namespace Gemini.EMRS.Core
                 {
                     if (gate)
                     {
-                        //SendMessage();
+                        SendMessage();
                         nextActionTime = nextOSPtime + 1/(double)SensorUpdateHz;
                     }
                 }
