@@ -19,7 +19,7 @@ namespace Gemini.EMRS.ScenarioGenerator
                 if(VarType != typeof(string))
                 {
                     // for systems with decimal notation ','
-                    elem = elem.Replace(".", ",");
+                    //elem = elem.Replace(".", ",");
                 }
                 dataFloat[i - 1] = (T)Convert.ChangeType(elem, typeof(T));
             }
