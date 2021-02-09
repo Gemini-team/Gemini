@@ -50,7 +50,7 @@ else {
 Invoke-WebRequest -Uri "https://packages.grpc.io/archive/2019/12/a02d6b9be81cbadb60eed88b3b44498ba27bcba9-edd81ac6-e3d1-461a-a263-2b06ae913c3f/csharp/grpc_unity_package.2.26.0-dev.zip" -OutFile ".\Temp\unity_grpc.zip"
 $UnityGrpcPluginsZipPath = Join-Path -Path $CurrentPath -ChildPath "\Temp\unity_grpc.zip"
 
-$UnityPluginsExtractionDir = Join-Path -Path $CurrentPath -ChildPath "\Gemini-Unity\Assets\Core"
+$UnityPluginsExtractionDir = Join-Path -Path $CurrentPath -ChildPath "\Gemini-Unity\Assets"
 $UnityPluginsDir = Join-Path -Path $UnityPluginsExtractionDir -ChildPath "\Plugins"
 
 # Check if the Unity Plugins directory does not exist.
