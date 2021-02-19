@@ -38,7 +38,6 @@ namespace Assets.Networking.Services
         // Start is called before the first frame update
         void Start()
         {
-
             //Physics.autoSimulation = false;
 
             if (gameObject.GetComponent<Rigidbody>())
