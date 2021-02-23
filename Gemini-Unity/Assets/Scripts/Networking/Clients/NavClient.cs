@@ -23,19 +23,35 @@ public class NavClient : Sensor
 
     class BaseMessage
     {
+        public string msg_type;
+        public float TOD;
+        public string data;
+
+        public BaseMessage(string msg_type, float TOD, string data)
+        {
+            this.msg_type = msg_type;
+            this.TOD = TOD;
+            this.data = data;
+        }
+
+    }
+
+    class Data
+    {
         public string header;
         public string child_frame_id;
         public string pose;
         public string velocity;
 
 
-        public BaseMessage(string header, string child_frame_id, string pose, string velocity)
+        public Data(string header, string child_frame_id, string pose, string velocity)
         {
             this.header = header;
             this.child_frame_id = child_frame_id;
             this.pose = pose;
             this.velocity = velocity;
         }
+
     }
 
     class Header
@@ -81,7 +97,21 @@ public class NavClient : Sensor
 
     void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
     {
+        _baseMessage = new BaseMessage(
+            "nav",
+            (float)OSPtime,
+            JsonUtility.ToJson(new Data(
+                JsonUtility.ToJson(new Header("piren", "" + OSPtime)),
+                "velodyne",
+                JsonUtility.ToJson(
+                    new Pose(ConventionTransforms.TranslationUnityToNED(gameObject.transform.position),
+                    ConventionTransforms.QuaternionUnityToNED(gameObject.transform.rotation))),
+                    JsonUtility.ToJson(new Velocity(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f)))
+            )));
+
         // TODO: Do not create a new message everytime we send.
+        /*
+         * 
         _baseMessage = new BaseMessage(
             JsonUtility.ToJson(new Header("piren", "" + OSPtime)),
             "velodyne",
@@ -89,6 +119,9 @@ public class NavClient : Sensor
                 new Pose(ConventionTransforms.TranslationUnityToNED(gameObject.transform.position),
                 ConventionTransforms.QuaternionUnityToNED(gameObject.transform.rotation))), 
                 JsonUtility.ToJson(new Velocity(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f))));
+        */
+
+        gate = true;
     }
 
     // Start is called before the first frame update
@@ -103,7 +136,8 @@ public class NavClient : Sensor
 
     public override bool SendMessage()
     {
-        _streamWriter.WriteLine(_baseMessage);
+        Debug.Log("Sending Nav message!");
+        _streamWriter.WriteLine(JsonUtility.ToJson(_baseMessage));
         _streamWriter.Flush();
         return true;
     }
