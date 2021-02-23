@@ -22,7 +22,7 @@ public class TriggerManualTakeover : MonoBehaviour {
     {
         if (active) return;
         active = true;
-        ferry.manualControl = true;
+        ferry.ManualControl = true;
         ui.Alert(message, 10);
         Debug.Log("Manual takeover activated");
     }

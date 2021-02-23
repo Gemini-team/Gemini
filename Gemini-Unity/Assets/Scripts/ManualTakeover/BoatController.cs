@@ -18,7 +18,16 @@ public class BoatController : MonoBehaviour {
         }
     }
 
-	public bool manualControl;
+	private bool manualControl;
+	public bool ManualControl {
+		get => manualControl;
+		set {
+			manualControl = value;
+			if (value) {
+				destination = null;
+            }
+        }
+    }
 
 	[HideInInspector]
 	public Quaternion targetRotation;
