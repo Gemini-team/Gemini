@@ -24,7 +24,7 @@ namespace Gemini.EMRS.Core
         //public static string serverIP = "0.0.0.0";
 
         public static int serverPort = 30052;
-        private static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
+        protected static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
         protected SensorStreaming.SensorStreamingClient _streamingClient = new SensorStreaming.SensorStreamingClient(_streamingChannel);
 
         public enum SensorCallbackOrder

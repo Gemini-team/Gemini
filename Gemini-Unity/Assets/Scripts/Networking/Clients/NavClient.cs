@@ -4,12 +4,30 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
-using Gemini.Core;
 using Gemini.EMRS.Core;
 using UnityEngine.Rendering;
 
+using Google.Protobuf;
+using Navigation;
+using Gemini.Core;
+
+
 public class NavClient : Sensor
 {
+
+    private Navigation.Navigation.NavigationClient _navigationClient = new Navigation.Navigation.NavigationClient(_streamingChannel);
+
+    private Navigation.Vec3 _navPosition;
+    private Navigation.Quaternion _navOrientation;
+    private Navigation.Vec3 _navLinearVelocity;
+    private Navigation.Vec3 _navAngularVelocity;
+
+    private Vector3 _unityPosition;
+    private UnityEngine.Quaternion _unityOrientation;
+    private Vector3 _unityLinearVelocity;
+    private Vector3 _unityAngularVelocity;
+
+    /*
 
     private TcpClient _tcpClient;
     private string _serverIP = "192.168.80.128";
@@ -89,6 +107,7 @@ public class NavClient : Sensor
             this.angular = angular;
         }
     }
+    */
 
     private void Awake()
     {
@@ -97,56 +116,39 @@ public class NavClient : Sensor
 
     void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
     {
-        _baseMessage = new BaseMessage(
-            "nav",
-            (float)OSPtime,
-            JsonUtility.ToJson(new Data(
-                JsonUtility.ToJson(new Header("piren", "" + OSPtime)),
-                "velodyne",
-                JsonUtility.ToJson(
-                    new Pose(ConventionTransforms.TranslationUnityToNED(gameObject.transform.position),
-                    ConventionTransforms.QuaternionUnityToNED(gameObject.transform.rotation))),
-                    JsonUtility.ToJson(new Velocity(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f)))
-            )));
-
-        // TODO: Do not create a new message everytime we send.
         /*
          * 
-        _baseMessage = new BaseMessage(
-            JsonUtility.ToJson(new Header("piren", "" + OSPtime)),
-            "velodyne",
-            JsonUtility.ToJson(
-                new Pose(ConventionTransforms.TranslationUnityToNED(gameObject.transform.position),
-                ConventionTransforms.QuaternionUnityToNED(gameObject.transform.rotation))), 
-                JsonUtility.ToJson(new Velocity(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 0.0f, 0.0f))));
+        _unityPosition = ConventionTransforms.TranslationUnityToNED(gameObject.transform.position);
+        _unityOrientation = ConventionTransforms.QuaternionUnityToNED(gameObject.transform.rotation);
         */
 
-        gate = true;
+
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _tcpClient = new TcpClient();
-        _tcpClient.Connect(_serverIP, _portNr);
-
-        _streamReader = new StreamReader(_tcpClient.GetStream(), Encoding.ASCII);
-        _streamWriter = new StreamWriter(_tcpClient.GetStream(), Encoding.ASCII);
-    }
 
     public override bool SendMessage()
     {
-        Debug.Log("Sending Nav message!");
-        _streamWriter.WriteLine(JsonUtility.ToJson(_baseMessage));
-        _streamWriter.Flush();
+
+        /*
+        bool success = _navigationClient.SendNavigationMessage(
+            new NavigationRequest { 
+                Position = ConvertUnityVec3ToNavVec3(gameObject.transform.position),
+                Orientation = ConvertUnityQuaternionToNavQuaternion(.transform.rotation)
+                
+            })
+        */
         return true;
+
     }
 
     private void OnDestroy()
     {
         // Cleanup 
+        /*
+         * 
         _streamWriter.Close();
         _tcpClient.Close();
+        */
     }
 
 }
