@@ -8,7 +8,7 @@ option objc_class_prefix = "HLW";
 package navigation;
 
 service Navigation {
-    SendNavigationMessage(NavigationRequest) returns (NavigationResponse) {}
+    rpc SendNavigationMessage(NavigationRequest) returns (NavigationResponse) {}
 } 
 
 message Vec3 {
@@ -17,7 +17,7 @@ message Vec3 {
     float z = 3;
 }
 
-message Quaternion {
+message Quaternion {
     float x = 1; 
     float y = 2; 
     float z = 3; 
@@ -34,6 +34,4 @@ message NavigationRequest {
 message NavigationResponse {
     bool success = 1;
 }
-
-
 
