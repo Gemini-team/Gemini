@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     public Camera[] viewpoints;
     private int activeIndex = -1;
