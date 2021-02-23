@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovePath : MonoBehaviour {
-	private const float STOP_DISTANCE = 2f;
-	private const float LOOK_AHEAD = 10f;
-
 	public BoatController boat;
 	public bool closedPath, loop;
 	public int startNode;
@@ -30,15 +27,15 @@ public class MovePath : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-		if (!boat.destination.HasValue || EndReached) return;
+		if (!boat.Destination.HasValue || EndReached) return;
 
 		Vector3 actualHeading = To.position - boat.transform.position,
 				idealHeading = To.position - From.position;
 		// Project actualHeading onto idealHeading to get heading correction
 		Vector3 correction = Vector3.Dot(actualHeading, idealHeading) / Vector3.Dot(idealHeading, idealHeading) * idealHeading;
-		boat.destination = To.position - correction + idealHeading.normalized * LOOK_AHEAD;
+		boat.Destination = To.position - correction + idealHeading.normalized * BoatController.LOOK_AHEAD;
 
-		if (Vector3.Distance(boat.transform.position, To.position) <= STOP_DISTANCE) {
+		if (Vector3.Distance(boat.transform.position, To.position) <= BoatController.STOP_DISTANCE) {
 			atIndex++;
 			Travel();
 		}
@@ -52,9 +49,9 @@ public class MovePath : MonoBehaviour {
 
 	void Travel() {
 		IEnumerator BeginTravel(float waitTime) {
-			if (waitTime > 0) boat.destination = null;
+			if (waitTime > 0) boat.Destination = null;
 			yield return new WaitForSeconds(waitTime);
-			boat.destination = To.position;
+			boat.Destination = To.position;
 		}
 
 		PathNode node = From.GetComponent<PathNode>();
@@ -64,7 +61,7 @@ public class MovePath : MonoBehaviour {
 
 		if (EndReached) {
 			Debug.Log("End of travel");
-			boat.destination = null;
+			boat.Destination = null;
 			if (loop) Play();
 			return;
 		}
@@ -87,9 +84,9 @@ public class MovePath : MonoBehaviour {
 
 		if (boat != null) {
 			Gizmos.color = Color.green;
-			if (boat.destination.HasValue) {
-				Gizmos.DrawLine(boat.transform.position, boat.destination.Value);
-				Gizmos.DrawSphere(boat.destination.Value, 0.75f);
+			if (boat.Destination.HasValue) {
+				Gizmos.DrawLine(boat.transform.position, boat.Destination.Value);
+				Gizmos.DrawSphere(boat.Destination.Value, 0.75f);
 			}
 		}
 	}
