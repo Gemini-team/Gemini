@@ -27,21 +27,22 @@ namespace Navigation {
             "ChtuYXZpZ2F0aW9uL25hdmlnYXRpb24ucHJvdG8SCm5hdmlnYXRpb24iJwoE",
             "VmVjMxIJCgF4GAEgASgCEgkKAXkYAiABKAISCQoBehgDIAEoAiI4CgpRdWF0",
             "ZXJuaW9uEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCEgkKAXcY",
-            "BCABKAIiuQEKEU5hdmlnYXRpb25SZXF1ZXN0EiIKCHBvc2l0aW9uGAEgASgL",
-            "MhAubmF2aWdhdGlvbi5WZWMzEisKC29yaWVudGF0aW9uGAIgASgLMhYubmF2",
-            "aWdhdGlvbi5RdWF0ZXJuaW9uEigKDmxpbmVhclZlbG9jaXR5GAMgASgLMhAu",
-            "bmF2aWdhdGlvbi5WZWMzEikKD2FuZ3VsYXJWZWxvY2l0eRgEIAEoCzIQLm5h",
-            "dmlnYXRpb24uVmVjMyIlChJOYXZpZ2F0aW9uUmVzcG9uc2USDwoHc3VjY2Vz",
-            "cxgBIAEoCDJmCgpOYXZpZ2F0aW9uElgKFVNlbmROYXZpZ2F0aW9uTWVzc2Fn",
-            "ZRIdLm5hdmlnYXRpb24uTmF2aWdhdGlvblJlcXVlc3QaHi5uYXZpZ2F0aW9u",
-            "Lk5hdmlnYXRpb25SZXNwb25zZSIAQjEKG2lvLmdycGMuZXhhbXBsZXMubmF2",
-            "aWdhdGlvbkIKTmF2aWdhdGlvblABogIDSExXYgZwcm90bzM="));
+            "BCABKAIizAEKEU5hdmlnYXRpb25SZXF1ZXN0EhEKCXRpbWVTdGFtcBgBIAEo",
+            "ARIiCghwb3NpdGlvbhgCIAEoCzIQLm5hdmlnYXRpb24uVmVjMxIrCgtvcmll",
+            "bnRhdGlvbhgDIAEoCzIWLm5hdmlnYXRpb24uUXVhdGVybmlvbhIoCg5saW5l",
+            "YXJWZWxvY2l0eRgEIAEoCzIQLm5hdmlnYXRpb24uVmVjMxIpCg9hbmd1bGFy",
+            "VmVsb2NpdHkYBSABKAsyEC5uYXZpZ2F0aW9uLlZlYzMiJQoSTmF2aWdhdGlv",
+            "blJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgyZgoKTmF2aWdhdGlvbhJYChVT",
+            "ZW5kTmF2aWdhdGlvbk1lc3NhZ2USHS5uYXZpZ2F0aW9uLk5hdmlnYXRpb25S",
+            "ZXF1ZXN0Gh4ubmF2aWdhdGlvbi5OYXZpZ2F0aW9uUmVzcG9uc2UiAEIxChtp",
+            "by5ncnBjLmV4YW1wbGVzLm5hdmlnYXRpb25CCk5hdmlnYXRpb25QAaICA0hM",
+            "V2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.Vec3), global::Navigation.Vec3.Parser, new[]{ "X", "Y", "Z" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.Quaternion), global::Navigation.Quaternion.Parser, new[]{ "X", "Y", "Z", "W" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.NavigationRequest), global::Navigation.NavigationRequest.Parser, new[]{ "Position", "Orientation", "LinearVelocity", "AngularVelocity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.NavigationRequest), global::Navigation.NavigationRequest.Parser, new[]{ "TimeStamp", "Position", "Orientation", "LinearVelocity", "AngularVelocity" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.NavigationResponse), global::Navigation.NavigationResponse.Parser, new[]{ "Success" }, null, null, null)
           }));
     }
@@ -472,6 +473,7 @@ namespace Navigation {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NavigationRequest(NavigationRequest other) : this() {
+      timeStamp_ = other.timeStamp_;
       position_ = other.position_ != null ? other.position_.Clone() : null;
       orientation_ = other.orientation_ != null ? other.orientation_.Clone() : null;
       linearVelocity_ = other.linearVelocity_ != null ? other.linearVelocity_.Clone() : null;
@@ -484,8 +486,19 @@ namespace Navigation {
       return new NavigationRequest(this);
     }
 
+    /// <summary>Field number for the "timeStamp" field.</summary>
+    public const int TimeStampFieldNumber = 1;
+    private double timeStamp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double TimeStamp {
+      get { return timeStamp_; }
+      set {
+        timeStamp_ = value;
+      }
+    }
+
     /// <summary>Field number for the "position" field.</summary>
-    public const int PositionFieldNumber = 1;
+    public const int PositionFieldNumber = 2;
     private global::Navigation.Vec3 position_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Navigation.Vec3 Position {
@@ -496,7 +509,7 @@ namespace Navigation {
     }
 
     /// <summary>Field number for the "orientation" field.</summary>
-    public const int OrientationFieldNumber = 2;
+    public const int OrientationFieldNumber = 3;
     private global::Navigation.Quaternion orientation_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Navigation.Quaternion Orientation {
@@ -507,7 +520,7 @@ namespace Navigation {
     }
 
     /// <summary>Field number for the "linearVelocity" field.</summary>
-    public const int LinearVelocityFieldNumber = 3;
+    public const int LinearVelocityFieldNumber = 4;
     private global::Navigation.Vec3 linearVelocity_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Navigation.Vec3 LinearVelocity {
@@ -518,7 +531,7 @@ namespace Navigation {
     }
 
     /// <summary>Field number for the "angularVelocity" field.</summary>
-    public const int AngularVelocityFieldNumber = 4;
+    public const int AngularVelocityFieldNumber = 5;
     private global::Navigation.Vec3 angularVelocity_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Navigation.Vec3 AngularVelocity {
@@ -541,6 +554,7 @@ namespace Navigation {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(TimeStamp, other.TimeStamp)) return false;
       if (!object.Equals(Position, other.Position)) return false;
       if (!object.Equals(Orientation, other.Orientation)) return false;
       if (!object.Equals(LinearVelocity, other.LinearVelocity)) return false;
@@ -551,6 +565,7 @@ namespace Navigation {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (TimeStamp != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(TimeStamp);
       if (position_ != null) hash ^= Position.GetHashCode();
       if (orientation_ != null) hash ^= Orientation.GetHashCode();
       if (linearVelocity_ != null) hash ^= LinearVelocity.GetHashCode();
@@ -568,20 +583,24 @@ namespace Navigation {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (TimeStamp != 0D) {
+        output.WriteRawTag(9);
+        output.WriteDouble(TimeStamp);
+      }
       if (position_ != null) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteMessage(Position);
       }
       if (orientation_ != null) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteMessage(Orientation);
       }
       if (linearVelocity_ != null) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteMessage(LinearVelocity);
       }
       if (angularVelocity_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteMessage(AngularVelocity);
       }
       if (_unknownFields != null) {
@@ -592,6 +611,9 @@ namespace Navigation {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (TimeStamp != 0D) {
+        size += 1 + 8;
+      }
       if (position_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
       }
@@ -614,6 +636,9 @@ namespace Navigation {
     public void MergeFrom(NavigationRequest other) {
       if (other == null) {
         return;
+      }
+      if (other.TimeStamp != 0D) {
+        TimeStamp = other.TimeStamp;
       }
       if (other.position_ != null) {
         if (position_ == null) {
@@ -650,28 +675,32 @@ namespace Navigation {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
+          case 9: {
+            TimeStamp = input.ReadDouble();
+            break;
+          }
+          case 18: {
             if (position_ == null) {
               Position = new global::Navigation.Vec3();
             }
             input.ReadMessage(Position);
             break;
           }
-          case 18: {
+          case 26: {
             if (orientation_ == null) {
               Orientation = new global::Navigation.Quaternion();
             }
             input.ReadMessage(Orientation);
             break;
           }
-          case 26: {
+          case 34: {
             if (linearVelocity_ == null) {
               LinearVelocity = new global::Navigation.Vec3();
             }
             input.ReadMessage(LinearVelocity);
             break;
           }
-          case 34: {
+          case 42: {
             if (angularVelocity_ == null) {
               AngularVelocity = new global::Navigation.Vec3();
             }
