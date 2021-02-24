@@ -17,138 +17,75 @@ public class NavClient : Sensor
 
     private Navigation.Navigation.NavigationClient _navigationClient = new Navigation.Navigation.NavigationClient(_streamingChannel);
 
-    private Navigation.Vec3 _navPosition;
+    private Vec3 _navPosition;
     private Navigation.Quaternion _navOrientation;
-    private Navigation.Vec3 _navLinearVelocity;
-    private Navigation.Vec3 _navAngularVelocity;
+    private Vec3 _navLinearVelocity;
+    private Vec3 _navAngularVelocity;
 
     private Vector3 _unityPosition;
     private UnityEngine.Quaternion _unityOrientation;
     private Vector3 _unityLinearVelocity;
     private Vector3 _unityAngularVelocity;
 
-    /*
-
-    private TcpClient _tcpClient;
-    private string _serverIP = "192.168.80.128";
-    private int _portNr = 12346;
-
-    private StreamReader _streamReader;
-    private StreamWriter _streamWriter;
-
-    private BaseMessage _baseMessage;
-
-
-    class BaseMessage
-    {
-        public string msg_type;
-        public float TOD;
-        public string data;
-
-        public BaseMessage(string msg_type, float TOD, string data)
-        {
-            this.msg_type = msg_type;
-            this.TOD = TOD;
-            this.data = data;
-        }
-
-    }
-
-    class Data
-    {
-        public string header;
-        public string child_frame_id;
-        public string pose;
-        public string velocity;
-
-
-        public Data(string header, string child_frame_id, string pose, string velocity)
-        {
-            this.header = header;
-            this.child_frame_id = child_frame_id;
-            this.pose = pose;
-            this.velocity = velocity;
-        }
-
-    }
-
-    class Header
-    {
-        public string frame_id;
-        public string stamp;
-
-        public Header(string frame_id, string stamp)
-        {
-            this.frame_id = frame_id;
-            this.stamp = stamp;
-        }
-    }
-
-    class Pose
-    {
-        public Vector3 position;
-        public Quaternion orientation;
-
-        public Pose(Vector3 position, Quaternion orientation)
-        {
-            this.position = position;
-            this.orientation = orientation;
-        }
-    }
-
-    class Velocity
-    {
-        public Vector3 linear;
-        public Vector3 angular;
-
-        public Velocity(Vector3 linear, Vector3 angular)
-        {
-            this.linear = linear;
-            this.angular = angular;
-        }
-    }
-    */
 
     private void Awake()
     {
         SetupSensorCallbacks(new SensorCallback(NavUpdate, SensorCallbackOrder.Last)); 
     }
 
-    void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
+    private void Start()
     {
-        /*
-         * 
-        _unityPosition = ConventionTransforms.TranslationUnityToNED(gameObject.transform.position);
-        _unityOrientation = ConventionTransforms.QuaternionUnityToNED(gameObject.transform.rotation);
-        */
 
+        _navPosition = new Vec3();
+        _navOrientation = new Navigation.Quaternion();
 
+        _navLinearVelocity = new Vec3();
+        _navAngularVelocity = new Vec3();
     }
 
+    void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
+    {
+        _unityPosition = ConventionTransforms.PositionUnityToNED(gameObject.transform.position);
+        _unityOrientation = ConventionTransforms.OrientationUnityToNED(gameObject.transform.rotation);
+            
+        // Set Navigation Position and orientation to the same value as the Unity position and orientation
+        // TODO: This should be done in a own function
+        _navPosition.X = _unityPosition.x;
+        _navPosition.Y = _unityPosition.y;
+        _navPosition.Z = _unityPosition.z;
+
+        _navOrientation.X = _unityOrientation.x;
+        _navOrientation.Y = _unityOrientation.y;
+        _navOrientation.Z = _unityOrientation.z;
+        _navOrientation.W = _unityOrientation.w;
+
+        // TODO: In the future this should either be estimated from position and time
+        // or this should be retreived from a Rigidbody component, depending on which
+        // type of simulation that is running.
+        _navLinearVelocity.X = 0.0f;
+        _navLinearVelocity.Y = 0.0f;
+        _navLinearVelocity.Z = 0.0f;
+
+        _navAngularVelocity.X = 0.0f;
+        _navAngularVelocity.Y = 0.0f;
+        _navAngularVelocity.Z = 0.0f;
+
+        gate = true;
+    }
 
     public override bool SendMessage()
     {
-
-        /*
         bool success = _navigationClient.SendNavigationMessage(
-            new NavigationRequest { 
-                Position = ConvertUnityVec3ToNavVec3(gameObject.transform.position),
-                Orientation = ConvertUnityQuaternionToNavQuaternion(.transform.rotation)
-                
-            })
-        */
-        return true;
+            new NavigationRequest
+            {
+                TimeStamp = OSPtime,
+                Position = _navPosition,
+                Orientation = _navOrientation,
+                LinearVelocity = _navLinearVelocity,
+                AngularVelocity = _navAngularVelocity
+            }).Success;
 
-    }
-
-    private void OnDestroy()
-    {
-        // Cleanup 
-        /*
-         * 
-        _streamWriter.Close();
-        _tcpClient.Close();
-        */
+        return success;
     }
 
 }
