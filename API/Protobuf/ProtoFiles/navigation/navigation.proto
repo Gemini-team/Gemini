@@ -25,10 +25,11 @@ message Quaternion {
 }
 
 message NavigationRequest {
-    Vec3 position = 1; 
-    Quaternion orientation = 2; 
-    Vec3 linearVelocity = 3;
-    Vec3 angularVelocity = 4;
+    double timeStamp = 1;
+    Vec3 position = 2; 
+    Quaternion orientation = 3; 
+    Vec3 linearVelocity = 4;
+    Vec3 angularVelocity = 5;
 }
 
 message NavigationResponse {
