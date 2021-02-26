@@ -28,16 +28,34 @@ namespace Gemini.Core
         //LINK: https://gamedev.stackexchange.com/questions/157946/converting-a-quaternion-in-a-right-to-left-handed-coordinate-system
         private static Quaternion QuaternionNEDToUnity(Quaternion quaternionVec)
         {
+
+            /*
             return new Quaternion(
                 quaternionVec.y,
                 -quaternionVec.z,
                 -quaternionVec.x,
                 quaternionVec.w);
+            */
+
+            //return quaternionVec;
+
+            return new Quaternion(
+                quaternionVec.y,
+                quaternionVec.z,
+                -quaternionVec.w,
+                quaternionVec.x);
+
         }
 
         private static Quaternion QuaternionUnityToNED(Quaternion quaternionVec)
         {
-            return Quaternion.Inverse(QuaternionNEDToUnity(quaternionVec));
+            //return Quaternion.Inverse(QuaternionNEDToUnity(quaternionVec));
+            return new Quaternion(
+                -quaternionVec.x,
+                -quaternionVec.y,
+                -quaternionVec.z,
+                quaternionVec.w);
+
         }
 
         public static Vector3 ForceUnityToNED(Vector3 force)
