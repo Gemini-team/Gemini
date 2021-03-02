@@ -29,11 +29,7 @@ public class MovePath : MonoBehaviour {
     void Update() {
 		if (!boat.Destination.HasValue || EndReached) return;
 
-		Vector3 actualHeading = To.position - boat.transform.position,
-				idealHeading = To.position - From.position;
-		// Project actualHeading onto idealHeading to get heading correction
-		Vector3 correction = Vector3.Dot(actualHeading, idealHeading) / Vector3.Dot(idealHeading, idealHeading) * idealHeading;
-		boat.Destination = To.position - correction + idealHeading.normalized * BoatController.LOOK_AHEAD;
+		boat.Destination = To.position;
 
 		if (Vector3.Distance(boat.transform.position, To.position) <= BoatController.STOP_DISTANCE) {
 			atIndex++;
