@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boat: {fileID: 1309492760}
   closedPath: 1
-  loop: 1
+  loop: 0
   startNode: 0
 --- !u!1 &138579534 stripped
 GameObject:
@@ -681,13 +681,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726583815}
-  m_LocalRotation: {x: 0.008639274, y: -0.1410772, z: 0.0012311653, w: 0.98996013}
+  m_LocalRotation: {x: -0.0012311529, y: 0.98996013, z: 0.008639181, w: 0.14107731}
   m_LocalPosition: {x: 8.8, y: 0.87, z: -106.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1815496493}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 1, y: -16.221, z: 0}
+  m_LocalEulerAnglesHint: {x: -1, y: 163.779, z: 0}
 --- !u!114 &726583817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,8 +782,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860242989}
   m_LocalRotation: {x: 0, y: -0.14108258, z: 0, w: 0.98999786}
-  m_LocalPosition: {x: 14.19, y: 1.25, z: -153.31}
-  m_LocalScale: {x: 35.022743, y: 0.99999875, z: 32.51924}
+  m_LocalPosition: {x: 9.161, y: 1.291, z: -142.333}
+  m_LocalScale: {x: 38.545998, y: 0.99999887, z: 8.63427}
   m_Children: []
   m_Father: {fileID: 1815496493}
   m_RootOrder: 2
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a30b2b9192f05458460de04fb6a028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnAmount: 20
+  spawnAmount: 10
   passengerTemplate: {fileID: 3243649571738023651, guid: cfd6920dd83c24b4794c129dbadacf68,
     type: 3}
   queue: {fileID: 726583817}
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b90cfa940356d741ae71b4eff76b2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 5
+  waitTime: 0
   rotation: {x: 0, y: -16.221, z: 0}
 --- !u!1001 &1179867356
 PrefabInstance:
@@ -2077,7 +2077,7 @@ GameObject:
   - component: {fileID: 1815496493}
   m_Layer: 0
   m_Name: Ravnkloa
-  m_TagString: Untagged
+  m_TagString: PassengerManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

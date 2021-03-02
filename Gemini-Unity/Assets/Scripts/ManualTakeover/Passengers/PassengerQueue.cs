@@ -7,6 +7,8 @@ public class PassengerQueue : MonoBehaviour {
 
     private List<Passenger> passengers = new List<Passenger>();
 
+    public int Count => passengers.Count;
+
     public void Enqueue(Passenger passenger) {
         passengers.Add(passenger);
         passenger.SetDestination(transform.position + transform.forward * SPACING * passengers.Count);
