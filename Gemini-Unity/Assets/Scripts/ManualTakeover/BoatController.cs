@@ -5,7 +5,7 @@ using UnityEngine;
 public class BoatController : MonoBehaviour {
 	public const float DEAD = 0.1f;
 	public const float MIN_TURN_SPEED = 0.5f;
-	public const float STOP_DISTANCE = 2f;
+	public const float STOP_DISTANCE = 1f;
 	public const float LOOK_AHEAD = 10f;
 
 	public float acceleration = 1, turnSpeed = 5, maxSpeed = 10;
