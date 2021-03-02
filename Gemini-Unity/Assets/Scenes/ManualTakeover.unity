@@ -170,7 +170,6 @@ MonoBehaviour:
   boat: {fileID: 1309492760}
   closedPath: 1
   loop: 0
-  startNode: 0
 --- !u!1 &138579534 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -426188530117410422, guid: f96bda37f373c984da8923f7eb10adce,
@@ -2075,9 +2074,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1815496493}
+  - component: {fileID: 1815496494}
   m_Layer: 0
   m_Name: Ravnkloa
-  m_TagString: PassengerManager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2099,6 +2099,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1815496494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815496492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59455847432c8bd4da569e827fcb565a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  queue: {fileID: 0}
+  controller: {fileID: 0}
 --- !u!1 &1930947710
 GameObject:
   m_ObjectHideFlags: 0

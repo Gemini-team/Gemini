@@ -7,7 +7,7 @@ public class MyWindow : EditorWindow {
     private bool setup;
 
     private MovePath path;
-    private GameObject[] passengerManagers;
+    private PassengerManager[] passengerManagers;
     private int startNode;
 
     // Add menu named "My Window" to the Window menu
@@ -34,28 +34,33 @@ public class MyWindow : EditorWindow {
         if (!setup) {
             setup = true;
             path = FindObjectOfType<MovePath>();
-            passengerManagers = GameObject.FindGameObjectsWithTag("PassengerManager");
+            passengerManagers = FindObjectsOfType<PassengerManager>();
         }
 
         Header("Ferry");
+        LabelField(path.Playing ? $"On node {path.atIndex} / {path.NodeCount}" : "Idle");
         startNode = IntField("Start node", startNode);
-        BeginHorizontal();
+
         if (GUILayout.Button((path.Playing ? "Stop" : "Start") + " ferry travel")) {
             if (path.Playing) path.Stop();
             else path.Play(startNode);
         }
-        LabelField(path.Playing ? $"On node {path.atIndex} / {path.NodeCount}" : "Idle");
-        EndHorizontal();
+        EditorGUI.BeginDisabledGroup(path.Playing);
+        if (GUILayout.Button("Move to start")) {
+            path.MoveToNode(startNode);
+        }
+        EditorGUI.EndDisabledGroup();
 
-        foreach (GameObject obj in passengerManagers) {
-            Header(obj.name);
+        foreach (PassengerManager manager in passengerManagers) {
+            Header(manager.gameObject.name);
 
-            BeginHorizontal();
+            LabelField($"{manager.queue.Count} in queue");
             if (GUILayout.Button("Enqueue passenger")) {
-                obj.transform.Find("PassengerArea").GetComponent<PassengerController>().Embark();
+                manager.controller.Embark();
             }
-            LabelField($"{obj.transform.Find("Queue").GetComponent<PassengerQueue>().Count} in queue");
-            EndHorizontal();
+            if (GUILayout.Button("Assemble queue")) {
+                manager.queue.AssembleQueue();
+            }
         }
     }
 }

@@ -49,7 +49,9 @@ public class MovePath : MonoBehaviour {
         Travel();
     }
 
-    private void MoveToNode(int index) {
+    public void MoveToNode(int index) {
+        if (Playing) return;
+
         atIndex = index;
         boat.Destination = null;
         boat.transform.position = From.position;

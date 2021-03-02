@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class PassengerController : MonoBehaviour {
     private List<Passenger> passengers = new List<Passenger>();
-    private BoatController ferry;
 
     public int spawnAmount;
     public GameObject passengerTemplate;
@@ -23,8 +22,6 @@ public class PassengerController : MonoBehaviour {
     private Vector3 IdleDestination() => transform.position + new Vector3(Random.Range(-0.5f, 0.5f) * transform.localScale.x, passengerTemplate.transform.localScale.y, Random.Range(-0.5f, 0.5f) * transform.localScale.z);
 
     private void Start() {
-        ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<BoatController>();
-
         for (int i = 0; i < spawnAmount; i++) {
             GameObject instance = Instantiate(
                 original: passengerTemplate,

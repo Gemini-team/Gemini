@@ -9,9 +9,28 @@ public class PassengerQueue : MonoBehaviour {
 
     public int Count => passengers.Count;
 
+    private Vector3 QueuePosition(int index) => transform.position + transform.forward * SPACING * index;
+
     public void Enqueue(Passenger passenger) {
         passengers.Add(passenger);
-        passenger.SetDestination(transform.position + transform.forward * SPACING * passengers.Count);
+        passenger.SetDestination(QueuePosition(passengers.Count));
+    }
+
+    public void Dequeue() {
+        Destroy(passengers[0]);
+        passengers.RemoveAt(0);
+
+        for (int i = 0; i < passengers.Count; i++) {
+            passengers[i].SetDestination(QueuePosition(i));
+        }
+    }
+
+    public void AssembleQueue() {
+        for (int i = 0; i < passengers.Count; i++) {
+            Vector3 pos = QueuePosition(i);
+            passengers[i].SetDestination(pos);
+            passengers[i].transform.position = pos;
+        }
     }
 
     void OnDrawGizmos() {
