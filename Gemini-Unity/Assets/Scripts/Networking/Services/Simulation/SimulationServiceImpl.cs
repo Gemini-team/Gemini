@@ -39,7 +39,6 @@ namespace Assets.Networking.Services {
             float time = request.Time;
             float stepSize = request.StepSize;
 
-
             ThreadManager.ExecuteOnMainThread(() =>
             {
                 for (int boatIdx = 0; boatIdx < _boats.Length; boatIdx++)
@@ -48,12 +47,8 @@ namespace Assets.Networking.Services {
                     float Heading = poses[boatIdx].Heading;
                     Quaternion QuaternionRot = Quaternion.AngleAxis(Heading, new Vector3(0, 1, 0));
                     _boats[boatIdx].transform.rotation = QuaternionRot;
-                    //Debug.Log(Position);
-                    //boats[boatIdx].transform.position = Position;
-
                 }
                 signalEvent.Set();
-
             });
 
             // Wait for the event to be triggered from the action, signaling that the action is finished
@@ -70,29 +65,6 @@ namespace Assets.Networking.Services {
             return await Task.FromResult(new StepResponse
             {
                 Success = true,
-
-                /*
-                // TODO: Verify that these are the correct values.
-                // A bit unsure whether this fits
-                Pos = new Position { 
-                    North = position.x,
-                    East = position.y,
-                    Down = position.z,
-                    Roll = angle.x,
-                    Pitch = angle.y,
-                    Yaw = angle.z
-                }, 
-
-                Vel = new Velocity
-                {
-                    Surge = convertedVelocity.x,
-                    Sway = convertedVelocity.y,
-                    Heave = convertedVelocity.z,
-                    Roll = convertedAngularVelocity.x,
-                    Pitch = convertedAngularVelocity.y,
-                    Yaw = convertedAngularVelocity.z
-                }
-                */
             });
         }
 
@@ -118,35 +90,11 @@ namespace Assets.Networking.Services {
             signalEvent.WaitOne();
             signalEvent.Close();
 
-
             // Sets the step size in simulation controller
-
-
             return await Task.FromResult(new SetStartTimeResponse
             {
                 Success = true,
             });
         }
-
-        private Vector3 ForceNEDToUnity(Vector3 force)
-        {
-            return new Vector3(force.y, -force.z , force.x);
-        }
-
-        private Vector3 TorqueNEDToUnity(Vector3 torque)
-        {
-            return new Vector3(-torque.y, torque.z , -torque.x);
-        }
-
-        private Vector3 TranslationUnityToNED(Vector3 force)
-        {
-            return new Vector3(force.z, force.x, -force.y);
-        }
-
-        private Vector3 RotationUnityToNED(Vector3 torque)
-        {
-            return new Vector3(-torque.z, -torque.x, torque.y);
-        }
-
     }
 }
