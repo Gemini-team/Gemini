@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 
-namespace UDP
+namespace Gemini.Networking.UDP
 {
     public class UDPSocket
     {
@@ -70,9 +70,6 @@ namespace UDP
                 _socket.SendTo(Encoding.ASCII.GetBytes("Received something 14"), epFrom);
 
             }, state);
-
-
         }
-
     }
 }
