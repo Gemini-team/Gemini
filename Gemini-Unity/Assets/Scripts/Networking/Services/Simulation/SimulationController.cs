@@ -5,7 +5,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using GeminiOSPInterface;
 
-namespace Assets.Networking.Services
+namespace Gemini.Networking.Services
 {
     public class SimulationController : MonoBehaviour
     {

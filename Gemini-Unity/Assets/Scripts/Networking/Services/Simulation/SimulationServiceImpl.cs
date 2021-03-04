@@ -7,7 +7,7 @@ using System.Threading;
 using System;
 using GeminiOSPInterface;
 
-namespace Assets.Networking.Services {
+namespace Gemini.Networking.Services {
     public class SimulationServiceImpl : Simulation.SimulationBase
     {
 
