@@ -23,8 +23,6 @@ namespace Gemini.Networking.Services {
         public override async Task<StepResponse> DoStep(
             StepRequest request, ServerCallContext context)
         {
-            Debug.Log("Inside DoStep");
-
             // Create the event that triggers when the execution of the action is finished.
             ManualResetEvent signalEvent = new ManualResetEvent(false);
 
@@ -71,8 +69,6 @@ namespace Gemini.Networking.Services {
         public override async Task<SetStartTimeResponse> SetStartTime(
             SetStartTimeRequest request, ServerCallContext context)
         {
-            Debug.Log("Inside SetStartTime");
-
             // Create the event that triggers when the execution of the action is finished.
             ManualResetEvent signalEvent = new ManualResetEvent(false);
             var startTime = request.Time;
