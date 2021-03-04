@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using Grpc.Core;
 using System.Threading;
-using System;
 using GeminiOSPInterface;
+using Gemini.Core;
 
 namespace Gemini.Networking.Services {
     public class SimulationServiceImpl : Simulation.SimulationBase
