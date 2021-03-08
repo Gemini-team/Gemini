@@ -5,6 +5,7 @@ using Grpc.Core;
 using System.Threading;
 using GeminiOSPInterface;
 using Gemini.Core;
+using System;
 
 namespace Gemini.Networking.Services {
     public class SimulationServiceImpl : Simulation.SimulationBase
@@ -40,10 +41,13 @@ namespace Gemini.Networking.Services {
             {
                 for (int boatIdx = 0; boatIdx < _boats.Length; boatIdx++)
                 {
-                    _boats[boatIdx].transform.position = new Vector3(poses[boatIdx].East,0,poses[boatIdx].North);
-                    float Heading = poses[boatIdx].Heading;
-                    Quaternion QuaternionRot = Quaternion.AngleAxis(Heading, new Vector3(0, 1, 0));
-                    _boats[boatIdx].transform.rotation = QuaternionRot;
+                    if (boatIdx < _boats.Length)
+                    {
+                        _boats[boatIdx].transform.position = new Vector3(poses[boatIdx].East,0,poses[boatIdx].North);
+                        float Heading = poses[boatIdx].Heading;
+                        Quaternion QuaternionRot = Quaternion.AngleAxis(Heading, new Vector3(0, 1, 0));
+                        _boats[boatIdx].transform.rotation = QuaternionRot;
+                    }
                 }
                 signalEvent.Set();
             });
@@ -53,11 +57,6 @@ namespace Gemini.Networking.Services {
             // Unity main thread.
             signalEvent.WaitOne();
             signalEvent.Close();
-
-                
-            // Sets the step size in simulation controller
-            //_simulationController.SetStepSize(request.StepSize);
-
 
             return await Task.FromResult(new StepResponse
             {
