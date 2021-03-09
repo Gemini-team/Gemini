@@ -317,6 +317,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 254025507}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &302755150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3100230618234554181, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8249020187914753877}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &302755151
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302755150}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7934106363171790433, guid: 8019950d630b860459b65bbd85656fe5, type: 3}
 --- !u!1 &336038605
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +676,25 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0.53
+--- !u!1 &663425151 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 144850959844698865, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8249020187914753877}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &663425152
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663425151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0200014, y: 0.70000005, z: 2.7000008}
+  m_Center: {x: -9.29003, y: 4.113457, z: 22.39979}
 --- !u!1 &726583815
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnAmount: 10
-  passengerTemplate: {fileID: 3243649571738023651, guid: cfd6920dd83c24b4794c129dbadacf68,
+  passengerTemplate: {fileID: 1921812493617376033, guid: 7b14449b13df5d04d9f4028f81e1c305,
     type: 3}
   queue: {fileID: 726583817}
   embark: 0
@@ -990,6 +1029,26 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1309492758}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1044583174 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7723534333843660328, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8249020187914753877}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1044583175
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044583174}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4973603390719921044, guid: 8019950d630b860459b65bbd85656fe5, type: 3}
 --- !u!1 &1152313846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,7 +1815,7 @@ PrefabInstance:
     - target: {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2658140708709350907, guid: 755fbb0a52eca4f0a93754c6f3d28827,
         type: 3}
@@ -2113,6 +2172,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   queue: {fileID: 0}
   controller: {fileID: 0}
+--- !u!1 &1899536244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9056026975509948922, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8249020187914753877}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1899536245
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899536244}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4466894915650870599, guid: 8019950d630b860459b65bbd85656fe5, type: 3}
 --- !u!1 &1930947710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,11 +2548,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RAVNKLOA V2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3100230618234554181, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3963410567208083019, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
         type: 3}
