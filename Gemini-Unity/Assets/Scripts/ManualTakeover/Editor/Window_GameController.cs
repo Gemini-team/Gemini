@@ -7,8 +7,7 @@ public class MyWindow : EditorWindow {
     private bool setup;
 
     private MovePath path;
-    private PassengerManager[] passengerManagers;
-    private int startNode;
+    private PassengerController[] passengerControllers;
 
     // Add menu named "My Window" to the Window menu
     [MenuItem("Window/GameController")]
@@ -34,32 +33,28 @@ public class MyWindow : EditorWindow {
         if (!setup) {
             setup = true;
             path = FindObjectOfType<MovePath>();
-            passengerManagers = FindObjectsOfType<PassengerManager>();
+            passengerControllers = FindObjectsOfType<PassengerController>();
         }
 
         Header("Ferry");
-        LabelField(path.Playing ? $"On node {path.atIndex} / {path.NodeCount}" : "Idle");
-        startNode = IntField("Start node", startNode);
+        string ferryState = path.Playing ? $"On node {path.atIndex} / {path.NodeCount}" : "Idle";
+        if (path.backTrip) ferryState += " (Backtrip)";
+        LabelField(ferryState);
 
-        if (GUILayout.Button((path.Playing ? "Stop" : "Start") + " ferry travel")) {
+        if (GUILayout.Button((path.Playing ? "Pause" : "Start") + " ferry travel")) {
             if (path.Playing) path.Stop();
-            else path.Play(startNode);
+            else path.Play();
         }
-        EditorGUI.BeginDisabledGroup(path.Playing);
-        if (GUILayout.Button("Move to start")) {
-            path.MoveToNode(startNode);
-        }
-        EditorGUI.EndDisabledGroup();
 
-        foreach (PassengerManager manager in passengerManagers) {
-            Header(manager.gameObject.name);
+        foreach (PassengerController controller in passengerControllers) {
+            Header(controller.gameObject.name);
 
-            LabelField($"{manager.queue.Count} in queue");
+            LabelField($"{controller.queue.Count} in queue");
             if (GUILayout.Button("Enqueue passenger")) {
-                manager.controller.Embark();
+                controller.Embark();
             }
             if (GUILayout.Button("Assemble queue")) {
-                manager.queue.AssembleQueue();
+                controller.queue.AssembleQueue();
             }
         }
     }
