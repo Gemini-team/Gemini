@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Networking.Services
+namespace Gemini.Networking.Services
 {
     class ServiceServer
     {

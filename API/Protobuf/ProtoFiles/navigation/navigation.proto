@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.navigation";
+option java_outer_classname = "Navigation";
+option objc_class_prefix = "HLW";
+
+package navigation;
+
+service Navigation {
+    rpc SendNavigationMessage(NavigationRequest) returns (NavigationResponse) {}
+} 
+
+message Vec3 {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+message Quaternion {
+    float x = 1; 
+    float y = 2; 
+    float z = 3; 
+    float w = 4; 
+}
+
+message NavigationRequest {
+    double timeStamp = 1;
+    Vec3 position = 2; 
+    Quaternion orientation = 3; 
+    Vec3 linearVelocity = 4;
+    Vec3 angularVelocity = 5;
+}
+
+message NavigationResponse {
+    bool success = 1;
+}
+

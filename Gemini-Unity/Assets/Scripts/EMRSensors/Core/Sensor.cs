@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
-using System.Collections;
 using Grpc.Core;
 using Sensorstreaming;
 
@@ -12,19 +11,13 @@ namespace Gemini.EMRS.Core
         [Header("Streaming Parameters")]
         public int SensorUpdateHz = 1;
 
-
         //public bool RunRecording = false;
 
         // Change this to the IP that the server are running on for you
-        // VM IP
         public static string serverIP = "192.168.80.128";
-        //public static string serverIP = "192.168.0.116";
-
-        // Docker IP
-        //public static string serverIP = "0.0.0.0";
 
         public static int serverPort = 30052;
-        private static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
+        protected static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
         protected SensorStreaming.SensorStreamingClient _streamingClient = new SensorStreaming.SensorStreamingClient(_streamingChannel);
 
         public enum SensorCallbackOrder
