@@ -5,7 +5,7 @@ using Google.Protobuf;
 using Grpc.Core;
 using GeminiOSPInterface;
 
-namespace Assets.Networking.Services
+namespace Gemini.Networking.Services
 {
     public class SimulationController : MonoBehaviour
     {
@@ -38,7 +38,6 @@ namespace Assets.Networking.Services
         // Start is called before the first frame update
         void Start()
         {
-
             //Physics.autoSimulation = false;
 
             if (gameObject.GetComponent<Rigidbody>())
