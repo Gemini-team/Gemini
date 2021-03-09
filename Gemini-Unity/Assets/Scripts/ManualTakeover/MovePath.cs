@@ -2,57 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MovePath : MonoBehaviour {
     public BoatController boat;
-    public bool closedPath, loop;
 
     public int atIndex { get; private set; }
     public int NodeCount => transform.childCount;
 
     private Transform From => transform.GetChild(atIndex);
-    private Transform To => transform.GetChild(atIndex + 1);
+    private Transform To => transform.GetChild(atIndex + (backTrip ? -1 : 1));
 
-    private bool EndReached => atIndex >= transform.childCount - 1;
+    private bool EndReached => backTrip ? (atIndex <= 0) : (atIndex >= transform.childCount - 1);
     public bool Playing { get; private set; }
+
+    public bool backTrip { get; private set; }
 
     // Start is called before the first frame update
     void Start() {
         if (transform.childCount == 0) return;
 
-        if (closedPath) {
-            Instantiate(From, transform);
-        }
+        // TODO: Find percentage values for each node through binary search
     }
 
     // Update is called once per frame
     void Update() {
-        if (!boat.Destination.HasValue || EndReached) return;
+        if (!Playing) return;
 
         boat.Destination = To.position;
 
         if (Vector3.Distance(boat.transform.position, To.position) <= BoatController.STOP_DISTANCE) {
-            atIndex++;
+            atIndex += backTrip ? -1 : 1;
             Travel();
         }
     }
 
     public void Stop() {
         Playing = false;
-        MoveToNode(0);
-    }
-
-    public void Play(int startNode = 0) {
-        MoveToNode(startNode);
-        Playing = true;
-        atIndex = Mathf.Clamp(startNode, 0, transform.childCount - 1);
-        boat.transform.position = From.position;
-        Travel();
-    }
-
-    public void MoveToNode(int index) {
-        if (Playing) return;
-
-        atIndex = index;
+        atIndex = backTrip ? transform.childCount - 1 : 0;
         boat.Destination = null;
         boat.transform.position = From.position;
 
@@ -62,11 +48,26 @@ public class MovePath : MonoBehaviour {
             boat.transform.rotation = boat.targetRotation;
         }
     }
+
+    public void Play() {
+        Stop();  // Reset progress before playing
+        Playing = true;
+        Travel();
+    }
+
+    public void MoveToNode(int index) {
+        if (Playing) return;
+
+        
+    }
     private void Travel() {
         IEnumerator BeginTravel(float waitTime) {
-            if (waitTime > 0) boat.Destination = null;
+            if (waitTime > 0) {
+                Playing = false;
+                boat.Destination = null;
+            }
             yield return new WaitForSeconds(waitTime);
-            if (Playing) boat.Destination = To.position;
+            Playing = true;
         }
 
         PathNode node = From.GetComponent<PathNode>();
@@ -75,10 +76,10 @@ public class MovePath : MonoBehaviour {
         }
 
         if (EndReached) {
+            backTrip = !backTrip;
+            boat.reversing = backTrip;
             Debug.Log("End of travel");
-            Playing = false;
-            boat.Destination = null;
-            if (loop) Play();
+            Stop();
             return;
         }
 
@@ -93,14 +94,9 @@ public class MovePath : MonoBehaviour {
             Gizmos.DrawSphere(b, 0.75f);
         }
 
-        if (closedPath) {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.GetChild(transform.childCount - 1).position, transform.GetChild(0).position);
-        }
-
-        if (boat != null) {
+        if (Playing && boat != null) {
             Gizmos.color = Color.green;
-            if (boat.Destination.HasValue) {
+            if (boat.Destination != null) {
                 Gizmos.DrawLine(boat.transform.position, boat.Destination.Value);
                 Gizmos.DrawSphere(boat.Destination.Value, 0.75f);
             }

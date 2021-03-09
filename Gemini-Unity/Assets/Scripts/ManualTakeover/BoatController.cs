@@ -9,6 +9,7 @@ public class BoatController : MonoBehaviour {
 	public const float LOOK_AHEAD = 10f;
 
 	public float acceleration = 1, turnSpeed = 5, maxSpeed = 10;
+	public bool reversing;
 	
 	private Vector3? destination = null;
 	public Vector3? Destination {
@@ -34,8 +35,11 @@ public class BoatController : MonoBehaviour {
 
 	private Rigidbody rb;
 
-    // Start is called before the first frame update
-    void Start() {
+	private Vector3 HeadingDirection => transform.forward * (reversing ? -1 : 1);
+	private Quaternion HeadingRotation => Quaternion.LookRotation((destination.Value - transform.position) * (reversing ? -1 : 1));
+
+	// Start is called before the first frame update
+	void Start() {
 		rb = GetComponent<Rigidbody>();
     }
 
@@ -46,9 +50,8 @@ public class BoatController : MonoBehaviour {
 		float mag = rb.velocity.magnitude;
 
 		if (destination.HasValue) {
-			targetRotation = Quaternion.LookRotation(destination.Value - transform.position);
-
-			rb.AddForce(transform.forward * acceleration);
+			targetRotation = HeadingRotation;
+			rb.AddForce(HeadingDirection * acceleration);
 
 			if (mag > maxSpeed) {
 				rb.velocity *= maxSpeed / mag;

@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b90cfa940356d741ae71b4eff76b2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 10
+  waitTime: 0
   rotation: {x: 0, y: -1.223, z: 0}
 --- !u!1 &642414916
 GameObject:
