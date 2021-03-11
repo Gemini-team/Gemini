@@ -6,7 +6,7 @@ using static UnityEditor.EditorGUILayout;
 public class MyWindow : EditorWindow {
     private bool setup;
 
-    private MovePath path;
+    private FollowPath ferryTrip;
     private PassengerController[] passengerControllers;
 
     // Add menu named "My Window" to the Window menu
@@ -32,18 +32,14 @@ public class MyWindow : EditorWindow {
 
         if (!setup) {
             setup = true;
-            path = FindObjectOfType<MovePath>();
+			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowPath>();
             passengerControllers = FindObjectsOfType<PassengerController>();
         }
 
         Header("Ferry");
-        string ferryState = path.Playing ? $"On node {path.atIndex} / {path.NodeCount}" : "Idle";
-        if (path.backTrip) ferryState += " (Backtrip)";
-        LabelField(ferryState);
-
-        if (GUILayout.Button((path.Playing ? "Pause" : "Start") + " ferry travel")) {
-            if (path.Playing) path.Stop();
-            else path.Play();
+        if (GUILayout.Button((ferryTrip.Playing ? "Stop" : "Start") + " ferry travel")) {
+            if (ferryTrip.Playing) ferryTrip.Stop();
+            else ferryTrip.Play();
         }
 
         foreach (PassengerController controller in passengerControllers) {
