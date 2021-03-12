@@ -14,7 +14,7 @@ namespace Gemini.EMRS.Core
         //public bool RunRecording = false;
 
         // Change this to the IP that the server are running on for you
-        public static string serverIP = "192.168.80.128";
+        public static string serverIP = "192.168.86.116";
 
         public static int serverPort = 30052;
         protected static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
@@ -58,7 +58,7 @@ namespace Gemini.EMRS.Core
                 {
                     if (gate)
                     {
-                        //SendMessage();
+                        SendMessage();
                         nextActionTime = nextOSPtime + 1/(double)SensorUpdateHz;
                     }
                 }

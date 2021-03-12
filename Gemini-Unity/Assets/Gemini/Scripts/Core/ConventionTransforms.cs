@@ -7,7 +7,7 @@ namespace Gemini.Core
     {
         private static Vector3 TranslationUnityToNED(Vector3 vec)
         {
-            return new Vector3(vec.z, -vec.x, -vec.y);
+            return new Vector3(vec.z, vec.x, -vec.y);
         }
 
         private static Vector3 TranslationNEDToUnity(Vector3 vec)
