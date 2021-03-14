@@ -159,7 +159,7 @@ MonoBehaviour:
   showMaterialLods: 0
   lengthScale: 15
   vertexDensity: 30
-  clipLevels: 8
+  clipLevels: 3
   skirtSize: 55.4
 --- !u!114 &77222649
 MonoBehaviour:
@@ -176,7 +176,7 @@ MonoBehaviour:
   size: 256
   wavesSettings: {fileID: 11400000, guid: a15d9b9d6a919584db82c8af30e854c9, type: 2}
   alwaysRecalculateInitials: 0
-  lengthScale0: 250
+  lengthScale0: 300
   lengthScale1: 17
   lengthScale2: 5
   fftShader: {fileID: 7200000, guid: 38e7049002205c24c8328830bc846265, type: 3}
@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -384,7 +385,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20840d83399c2a544ad382839e61e3a0, type: 3}
   m_Name: 
@@ -521,3 +522,20 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618b0e3f6c65dd247a4a016150006c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LookSpeedController: 120
+  m_LookSpeedMouse: 10
+  m_MoveSpeed: 10
+  m_MoveSpeedIncrement: 2.5
+  m_Turbo: 10
