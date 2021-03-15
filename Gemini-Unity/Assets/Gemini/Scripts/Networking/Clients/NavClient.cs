@@ -39,7 +39,8 @@ public class NavClient : Sensor
     void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
     {
         _unityPosition = ConventionTransforms.PositionUnityToNED(gameObject.transform.position);
-        _unityOrientation = ConventionTransforms.OrientationUnityToNED(gameObject.transform.rotation);
+
+        _unityOrientation = UnityEngine.Quaternion.Euler(ConventionTransforms.EulerOrientationUnityToNED(gameObject.transform.rotation.eulerAngles));
             
         // Set Navigation Position and orientation to the same value as the Unity position and orientation
         // TODO: This should be done in a own function
