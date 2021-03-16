@@ -37,8 +37,11 @@ public class EmbarkPassenger : MonoBehaviour {
     }
 
     public void Embark(Passenger passenger) {
+        int seatIndex = passengers.Count;
+        if (ferryTrip.reverse) seatIndex = seats.Length - seatIndex - 1;
+
         passenger.transform.SetParent(transform);
-        passenger.SetDestination(transform.position + transform.rotation * seats[passengers.Count]);
+        passenger.SetDestination(transform.position + transform.rotation * seats[seatIndex]);
         passengers.Add(passenger);
 
         ferryTrip.boarding = true;
