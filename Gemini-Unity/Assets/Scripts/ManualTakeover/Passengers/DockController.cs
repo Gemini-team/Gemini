@@ -61,7 +61,7 @@ public class DockController : MonoBehaviour {
 
     public void IncomingPassenger(Passenger passenger) {
         passenger.transform.SetParent(transform);
-        passenger.transform.position = RandomDestination();
+        passenger.SetDestination(RandomDestination());
         passengers.Add(passenger);
     }
 }

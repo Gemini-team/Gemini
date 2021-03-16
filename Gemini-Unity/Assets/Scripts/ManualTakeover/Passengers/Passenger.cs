@@ -22,6 +22,8 @@ public class Passenger : MonoBehaviour {
     }
 
     public void SetDestination(Vector3 destination, float waitTime = 0) {
+        if (agent == null) return;
+
         waitUntil = Time.time + waitTime;
         agent.SetDestination(destination);
     }
