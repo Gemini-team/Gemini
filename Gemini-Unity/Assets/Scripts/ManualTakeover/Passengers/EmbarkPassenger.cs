@@ -11,6 +11,11 @@ public class EmbarkPassenger : MonoBehaviour {
 
     private void Start() {
         ferryTrip = GetComponent<FerryTrip>();
+        ferryTrip.OnPlay.AddListener(() => { 
+            foreach (Passenger passenger in passengers) {
+                passenger.agent.enabled = false;
+            }
+        });
         ferryTrip.OnEndReached.AddListener(DisembarkAll);
     }
 
