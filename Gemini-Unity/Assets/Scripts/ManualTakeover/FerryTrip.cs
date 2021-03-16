@@ -6,8 +6,7 @@ using UnityEngine.Events;
 
 public class FerryTrip : MonoBehaviour {
 	[HideInInspector]
-	public UnityEvent OnPlay;
-	public UnityEvent OnEndReached;
+	public UnityEvent OnPlay, OnEndReached;
 
 	public PathCreator route;
 	public float minSpeed = 1, maxSpeed = 2;

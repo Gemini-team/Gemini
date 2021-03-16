@@ -16,6 +16,9 @@ public class Passenger : MonoBehaviour {
     private void Start() {
         agent = GetComponentInChildren<NavMeshAgent>();
         character = GetComponent<ThirdPersonCharacter>();
+
+        agent.updateRotation = false;
+        agent.updatePosition = true;
     }
 
     public void SetDestination(Vector3 destination, float waitTime = 0) {
