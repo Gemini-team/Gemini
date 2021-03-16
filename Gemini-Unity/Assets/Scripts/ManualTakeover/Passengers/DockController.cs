@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassengerController : MonoBehaviour {
+public class DockController : MonoBehaviour {
     public int spawnAmount;
     public GameObject passengerTemplate;
     public PassengerQueue queue;
     public Transform[] spawnAreas;
 
+    private EmbarkPassenger boarder;
     private List<Passenger> passengers = new List<Passenger>();
 
     /// <summary>
@@ -23,6 +24,7 @@ public class PassengerController : MonoBehaviour {
     }
 
     private void Start() {
+        boarder = GameObject.FindGameObjectWithTag("Player").GetComponent<EmbarkPassenger>();
         queue = GetComponentInChildren<PassengerQueue>();
 
         for (int i = 0; i < spawnAmount; i++) {
@@ -42,12 +44,22 @@ public class PassengerController : MonoBehaviour {
         }
     }
 
-    public void Embark() {
+    public void MoveToQueue() {
         if (passengers.Count == 0) return;
 
         Passenger passenger = passengers[0];
         passenger.inTransit = true;
         queue.Enqueue(passenger);
         passengers.RemoveAt(0);
+    }
+
+    public void EmbarkAll() {
+        Debug.Log("Attempting to embark from " + transform.name);
+
+        while (queue.Count > 0 && boarder.CanEmbarkFrom(this)) {
+            Passenger passenger = queue.Dequeue();
+            boarder.Embark(passenger);
+            Debug.Log("Boarding");
+        }
     }
 }

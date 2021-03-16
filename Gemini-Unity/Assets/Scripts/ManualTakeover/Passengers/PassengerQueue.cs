@@ -16,13 +16,15 @@ public class PassengerQueue : MonoBehaviour {
         passenger.SetDestination(QueuePosition(passengers.Count));
     }
 
-    public void Dequeue() {
-        Destroy(passengers[0]);
+    public Passenger Dequeue() {
+        Passenger passenger = passengers[0];
         passengers.RemoveAt(0);
 
         for (int i = 0; i < passengers.Count; i++) {
             passengers[i].SetDestination(QueuePosition(i));
         }
+
+        return passenger;
     }
 
     public void AssembleQueue() {

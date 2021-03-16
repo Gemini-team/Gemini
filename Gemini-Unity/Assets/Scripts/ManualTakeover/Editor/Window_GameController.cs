@@ -6,8 +6,8 @@ using static UnityEditor.EditorGUILayout;
 public class MyWindow : EditorWindow {
     private bool setup;
 
-    private FollowPath ferryTrip;
-    private PassengerController[] passengerControllers;
+    private FerryTrip ferryTrip;
+    private DockController[] passengerControllers;
 
     // Add menu named "My Window" to the Window menu
     [MenuItem("Window/GameController")]
@@ -32,8 +32,8 @@ public class MyWindow : EditorWindow {
 
         if (!setup) {
             setup = true;
-			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowPath>();
-            passengerControllers = FindObjectsOfType<PassengerController>();
+			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryTrip>();
+            passengerControllers = FindObjectsOfType<DockController>();
         }
 
         Header("Ferry");
@@ -42,15 +42,20 @@ public class MyWindow : EditorWindow {
             else ferryTrip.Play();
         }
 
-        foreach (PassengerController controller in passengerControllers) {
+        foreach (DockController controller in passengerControllers) {
             Header(controller.gameObject.name);
 
             LabelField($"{controller.queue.Count} in queue");
             if (GUILayout.Button("Enqueue passenger")) {
-                controller.Embark();
+                controller.MoveToQueue();
             }
             if (GUILayout.Button("Assemble queue")) {
                 controller.queue.AssembleQueue();
+            }
+
+            Space();
+            if (GUILayout.Button("Board passengers")) {
+                controller.EmbarkAll();
             }
         }
     }
