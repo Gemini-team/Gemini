@@ -53,7 +53,7 @@ public class FerryTrip : MonoBehaviour {
 	private void Dock() {
 		float dist = float.MaxValue;
 		foreach (DockController dock in FindObjectsOfType<DockController>()) {
-			float dist_ = Vector3.Distance(transform.position, dock.transform.position);
+			float dist_ = Vector3.Distance(transform.position, dock.transform.Find("DockingArea").position);
 			if (dist_ < dist) {
 				this.dock = dock;
 				dist = dist_;

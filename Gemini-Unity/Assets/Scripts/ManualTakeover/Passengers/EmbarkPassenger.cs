@@ -45,7 +45,13 @@ public class EmbarkPassenger : MonoBehaviour {
     }
 
     private void DisembarkAll() {
-        throw new System.NotImplementedException();
+        if (ferryTrip.dock == null) return;
+
+        foreach (Passenger passenger in passengers) {
+            passenger.agent.enabled = true;
+            ferryTrip.dock.IncomingPassenger(passenger);
+        }
+        passengers.Clear();
     }
 
     private void OnDrawGizmosSelected() {

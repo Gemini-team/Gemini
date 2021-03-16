@@ -17,7 +17,7 @@ public class DockController : MonoBehaviour {
     /// <returns>Vector3</returns>
     private Vector3 RandomDestination() {
         Transform area = spawnAreas[Random.Range(0, spawnAreas.Length)];
-        return area.position + new Vector3(
+        return area.position + area.rotation * new Vector3(
             Random.Range(-0.5f, 0.5f) * area.localScale.x,
             passengerTemplate.transform.localScale.y,
             Random.Range(-0.5f, 0.5f) * area.localScale.z);
@@ -32,7 +32,7 @@ public class DockController : MonoBehaviour {
                 original: passengerTemplate,
                 position: RandomDestination(),
                 rotation: Quaternion.identity);
-            passengers.Add(instance.GetComponent<Passenger>());
+            IncomingPassenger(instance.GetComponent<Passenger>());
         }
     }
 
@@ -57,5 +57,11 @@ public class DockController : MonoBehaviour {
             Passenger passenger = queue.Dequeue();
             boarder.Embark(passenger);
         }
+    }
+
+    public void IncomingPassenger(Passenger passenger) {
+        passenger.transform.SetParent(transform);
+        passenger.transform.position = RandomDestination();
+        passengers.Add(passenger);
     }
 }
