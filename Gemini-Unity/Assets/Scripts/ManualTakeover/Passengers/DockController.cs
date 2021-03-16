@@ -56,7 +56,6 @@ public class DockController : MonoBehaviour {
         while (queue.Count > 0 && boarder.CanEmbarkFrom(this)) {
             Passenger passenger = queue.Dequeue();
             boarder.Embark(passenger);
-            Debug.Log("Boarding");
         }
     }
 }

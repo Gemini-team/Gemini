@@ -37,6 +37,11 @@ public class MyWindow : EditorWindow {
         }
 
         Header("Ferry");
+        string ferryState = "Idle";
+        if (ferryTrip.Playing) ferryState = "In transit";
+        else if (ferryTrip.boarding) ferryState = "Boarding";
+        LabelField(ferryState);
+
         if (GUILayout.Button((ferryTrip.Playing ? "Stop" : "Start") + " ferry travel")) {
             if (ferryTrip.Playing) ferryTrip.Stop();
             else ferryTrip.Play();

@@ -19,6 +19,19 @@ public class EmbarkPassenger : MonoBehaviour {
         ferryTrip.OnEndReached.AddListener(DisembarkAll);
     }
 
+    private void Update() {
+        if (ferryTrip.boarding) {
+            bool boardingCompleted = true;
+            foreach (Passenger passenger in passengers) {
+                if (!passenger.ReachedDestination) {
+                    boardingCompleted = false;
+                    break;
+                }
+            }
+            ferryTrip.boarding = !boardingCompleted;
+        }
+    }
+
     public bool CanEmbarkFrom(DockController dock) {
         return passengers.Count < seats.Length && !ferryTrip.Playing && ferryTrip.dock.Equals(dock);
     }
@@ -27,6 +40,8 @@ public class EmbarkPassenger : MonoBehaviour {
         passenger.transform.SetParent(transform);
         passenger.SetDestination(transform.position + transform.rotation * seats[passengers.Count]);
         passengers.Add(passenger);
+
+        ferryTrip.boarding = true;
     }
 
     private void DisembarkAll() {

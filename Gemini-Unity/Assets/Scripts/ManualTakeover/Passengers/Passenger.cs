@@ -11,22 +11,20 @@ public class Passenger : MonoBehaviour {
     private float waitUntil;
 
     public bool IsBusy => agent == null || !agent.enabled || waitUntil > Time.time;
+    public bool ReachedDestination => agent == null || (agent.enabled && agent.remainingDistance <= agent.stoppingDistance);
 
     private void Start() {
         agent = GetComponentInChildren<NavMeshAgent>();
         character = GetComponent<ThirdPersonCharacter>();
     }
 
-    public void SetDestination(Vector3 destination, float waitTime=0) {
+    public void SetDestination(Vector3 destination, float waitTime = 0) {
         waitUntil = Time.time + waitTime;
         agent.SetDestination(destination);
     }
 
     private void Update() {
-        if (agent.enabled && agent.remainingDistance > agent.stoppingDistance)
-            character.Move(agent.desiredVelocity, false, false);
-        else
-            character.Move(Vector3.zero, false, false);
+        character.Move(ReachedDestination ? Vector3.zero : agent.desiredVelocity, false, false);
     }
 
     void OnDrawGizmosSelected() {

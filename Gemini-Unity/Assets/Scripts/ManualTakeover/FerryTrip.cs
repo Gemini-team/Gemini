@@ -14,6 +14,8 @@ public class FerryTrip : MonoBehaviour {
 	[Range(0, 0.5f)]
 	public float ease = 0.1f;
 	public bool reverse;
+	[HideInInspector]
+	public bool boarding;
 
 	public DockController dock { get; private set; }
 
@@ -76,6 +78,8 @@ public class FerryTrip : MonoBehaviour {
 	}
 
 	public void Play() {
+		if (boarding) return;
+
 		Stop();
 		dock = null;
 		Playing = true;
