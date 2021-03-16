@@ -9,10 +9,8 @@ public class MyWindow : EditorWindow {
     private FerryTrip ferryTrip;
     private DockController[] passengerControllers;
 
-    // Add menu named "My Window" to the Window menu
     [MenuItem("Window/GameController")]
     static void Init() {
-        // Get existing open window or if none, make a new one:
         MyWindow window = (MyWindow)GetWindow(typeof(MyWindow));
         window.titleContent = new GUIContent("Game Controller");
         window.Show();
@@ -36,10 +34,10 @@ public class MyWindow : EditorWindow {
             passengerControllers = FindObjectsOfType<DockController>();
         }
 
-        Header("Ferry");
         string ferryState = "Idle";
         if (ferryTrip.Playing) ferryState = "In transit";
         else if (ferryTrip.boarding) ferryState = "Boarding";
+        else if (ferryTrip.dock != null) ferryState = "Docked at " + ferryTrip.dock.name;
         LabelField(ferryState);
 
         if (GUILayout.Button((ferryTrip.Playing ? "Stop" : "Start") + " ferry travel")) {
@@ -47,20 +45,18 @@ public class MyWindow : EditorWindow {
             else ferryTrip.Play();
         }
 
-        foreach (DockController controller in passengerControllers) {
-            Header(controller.gameObject.name);
-
-            LabelField($"{controller.queue.Count} in queue");
+        if (ferryTrip.dock != null) {
+            Space();
+            LabelField($"{ferryTrip.dock.queue.Count} in queue");
             if (GUILayout.Button("Enqueue passenger")) {
-                controller.MoveToQueue();
+                ferryTrip.dock.MoveToQueue();
             }
             if (GUILayout.Button("Assemble queue")) {
-                controller.queue.AssembleQueue();
+                ferryTrip.dock.queue.AssembleQueue();
             }
 
-            Space();
             if (GUILayout.Button("Board passengers")) {
-                controller.EmbarkAll();
+                ferryTrip.dock.EmbarkAll();
             }
         }
     }
