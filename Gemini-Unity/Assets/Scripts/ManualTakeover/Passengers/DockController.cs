@@ -48,14 +48,11 @@ public class DockController : MonoBehaviour {
         if (passengers.Count == 0) return;
 
         Passenger passenger = passengers[0];
-        passenger.inTransit = true;
         queue.Enqueue(passenger);
         passengers.RemoveAt(0);
     }
 
     public void EmbarkAll() {
-        Debug.Log("Attempting to embark from " + transform.name);
-
         while (queue.Count > 0 && boarder.CanEmbarkFrom(this)) {
             Passenger passenger = queue.Dequeue();
             boarder.Embark(passenger);

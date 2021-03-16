@@ -5,33 +5,35 @@ using UnityEngine.AI;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 public class Passenger : MonoBehaviour {
-    private AICharacterControl ai;
+    public NavMeshAgent agent { get; private set; }
+    public ThirdPersonCharacter character { get; private set; }
+
     private float waitUntil;
 
-    public bool IsBusy => ai == null || waitUntil > Time.time;
-    public bool inTransit;
+    public bool IsBusy => agent == null || !agent.enabled || waitUntil > Time.time;
 
-    private void Start()
-    {
-        ai = GetComponent<AICharacterControl>();
+    private void Start() {
+        agent = GetComponentInChildren<NavMeshAgent>();
+        character = GetComponent<ThirdPersonCharacter>();
     }
 
     public void SetDestination(Vector3 destination, float waitTime=0) {
         waitUntil = Time.time + waitTime;
-        ai.destination = destination;
+        agent.SetDestination(destination);
     }
 
-    void OnDrawGizmos()
-    {
-        if (inTransit) OnDrawGizmosSelected();
+    private void Update() {
+        if (agent.enabled && agent.remainingDistance > agent.stoppingDistance)
+            character.Move(agent.desiredVelocity, false, false);
+        else
+            character.Move(Vector3.zero, false, false);
     }
 
-    void OnDrawGizmosSelected()
-    {
-        if (ai == null) return;
+    void OnDrawGizmosSelected() {
+        if (agent == null) return;
 
         Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(transform.position, ai.agent.steeringTarget);
-        Gizmos.DrawSphere(ai.agent.destination, 0.25f);
+        Gizmos.DrawLine(transform.position, agent.steeringTarget);
+        Gizmos.DrawSphere(agent.destination, 0.25f);
     }
 }

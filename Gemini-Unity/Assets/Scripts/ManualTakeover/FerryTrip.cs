@@ -58,7 +58,6 @@ public class FerryTrip : MonoBehaviour {
 				dist = dist_;
             }
         }
-		Debug.Log("Docked at " + dock.name);
     }
 
 	public void Step() {
