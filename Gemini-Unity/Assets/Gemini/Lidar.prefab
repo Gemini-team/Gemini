@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &395701103345083878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 395701103345083866}
+  - component: {fileID: 395701103345083869}
+  - component: {fileID: 395701103345083867}
+  - component: {fileID: 395701103345083864}
+  - component: {fileID: 395701103345083865}
+  m_Layer: 11
+  m_Name: Lidar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &395701103345083866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395701103345083878}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 3.66, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!114 &395701103345083869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395701103345083878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d6499a6bd256e47b859377446493a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  fadeRadius: 0
+  customPasses:
+  - id: 0
+  injectionPoint: 4
+  references:
+    version: 1
+    00000000:
+      type: {class: LidarCP, ns: Gemini.EMRS.Lidar, asm: Assembly-CSharp}
+      data:
+        m_Name: Custom Pass
+        enabled: 1
+        targetColorBuffer: 0
+        targetDepthBuffer: 0
+        clearFlags: 0
+        passFoldout: 0
+        m_Version: 0
+        lidar: {fileID: 395701103345083878}
+--- !u!114 &395701103345083867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395701103345083878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222689b82cf492c4d839775d804da261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  computeFilter: {fileID: 7200000, guid: 4e620f4d3996eef4b810b30140f16b27, type: 3}
+  SphericalProjectionFilterImage: {fileID: 8400000, guid: ff3b40168b5e6f54d868977d097ff3d0,
+    type: 2}
+--- !u!114 &395701103345083864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395701103345083878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 653d32ac692404546bce378f86bac083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleMaterial: {fileID: 2100000, guid: d14ee8164951aa044a42462ab71a18b0, type: 2}
+  _computeParticle: {fileID: 7200000, guid: 4b78f66eefc639f4193208e4035b6b7e, type: 3}
+  _displaymentLayer: Lidar
+  _nrOfParticles: 0
+--- !u!114 &395701103345083865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395701103345083878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22120c138f21e894682b172b89d62c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SensorUpdateHz: 10
+  lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
+  NrOfCameras: 4
+  WidthRes: 32768
+  DepthBufferPrecision: 1
+  LidarHorisontalRes: 256
+  NrOfLasers: 64
+  rayDropProbability: 0.3
+  MinDistance: 0.1
+  MaxDistance: 100
+  VerticalAngle: 60
+  NumberOfDepthPixels: 0
+  NumberOfLidarPoints: 0
+  lidarCameras: []
+  SynchronousUpdate: 0
