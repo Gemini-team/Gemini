@@ -7,7 +7,7 @@ namespace Gemini.Core
     {
         private static Vector3 TranslationUnityToNED(Vector3 vec)
         {
-            return new Vector3(vec.z, -vec.x, -vec.y);
+            return new Vector3(vec.z, vec.x, -vec.y);
         }
 
         private static Vector3 TranslationNEDToUnity(Vector3 vec)
@@ -90,12 +90,22 @@ namespace Gemini.Core
             return RotationNEDToUnity(angularVelocity);
         }
 
-        public static Quaternion OrientationUnityToNED(Quaternion orientation)
+        public static Vector3 EulerOrientationUnityToNED(Vector3 orientation)
+        {
+            return RotationUnityToNED(orientation);
+        }
+
+        public static Vector3 EulerOrientationNEDToUnity(Vector3 orientation)
+        {
+            return RotationNEDToUnity(orientation);
+        }
+        
+        public static Quaternion QuaternionOrientationUnityToNED(Quaternion orientation)
         {
             return QuaternionUnityToNED(orientation);
         }
 
-        public static Quaternion OrientationNEDToUnity(Quaternion orientation)
+        public static Quaternion QuaternionOrientationNEDToUnity(Quaternion orientation)
         {
             return QuaternionNEDToUnity(orientation);
         }

@@ -1,13 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Gemini.EMRS.Core;
 using UnityEngine.Rendering;
-
-using Google.Protobuf;
 using Navigation;
 using Gemini.Core;
 
@@ -46,7 +39,8 @@ public class NavClient : Sensor
     void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
     {
         _unityPosition = ConventionTransforms.PositionUnityToNED(gameObject.transform.position);
-        _unityOrientation = ConventionTransforms.OrientationUnityToNED(gameObject.transform.rotation);
+
+        _unityOrientation = UnityEngine.Quaternion.Euler(ConventionTransforms.EulerOrientationUnityToNED(gameObject.transform.rotation.eulerAngles));
             
         // Set Navigation Position and orientation to the same value as the Unity position and orientation
         // TODO: This should be done in a own function
