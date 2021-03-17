@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 2633945305bc45240a461e49b5ed472f, type: 2}
+  m_Texture: {fileID: 8400000, guid: 61c69928a004de141b14fb6e024546f6, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
       enableBigTilePrepass: 0
       isFptlEnabled: 0
   clearColorMode: 1
-  backgroundColorHDR: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColorHDR: {r: 0, g: 0, b: 0, a: 1}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
@@ -230,7 +230,7 @@ MonoBehaviour:
   flipYMode: 0
   fullscreenPassthrough: 0
   allowDynamicResolution: 0
-  customRenderingSettings: 0
+  customRenderingSettings: 1
   invertFaceCulling: 0
   probeLayerMask:
     serializedVersion: 2
@@ -238,7 +238,7 @@ MonoBehaviour:
   hasPersistentHistory: 0
   m_RenderingPathCustomFrameSettings:
     bitDatas:
-      data1: 70297877217101
+      data1: 70293448032077
       data2: 4539628425463136256
     lodBias: 1
     lodBiasMode: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
     materialQuality: 0
   renderingPathCustomFrameSettingsOverrideMask:
     mask:
-      data1: 0
+      data1: 4429185024
       data2: 0
   defaultFrameSettings: 0
 --- !u!1 &7102921639198699515
@@ -328,9 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7102921639252330408}
   - component: {fileID: 7102921639252330409}
-  - component: {fileID: 7102921639252330412}
-  - component: {fileID: 7102921639252330415}
-  - component: {fileID: 501248473453464723}
+  - component: {fileID: 672520031410902938}
   m_Layer: 0
   m_Name: RadarFunction
   m_TagString: Untagged
@@ -368,7 +366,7 @@ MonoBehaviour:
   fadeRadius: 0
   customPasses:
   - id: 0
-  injectionPoint: 1
+  injectionPoint: 4
   references:
     version: 1
     00000000:
@@ -382,54 +380,7 @@ MonoBehaviour:
         passFoldout: 0
         m_Version: 0
         radar: {fileID: 7102921639252330411}
---- !u!33 &7102921639252330412
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7102921639252330411}
-  m_Mesh: {fileID: 0}
---- !u!23 &7102921639252330415
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7102921639252330411}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!114 &501248473453464723
+--- !u!114 &672520031410902938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -438,12 +389,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7102921639252330411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bae36973463d8c4aaca4c76eb2a00f5, type: 3}
+  m_Script: {fileID: 11500000, guid: e3175a23c66787c48a9d2fae0f1c5f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  computeShader: {fileID: 7200000, guid: a866554148abee3409a241064fd27827, type: 3}
-  NrOfCameras: 16
-  RadiationPattern: {fileID: 2800000, guid: 410274aeba465904695b9a885b013a42, type: 3}
+  SensorUpdateHz: 1
+  computeShader: {fileID: 7200000, guid: 34b66d2f1ba225240adeba8f4e622856, type: 3}
+  NrOfCameras: 8
+  RadarLayer: Default
+  RadiationPattern: {fileID: 2800000, guid: 6557bed182a050b4287f5a71704fbe13, type: 3}
   AntennaGainDbi: 1
   HeightRes: 32
   WidthRes: 2048
@@ -454,9 +407,11 @@ MonoBehaviour:
   MaxDistance: 100
   MinDistance: 0.1
   VerticalAngle: 30
-  RadarPlot: {fileID: 8400000, guid: c8fc71c0f6f08054388ee59e16667258, type: 2}
-  RadarSpoke: {fileID: 8400000, guid: 2633945305bc45240a461e49b5ed472f, type: 2}
-  Sensitivity: 500
+  RadarPlotExternalImage: {fileID: 8400000, guid: c15ddaae8854b854ab3cf456cb274385,
+    type: 2}
+  RadarSpokeExternalImage: {fileID: 8400000, guid: 61c69928a004de141b14fb6e024546f6,
+    type: 2}
+  Sensitivity: 1
   SpokeAngle: 0
   radarCameras: []
 --- !u!1 &7102921639643669179
@@ -655,7 +610,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: c8fc71c0f6f08054388ee59e16667258, type: 2}
+  m_Texture: {fileID: 8400000, guid: c15ddaae8854b854ab3cf456cb274385, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
