@@ -3,6 +3,7 @@ using Gemini.EMRS.Core;
 using UnityEngine.Rendering;
 using Navigation;
 using Gemini.Core;
+using Grpc.Core;
 
 
 public class NavClient : Sensor
@@ -69,15 +70,29 @@ public class NavClient : Sensor
 
     public override bool SendMessage()
     {
-        bool success = _navigationClient.SendNavigationMessage(
-            new NavigationRequest
+        bool success = false;
+
+        connectionTime = Time.time;
+
+        if (connectionTime < ConnectionTimeout)
+        {
+            try
             {
-                TimeStamp = OSPtime,
-                Position = _navPosition,
-                Orientation = _navOrientation,
-                LinearVelocity = _navLinearVelocity,
-                AngularVelocity = _navAngularVelocity
-            }).Success;
+                success = _navigationClient.SendNavigationMessage(
+                    new NavigationRequest
+                    {
+                        TimeStamp = OSPtime,
+                        Position = _navPosition,
+                        Orientation = _navOrientation,
+                        LinearVelocity = _navLinearVelocity,
+                        AngularVelocity = _navAngularVelocity
+                    }).Success;
+
+            } catch (RpcException e)
+            {
+                Debug.LogException(e);
+            } 
+        }
 
         return success;
     }

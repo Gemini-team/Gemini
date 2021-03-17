@@ -10,6 +10,7 @@ namespace Gemini.EMRS.Core
         [Space]
         [Header("Streaming Parameters")]
         public int SensorUpdateHz = 1;
+        public const float ConnectionTimeout = 2.0f;
 
         //public bool RunRecording = false;
 
@@ -37,7 +38,7 @@ namespace Gemini.EMRS.Core
             }
         };
 
-
+        protected float connectionTime; 
         protected bool gate = false;
         protected double nextOSPtime = 0;
         protected double OSPtime = 0;

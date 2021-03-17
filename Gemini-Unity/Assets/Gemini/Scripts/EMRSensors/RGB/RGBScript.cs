@@ -6,6 +6,7 @@ using Gemini.EMRS.Core.ZBuffer;
 using UnityEngine.Rendering;
 
 using Google.Protobuf;
+using Grpc.Core;
 using Sensorstreaming;
 
 namespace Gemini.EMRS.RGB
@@ -63,11 +64,22 @@ namespace Gemini.EMRS.RGB
             }
 
             // TODO: Remove
-            
-            bool success = _streamingClient.StreamCameraSensor(new CameraStreamingRequest { Data = Data, TimeStamp = OSPtime, FrameId = FrameID, Height = (uint)(PixelHeight/ImageCrop), Width = (uint)(PixelWidth/ImageCrop) }).Success;
-            if (success)
-                return true;
-            return false;
+
+            bool success = false;
+            connectionTime = Time.time;
+             
+            if(connectionTime < ConnectionTimeout)
+            {
+                try
+                {
+                    success = _streamingClient.StreamCameraSensor(new CameraStreamingRequest { Data = Data, TimeStamp = OSPtime, FrameId = FrameID, Height = (uint)(PixelHeight/ImageCrop), Width = (uint)(PixelWidth/ImageCrop) }).Success;
+                } catch (RpcException e)
+                {
+                    Debug.LogException(e);
+                }
+            }
+
+            return success;
             
         }
 
