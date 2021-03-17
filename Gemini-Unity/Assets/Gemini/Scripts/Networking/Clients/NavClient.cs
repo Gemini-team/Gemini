@@ -74,7 +74,7 @@ public class NavClient : Sensor
 
         connectionTime = Time.time;
 
-        if (connectionTime < ConnectionTimeout)
+        if (connectionTime < ConnectionTimeout || connected)
         {
             try
             {
@@ -88,6 +88,7 @@ public class NavClient : Sensor
                         AngularVelocity = _navAngularVelocity
                     }).Success;
 
+                connected = success;
             } catch (RpcException e)
             {
                 Debug.LogException(e);

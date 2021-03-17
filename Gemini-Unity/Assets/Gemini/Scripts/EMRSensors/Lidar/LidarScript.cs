@@ -201,11 +201,12 @@ namespace Gemini.EMRS.Lidar {
 
             bool success = false;
             connectionTime = Time.time;
-            if (connectionTime < ConnectionTimeout)
+            if (connectionTime < ConnectionTimeout || connected)
             {
                 try
                 {
                     success = _streamingClient.StreamLidarSensor(lidarStreamingRequest).Success;
+                    connected = success;
                 } catch(RpcException e)
                 {
                     Debug.LogException(e);

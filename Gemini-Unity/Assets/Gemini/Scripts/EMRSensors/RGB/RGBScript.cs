@@ -68,11 +68,12 @@ namespace Gemini.EMRS.RGB
             bool success = false;
             connectionTime = Time.time;
              
-            if(connectionTime < ConnectionTimeout)
+            if(connectionTime < ConnectionTimeout || connected)
             {
                 try
                 {
                     success = _streamingClient.StreamCameraSensor(new CameraStreamingRequest { Data = Data, TimeStamp = OSPtime, FrameId = FrameID, Height = (uint)(PixelHeight/ImageCrop), Width = (uint)(PixelWidth/ImageCrop) }).Success;
+                    connected = success;
                 } catch (RpcException e)
                 {
                     Debug.LogException(e);

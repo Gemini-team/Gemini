@@ -38,7 +38,8 @@ namespace Gemini.EMRS.Core
             }
         };
 
-        protected float connectionTime; 
+        protected float connectionTime;
+        protected bool connected = false;
         protected bool gate = false;
         protected double nextOSPtime = 0;
         protected double OSPtime = 0;
