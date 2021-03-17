@@ -3,11 +3,13 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 using Google.Protobuf;
+using Grpc.Core;
 
 using Gemini.EMRS.Core;
 using Gemini.EMRS.Core.ZBuffer;
 using Gemini.EMRS.PointCloud;
 using Sensorstreaming;
+
 
 
 namespace Gemini.EMRS.Lidar {
@@ -197,11 +199,21 @@ namespace Gemini.EMRS.Lidar {
 
             lidarStreamingRequest.IsDense = message.is_dense;
 
-            bool success = _streamingClient.StreamLidarSensor(lidarStreamingRequest).Success;
+            bool success = false;
+            connectionTime = Time.time;
+            if (connectionTime < ConnectionTimeout || connected)
+            {
+                try
+                {
+                    success = _streamingClient.StreamLidarSensor(lidarStreamingRequest).Success;
+                    connected = success;
+                } catch(RpcException e)
+                {
+                    Debug.LogException(e);
+                }
+            }
 
-            if (success)
-                return true;
-            return false;
+            return success;
         }
 
     }
