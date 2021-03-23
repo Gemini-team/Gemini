@@ -6,7 +6,9 @@ public class FerryTrip : AnimatedTrip {
     [HideInInspector]
     public bool boarding;
     public DockController dock { get; private set; }
-    
+
+    private Camera mountedCamera;
+
     public override bool Playing {
         get => base.Playing;
         set {
@@ -23,11 +25,13 @@ public class FerryTrip : AnimatedTrip {
     protected override void Start() {
         base.Start();
         animators = GetComponentsInChildren<Animator>();
+        mountedCamera = GetComponentInChildren<Camera>();
         Dock();
     }
 
     public override void SkipToEnd() {
         reverse = !reverse;
+        mountedCamera.transform.localRotation = Quaternion.Euler(0, reverse ? 180 : 0, 0);
         base.SkipToEnd();
     }
 

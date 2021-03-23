@@ -13,10 +13,10 @@ public abstract class AnimatedTrip : MonoBehaviour {
     [Range(0, 0.5f)]
     public float ease = 0.1f;
     public float startDelay = 2;
-    public bool reverse;
     [HideInInspector]
     public float speedScale = 1;
 
+    public bool reverse { get; protected set; }
     private bool playing;
     private float waitUntil;
 
