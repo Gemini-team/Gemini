@@ -12,8 +12,8 @@ public class PassengerQueue : MonoBehaviour {
     private Vector3 QueuePosition(int index) => transform.position + transform.forward * SPACING * index;
 
     public void Enqueue(Passenger passenger) {
-        passengers.Add(passenger);
         passenger.SetDestination(QueuePosition(passengers.Count));
+        passengers.Add(passenger);
     }
 
     public Passenger Dequeue() {

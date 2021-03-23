@@ -39,9 +39,13 @@ public class MyWindow : EditorWindow {
         else if (ferryTrip.dock != null) ferryState = "Docked at " + ferryTrip.dock.name;
         LabelField(ferryState);
 
-        if (GUILayout.Button((ferryTrip.Playing ? "Stop" : "Start") + " ferry travel")) {
+        if (GUILayout.Button(ferryTrip.Playing ? "Cancel" : "Start ferry travel")) {
             if (ferryTrip.Playing) ferryTrip.Stop();
             else ferryTrip.Play();
+        }
+
+        if (ferryTrip.Playing && GUILayout.Button("Skip to end")) {
+            ferryTrip.SkipToEnd();
         }
 
         if (ferryTrip.dock != null) {
