@@ -28,6 +28,10 @@ public class Passenger : MonoBehaviour {
         agent.SetDestination(destination);
     }
 
+    public void MoveToDestination() {
+        transform.position = agent.destination;
+    }
+
     private void Update() {
         character.Move(ReachedDestination ? Vector3.zero : agent.desiredVelocity, false, false);
     }

@@ -44,18 +44,22 @@ public class DockController : MonoBehaviour {
         }
     }
 
-    public void MoveToQueue() {
+    public void MoveToQueue(bool instant = false) {
         if (passengers.Count == 0) return;
 
         Passenger passenger = passengers[0];
         queue.Enqueue(passenger);
         passengers.RemoveAt(0);
+
+        if (instant) passenger.MoveToDestination();
     }
 
-    public void EmbarkAll() {
+    public void EmbarkAll(bool instant = false) {
         while (queue.Count > 0 && boarder.CanEmbarkFrom(this)) {
             Passenger passenger = queue.Dequeue();
             boarder.Embark(passenger);
+
+            if (instant) passenger.MoveToDestination();
         }
     }
 

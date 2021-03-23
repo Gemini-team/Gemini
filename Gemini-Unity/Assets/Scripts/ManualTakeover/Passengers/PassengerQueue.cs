@@ -27,14 +27,6 @@ public class PassengerQueue : MonoBehaviour {
         return passenger;
     }
 
-    public void AssembleQueue() {
-        for (int i = 0; i < passengers.Count; i++) {
-            Vector3 pos = QueuePosition(i);
-            passengers[i].SetDestination(pos);
-            passengers[i].transform.position = pos;
-        }
-    }
-
     void OnDrawGizmos() {
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(transform.position, 0.5f);
