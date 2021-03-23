@@ -14,15 +14,26 @@ public abstract class AnimatedTrip : MonoBehaviour {
     public float ease = 0.1f;
     public float startDelay = 2;
     public bool reverse;
+    [HideInInspector]
+    public float speedScale = 1;
 
     private bool playing;
     private float waitUntil;
 
     public float distanceTravelled { get; private set; }
-
     public float DistanceRemaining => route.path.length - distanceTravelled;
-
     public bool EndReached => DistanceRemaining <= 0;
+    public float Speed {
+        get {
+            float speed = maxSpeed;
+            if (ease > 0) {
+                float easeTime = route.path.GetClosestTimeOnPath(transform.position);
+                if (easeTime > 0.5) easeTime = 1 - easeTime;
+                speed = (maxSpeed - minSpeed) * Mathf.Clamp01(easeTime / ease) + minSpeed;
+            }
+            return speed * speedScale;
+        }
+    }
 
     public virtual bool Playing {
         get => playing;
@@ -36,14 +47,7 @@ public abstract class AnimatedTrip : MonoBehaviour {
     protected virtual void Update() {
         if (!Playing || Time.time < waitUntil) return;
 
-        float speed = maxSpeed;
-        if (ease > 0) {
-            float easeTime = route.path.GetClosestTimeOnPath(transform.position);
-            if (easeTime > 0.5) easeTime = 1 - easeTime;
-            speed = (maxSpeed - minSpeed) * Mathf.Clamp01(easeTime / ease) + minSpeed;
-        }
-
-        distanceTravelled += speed * Time.deltaTime;
+        distanceTravelled += Speed * Time.deltaTime;
         Step();
 
         if (EndReached) {
