@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DockController : MonoBehaviour {
     public int spawnAmount;
-    public GameObject passengerTemplate;
+    public GameObject[] passengerTemplates;
     public PassengerQueue queue;
     public Transform[] spawnAreas;
 
     private EmbarkPassenger boarder;
-    private List<Passenger> passengers = new List<Passenger>();
+    private readonly List<Passenger> passengers = new List<Passenger>();
 
     /// <summary>
     /// Generates a random destination on the attached nav mesh
@@ -19,7 +19,7 @@ public class DockController : MonoBehaviour {
         Transform area = spawnAreas[Random.Range(0, spawnAreas.Length)];
         return area.position + area.rotation * new Vector3(
             Random.Range(-0.5f, 0.5f) * area.localScale.x,
-            passengerTemplate.transform.localScale.y,
+            passengerTemplates[0].transform.localScale.y,
             Random.Range(-0.5f, 0.5f) * area.localScale.z);
     }
 
@@ -29,7 +29,7 @@ public class DockController : MonoBehaviour {
 
         for (int i = 0; i < spawnAmount; i++) {
             GameObject instance = Instantiate(
-                original: passengerTemplate,
+                original: passengerTemplates[Random.Range(0, passengerTemplates.Length)],
                 position: RandomDestination(),
                 rotation: Quaternion.identity);
             IncomingPassenger(instance.GetComponent<Passenger>());

@@ -704,8 +704,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnAmount: 10
-  passengerTemplate: {fileID: 1921812493617376033, guid: 7b14449b13df5d04d9f4028f81e1c305,
-    type: 3}
+  passengerTemplates:
+  - {fileID: 1720371937550851407, guid: 207bbfb6757dba144b38dd96a88147e0, type: 3}
+  - {fileID: 1720756755354113095, guid: d7502107614407f428c1616ca68d7237, type: 3}
   queue: {fileID: 986575808}
   spawnAreas:
   - {fileID: 118853634}
@@ -2643,8 +2644,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnAmount: 20
-  passengerTemplate: {fileID: 1921812493617376033, guid: 7b14449b13df5d04d9f4028f81e1c305,
-    type: 3}
+  passengerTemplates:
+  - {fileID: 1720371937550851407, guid: 207bbfb6757dba144b38dd96a88147e0, type: 3}
+  - {fileID: 1720756755354113095, guid: d7502107614407f428c1616ca68d7237, type: 3}
   queue: {fileID: 726583817}
   spawnAreas:
   - {fileID: 860242990}
