@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityStandardAssets.Characters.ThirdPerson;
+using AdvancedCustomizableSystem;
 
 public class Passenger : MonoBehaviour {
+    private const float 
+        ANIM_SPEED = 0.75f,
+        MIN_ANIM_SPEED = 0.25f,
+        SPEED_THRESHOLD = 0.15f;
+
     public NavMeshAgent agent { get; private set; }
-    public ThirdPersonCharacter character { get; private set; }
+    private CharacterCustomization character;
 
     private float waitUntil;
 
@@ -15,9 +18,11 @@ public class Passenger : MonoBehaviour {
 
     private void Start() {
         agent = GetComponentInChildren<NavMeshAgent>();
-        character = GetComponent<ThirdPersonCharacter>();
+        character = GetComponentInChildren<CharacterCustomization>();
 
-        agent.updateRotation = false;
+        character.Randomize();
+        // character.BakeCharacter();
+        agent.updateRotation = true;
         agent.updatePosition = true;
     }
 
@@ -33,7 +38,12 @@ public class Passenger : MonoBehaviour {
     }
 
     private void Update() {
-        character.Move(ReachedDestination ? Vector3.zero : agent.desiredVelocity, false, false);
+        float speed = agent.velocity.magnitude;
+        bool walk = speed > SPEED_THRESHOLD;
+        character.animators.ForEach(x => {
+            x.SetBool("walk", walk);
+            x.speed = walk ? Mathf.Max(MIN_ANIM_SPEED, ANIM_SPEED * speed) : 1;
+        });
     }
 
     void OnDrawGizmosSelected() {
