@@ -24,7 +24,7 @@ namespace Gemini.Networking.Services
 
         public override async Task<ForceResponse> ApplyForce(ForceRequest request, ServerCallContext context)
         {
-
+            
             _force.x = request.GeneralizedForce.X;
             _force.y = request.GeneralizedForce.Y;
             _force.z = request.GeneralizedForce.Z;
@@ -42,8 +42,8 @@ namespace Gemini.Networking.Services
                 {
                     if (forceController.name == request.VesselId)
                     {
-                        forceController.Force = _force;
-                        forceController.Torque = _torque;
+                        forceController.Force = ConventionTransforms.ForceNEDToUnity(_force);
+                        forceController.Torque = ConventionTransforms.TorqueNEDToUnity(_torque);
                     }
                 }
 

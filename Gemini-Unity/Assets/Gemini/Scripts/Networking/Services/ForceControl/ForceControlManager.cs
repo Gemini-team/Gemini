@@ -31,7 +31,7 @@ namespace Gemini.Networking.Services
                 Ports = { new ServerPort(host, _port, ServerCredentials.Insecure) }
             };
 
-            Debug.Log("Simulation server listening on port: " + _port);
+            Debug.Log("ForceControl server listening on port: " + _port);
             server.Start();
 
         }

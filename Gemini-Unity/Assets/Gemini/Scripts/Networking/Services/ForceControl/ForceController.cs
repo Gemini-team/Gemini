@@ -9,6 +9,8 @@ namespace Gemini.Networking.Services {
         private Vector3 _force;
         private Vector3 _torque;
 
+        private Rigidbody _rigidBody;
+
         public Vector3 Force
         {
             set => _force = value;
@@ -21,10 +23,14 @@ namespace Gemini.Networking.Services {
             get => _torque;
         }
 
+        void Start()
+        {
+            _rigidBody = gameObject.GetComponent<Rigidbody>();
+        }
         void FixedUpdate()
         {
-            gameObject.GetComponent<Rigidbody>().AddForce(_force);
-            gameObject.GetComponent<Rigidbody>().AddTorque(_torque);
+            _rigidBody.AddRelativeForce(_force);
+            _rigidBody.AddRelativeTorque(_torque);
         }
     }
 
