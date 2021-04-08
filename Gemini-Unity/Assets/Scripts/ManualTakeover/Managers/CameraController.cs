@@ -3,36 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
-    private const float LERP_SPEED = 3f;
+    private const float TRANSITION_DURATION = 1;
 
     public Transform[] mounts;
     public float speed, mouseSensitivity;
 
     private Transform mount;
+    private Vector3 lookRotation;
+    private float transition;
+
+    private Vector3 startPos;
+    private Quaternion startRot;
+
+    private void Start() {
+        lookRotation = transform.eulerAngles;
+    }
 
     private void Update() {
         for (int i = 0; i < mounts.Length; i++) {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i)) {
+                startPos = transform.position;
+                startRot = transform.rotation;
+                transition = 0;
                 mount = mounts[i];
                 break;
             }
         }
 
         if (Input.GetMouseButtonDown(2)) {
+            lookRotation = transform.eulerAngles;
             mount = null;
         }
 
         if (mount == null) {
             Vector2 input = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.eulerAngles.x - input.y, -89.9f, 89.8f), transform.eulerAngles.y + input.x, 0);
+            // Update euler angles as a vector to avoid quaternion clamping issues
+            lookRotation += new Vector3(-input.y, input.x);
+            lookRotation.x = Mathf.Clamp(lookRotation.x, -89.9f, 89.9f);
+            transform.rotation = Quaternion.Euler(lookRotation);
 
             bool leftClick = Input.GetMouseButton(0), rightClick = Input.GetMouseButton(1);
             if (leftClick || rightClick) {
                 transform.position += transform.forward * speed * Time.deltaTime * (leftClick ? -1 : 1);
             }
         } else {
-            transform.position = Vector3.Lerp(transform.position, mount.position, LERP_SPEED * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, mount.rotation, LERP_SPEED * Time.deltaTime);
+            transition = Mathf.Clamp01(transition + Time.deltaTime / TRANSITION_DURATION);
+            transform.position = Vector3.Lerp(startPos, mount.position, transition);
+            transform.rotation = Quaternion.Lerp(startRot, mount.rotation, transition);
         }
     }
 }
