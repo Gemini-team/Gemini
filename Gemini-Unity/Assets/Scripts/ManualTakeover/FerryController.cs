@@ -11,6 +11,7 @@ public class FerryController : MonoBehaviour {
     [HideInInspector]
     public bool boarding;
 
+    private UIManager ui;
     private Rigidbody rb;
     private float throttle;
 
@@ -19,6 +20,7 @@ public class FerryController : MonoBehaviour {
     public DockController dock { get; private set; }
 
     void Start() {
+        ui = FindObjectOfType<UIManager>();
         rb = GetComponent<Rigidbody>();
         animators = GetComponentsInChildren<Animator>();
     }
@@ -29,20 +31,24 @@ public class FerryController : MonoBehaviour {
             else TryDisconnectFromDock();
         }
 
-        if (dock == null) {
-            float dir = Input.GetAxisRaw("Vertical");
-            float rudder = Input.GetAxis("Horizontal");
+        if (dock == null) return;
 
-            throttle = Mathf.Clamp(throttle + dir * throttleSensitivity * Time.deltaTime, -1, 1);
-            if (Input.GetKeyDown(KeyCode.X)) throttle = 0;
+        ui.SetBar("Throttle/Up", Mathf.Max(throttle, 0));
+        ui.SetBar("Throttle/Down", Mathf.Max(-throttle, 0));
 
-            rb.AddForce(transform.forward * throttle * force);
-            rb.AddTorque(Vector3.up * rudder * force);
+        float dir = Input.GetAxisRaw("Vertical");
+        float rudder = Input.GetAxis("Horizontal");
 
-            float mag = rb.velocity.magnitude;
-            if (mag > maxSpeed) {
-                rb.velocity *= maxSpeed / mag;
-            }
+        throttle = Mathf.Clamp(throttle + dir * throttleSensitivity * Time.deltaTime, -1, 1);
+        if (Input.GetKeyDown(KeyCode.X)) throttle = 0;
+            
+
+        rb.AddForce(transform.forward * throttle * force);
+        rb.AddTorque(Vector3.up * rudder * force);
+
+        float mag = rb.velocity.magnitude;
+        if (mag > maxSpeed) {
+            rb.velocity *= maxSpeed / mag;
         }
     }
 

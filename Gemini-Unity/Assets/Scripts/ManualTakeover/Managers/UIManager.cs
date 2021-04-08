@@ -17,4 +17,8 @@ public class UIManager : MonoBehaviour {
         }
         StartCoroutine(Draw());
     }
+
+    public void SetBar(string name, float value) {
+        canvas.transform.Find(name).GetComponent<Image>().fillAmount = value;
+    }
 }
