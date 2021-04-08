@@ -13,29 +13,34 @@ public class FerryController : MonoBehaviour {
 
     private UIManager ui;
     private Rigidbody rb;
-    private float throttle;
-
+    private FerryTrip automatedTrip;
     private Animator[] animators;
+    private float throttle;
 
     public DockController dock { get; private set; }
 
     void Start() {
         ui = FindObjectOfType<UIManager>();
         rb = GetComponent<Rigidbody>();
+        automatedTrip = GetComponent<FerryTrip>();
         animators = GetComponentsInChildren<Animator>();
     }
 
     void Update() {
+        ui.SetBar("Throttle/Up", Mathf.Max(throttle, 0));
+        ui.SetBar("Throttle/Down", Mathf.Max(-throttle, 0));
+
+        // Ignore player input while automated sequence is playing
+        if (automatedTrip.Playing) return;
+
         if (Input.GetKeyDown(KeyCode.F)) {
             if (dock == null) TryConnectToDock();
             else TryDisconnectFromDock();
         }
 
-        if (dock == null) return;
-
-        ui.SetBar("Throttle/Up", Mathf.Max(throttle, 0));
-        ui.SetBar("Throttle/Down", Mathf.Max(-throttle, 0));
-
+        // Prevent ferry movement when docked
+        if (dock != null) return;
+        
         float dir = Input.GetAxisRaw("Vertical");
         float rudder = Input.GetAxis("Horizontal");
 
