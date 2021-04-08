@@ -20,7 +20,7 @@ public class EmbarkPassenger : MonoBehaviour {
     }
 
     private void Update() {
-        if (ferryTrip.boarding) {
+        if (ferryTrip.ferry.boarding) {
             bool boardingCompleted = true;
             foreach (Passenger passenger in passengers) {
                 if (!passenger.ReachedDestination) {
@@ -28,12 +28,12 @@ public class EmbarkPassenger : MonoBehaviour {
                     break;
                 }
             }
-            ferryTrip.boarding = !boardingCompleted;
+            ferryTrip.ferry.boarding = !boardingCompleted;
         }
     }
 
     public bool CanEmbarkFrom(DockController dock) {
-        return passengers.Count < seats.Length && !ferryTrip.Playing && ferryTrip.dock.Equals(dock);
+        return passengers.Count < seats.Length && !ferryTrip.Playing && ferryTrip.ferry.dock.Equals(dock);
     }
 
     public void Embark(Passenger passenger) {
@@ -44,15 +44,15 @@ public class EmbarkPassenger : MonoBehaviour {
         passenger.SetDestination(transform.position + transform.rotation * seats[seatIndex]);
         passengers.Add(passenger);
 
-        ferryTrip.boarding = true;
+        ferryTrip.ferry.boarding = true;
     }
 
     private void DisembarkAll() {
-        if (ferryTrip.dock == null) return;
+        if (ferryTrip.ferry.dock == null) return;
 
         foreach (Passenger passenger in passengers) {
             passenger.agent.enabled = true;
-            ferryTrip.dock.IncomingPassenger(passenger);
+            ferryTrip.ferry.dock.IncomingPassenger(passenger);
         }
         passengers.Clear();
     }

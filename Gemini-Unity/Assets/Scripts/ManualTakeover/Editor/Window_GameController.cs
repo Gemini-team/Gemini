@@ -35,8 +35,8 @@ public class MyWindow : EditorWindow {
 
         string ferryState = "Idle";
         if (ferryTrip.Playing) ferryState = "In transit";
-        else if (ferryTrip.boarding) ferryState = "Boarding";
-        else if (ferryTrip.dock != null) ferryState = "Docked at " + ferryTrip.dock.name;
+        else if (ferryTrip.ferry.boarding) ferryState = "Boarding";
+        else if (ferryTrip.ferry.dock != null) ferryState = "Docked at " + ferryTrip.ferry.dock.name;
         LabelField(ferryState);
 
         if (GUILayout.Button(ferryTrip.Playing ? "Cancel" : "Start ferry travel")) {
@@ -48,16 +48,16 @@ public class MyWindow : EditorWindow {
             ferryTrip.SkipToEnd();
         }
 
-        if (ferryTrip.dock != null) {
+        if (ferryTrip.ferry.dock != null) {
             Space();
-            LabelField($"{ferryTrip.dock.queue.Count} in queue");
+            LabelField($"{ferryTrip.ferry.dock.queue.Count} in queue");
             instant = Toggle("Instant enqueue", instant);
             if (GUILayout.Button("Enqueue passenger")) {
-                ferryTrip.dock.MoveToQueue(instant);
+                ferryTrip.ferry.dock.MoveToQueue(instant);
             }
 
             if (GUILayout.Button("Board passengers")) {
-                ferryTrip.dock.EmbarkAll(instant);
+                ferryTrip.ferry.dock.EmbarkAll(instant);
             }
         }
     }

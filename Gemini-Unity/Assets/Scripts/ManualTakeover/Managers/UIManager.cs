@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
+    public Canvas canvas;
     public Text alertMessage;
 
     public void Alert(string message, float? duration=null) {
