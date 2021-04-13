@@ -7,20 +7,28 @@ public class EmbarkPassenger : MonoBehaviour {
     public Vector3[] seats;
 
     private List<Passenger> passengers = new List<Passenger>();
-    private FerryTrip ferryTrip;
+    private FerryController ferry;
 
     private void Start() {
-        ferryTrip = GetComponent<FerryTrip>();
-        ferryTrip.OnPlay.AddListener(() => { 
+        ferry = GetComponent<FerryController>();
+
+        ferry.OnDisconnectFromDock.AddListener(() => {
             foreach (Passenger passenger in passengers) {
                 passenger.agent.enabled = false;
             }
         });
-        ferryTrip.OnEndReached.AddListener(DisembarkAll);
+
+        ferry.OnConnectToDock.AddListener(() => {
+            foreach (Passenger passenger in passengers) {
+                passenger.agent.enabled = true;
+                ferry.dock.IncomingPassenger(passenger);
+            }
+            passengers.Clear();
+        });
     }
 
     private void Update() {
-        if (ferryTrip.ferry.boarding) {
+        if (ferry.boarding) {
             bool boardingCompleted = true;
             foreach (Passenger passenger in passengers) {
                 if (!passenger.ReachedDestination) {
@@ -28,33 +36,23 @@ public class EmbarkPassenger : MonoBehaviour {
                     break;
                 }
             }
-            ferryTrip.ferry.boarding = !boardingCompleted;
+            ferry.boarding = !boardingCompleted;
         }
     }
 
     public bool CanEmbarkFrom(DockController dock) {
-        return passengers.Count < seats.Length && !ferryTrip.Playing && ferryTrip.ferry.dock.Equals(dock);
+        return passengers.Count < seats.Length && ferry.dock.Equals(dock);
     }
 
     public void Embark(Passenger passenger) {
         int seatIndex = passengers.Count;
-        if (ferryTrip.reverse) seatIndex = seats.Length - seatIndex - 1;
+        if (ferry.DockDirection < 0) seatIndex = seats.Length - seatIndex - 1;
 
         passenger.transform.SetParent(transform);
         passenger.SetDestination(transform.position + transform.rotation * seats[seatIndex]);
         passengers.Add(passenger);
 
-        ferryTrip.ferry.boarding = true;
-    }
-
-    private void DisembarkAll() {
-        if (ferryTrip.ferry.dock == null) return;
-
-        foreach (Passenger passenger in passengers) {
-            passenger.agent.enabled = true;
-            ferryTrip.ferry.dock.IncomingPassenger(passenger);
-        }
-        passengers.Clear();
+        ferry.boarding = true;
     }
 
     private void OnDrawGizmosSelected() {

@@ -16,7 +16,7 @@ public abstract class AnimatedTrip : MonoBehaviour {
     [HideInInspector]
     public float speedScale = 1;
 
-    public bool reverse { get; protected set; }
+    internal bool reverse;
     private bool playing;
     private float waitUntil;
 

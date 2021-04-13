@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class FerryController : MonoBehaviour {
     private const float DOCK_DIST_LIMIT = 2.5f, DOCK_ALIGN_THRESHOLD = 0.9825f;
 
+    [HideInInspector]
+    public UnityEvent OnConnectToDock, OnDisconnectFromDock;
     public float force, maxSpeed, throttleSensitivity = 1;
 
     [HideInInspector]
@@ -18,6 +21,7 @@ public class FerryController : MonoBehaviour {
     private float throttle;
 
     public DockController dock { get; private set; }
+    public int DockDirection => dock == null ? 0 : (int)Mathf.Sign(Vector3.Dot(transform.position - dock.transform.Find("DockingArea").position, transform.forward));
 
     void Start() {
         ui = FindObjectOfType<UIManager>();
@@ -30,8 +34,7 @@ public class FerryController : MonoBehaviour {
         ui.SetBar("Throttle/Up", Mathf.Max(throttle, 0));
         ui.SetBar("Throttle/Down", Mathf.Max(-throttle, 0));
 
-        // Ignore player input while automated sequence is playing
-        if (automatedTrip.Playing) return;
+        if (boarding || automatedTrip.Playing) return;
 
         if (Input.GetKeyDown(KeyCode.F)) {
             if (dock == null) TryConnectToDock();
@@ -60,7 +63,7 @@ public class FerryController : MonoBehaviour {
     private void UpdateAnimators(bool inTransit) {
         foreach (Animator anim in animators) {
             anim.SetBool("inTransit", inTransit);
-            anim.SetBool("reverse", !inTransit && Vector3.Dot(dock.transform.Find("DockingArea").position - transform.position, transform.forward) > 0);
+            anim.SetBool("reverse", DockDirection == -1);
         }
     }
 
@@ -90,6 +93,8 @@ public class FerryController : MonoBehaviour {
         dock = closestDock;
         UpdateAnimators(inTransit: false);
         Debug.Log("Docking successful");
+
+        OnConnectToDock?.Invoke();
         return true;
     }
 
@@ -98,6 +103,8 @@ public class FerryController : MonoBehaviour {
 
         dock = null;
         UpdateAnimators(inTransit: true);
+
+        OnDisconnectFromDock?.Invoke();
         return true;
     }
 }
