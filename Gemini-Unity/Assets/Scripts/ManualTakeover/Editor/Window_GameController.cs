@@ -7,7 +7,7 @@ public class MyWindow : EditorWindow {
     private bool setup;
 
     private FerryTrip ferryTrip;
-    private bool instant = true;
+    private bool instantEnqueue = true;
 
     [MenuItem("Window/GameController")]
     static void Init() {
@@ -51,13 +51,14 @@ public class MyWindow : EditorWindow {
         if (ferryTrip.ferry.dock != null) {
             Space();
             LabelField($"{ferryTrip.ferry.dock.queue.Count} in queue");
-            instant = Toggle("Instant enqueue", instant);
-            if (GUILayout.Button("Enqueue passenger")) {
-                ferryTrip.ferry.dock.MoveToQueue(instant);
+            instantEnqueue = Toggle("Instant enqueue", instantEnqueue);
+            if (GUILayout.Button("Spawn passenger")) {
+                Passenger passenger = ferryTrip.ferry.dock.SpawnPassenger();
+                if (instantEnqueue) passenger.MoveToDestination();
             }
 
             if (GUILayout.Button("Board passengers")) {
-                ferryTrip.ferry.dock.EmbarkAll(instant);
+                ferryTrip.ferry.dock.EmbarkAll();
             }
         }
     }

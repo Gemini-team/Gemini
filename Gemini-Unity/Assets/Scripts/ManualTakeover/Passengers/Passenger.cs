@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using AdvancedCustomizableSystem;
+using UnityEngine.Events;
 
 public class Passenger : MonoBehaviour {
     private const float 
@@ -8,12 +9,13 @@ public class Passenger : MonoBehaviour {
         MIN_ANIM_SPEED = 0.25f,
         SPEED_THRESHOLD = 0.15f;
 
+    [HideInInspector]
+    public UnityEvent OnDestinationReached;
     public NavMeshAgent agent { get; private set; }
     private CharacterCustomization character;
 
-    private float waitUntil;
+    private bool idle;
 
-    public bool IsBusy => agent == null || !agent.enabled || waitUntil > Time.time;
     public bool ReachedDestination => agent == null || (agent.enabled && agent.remainingDistance <= agent.stoppingDistance);
 
     private void Start() {
@@ -26,10 +28,8 @@ public class Passenger : MonoBehaviour {
         agent.updatePosition = true;
     }
 
-    public void SetDestination(Vector3 destination, float waitTime = 0) {
-        if (agent == null) return;
-
-        waitUntil = Time.time + waitTime;
+    public void SetDestination(Vector3 destination) {
+        if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
         agent.SetDestination(destination);
     }
 
@@ -44,13 +44,20 @@ public class Passenger : MonoBehaviour {
             x.SetBool("walk", walk);
             x.speed = walk ? Mathf.Max(MIN_ANIM_SPEED, ANIM_SPEED * speed) : 1;
         });
+
+        if (!idle && ReachedDestination) {
+            OnDestinationReached?.Invoke();
+        }
     }
 
-    void OnDrawGizmosSelected() {
+    private void LateUpdate() {
+        idle = ReachedDestination;
+    }
+
+    void OnDrawGizmos() {
         if (agent == null) return;
 
         Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(transform.position, agent.steeringTarget);
         Gizmos.DrawSphere(agent.destination, 0.25f);
     }
 }
