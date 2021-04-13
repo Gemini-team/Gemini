@@ -6,6 +6,7 @@ using static UnityEditor.EditorGUILayout;
 public class MyWindow : EditorWindow {
     private bool setup;
 
+    private Scenario scenario;
     private FerryTrip ferryTrip;
     private bool instantEnqueue = true;
 
@@ -31,6 +32,23 @@ public class MyWindow : EditorWindow {
         if (!setup) {
             setup = true;
 			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryTrip>();
+            scenario = GameObject.FindGameObjectWithTag("GameController").GetComponent<Scenario>();
+        }
+
+        if (scenario.Playing) {
+            LabelField("Playing scenario...");
+            if (Time.timeScale > 1 && GUILayout.Button("Normal playblack")) {
+                Time.timeScale = 1;
+            } else if (Time.timeScale == 1 && GUILayout.Button("Fast forward")) {
+                Time.timeScale = 5;
+            }
+
+            if (GUILayout.Button("Move passengers to destination")) {
+                foreach (Passenger passenger in FindObjectsOfType<Passenger>()) {
+                    passenger.transform.position = passenger.agent.destination;
+                }
+            }
+            return;
         }
 
         string ferryState = "Idle";
@@ -39,6 +57,10 @@ public class MyWindow : EditorWindow {
         else if (ferryTrip.ferry.dock != null) ferryState = "Docked at " + ferryTrip.ferry.dock.name;
         LabelField(ferryState);
 
+        if (GUILayout.Button("Play scenario")) {
+            scenario.Play();
+        }
+        
         if (GUILayout.Button(ferryTrip.Playing ? "Cancel" : "Start ferry travel")) {
             if (ferryTrip.Playing) ferryTrip.Stop();
             else ferryTrip.Play();
@@ -53,8 +75,7 @@ public class MyWindow : EditorWindow {
             LabelField($"{ferryTrip.ferry.dock.queue.Count} in queue");
             instantEnqueue = Toggle("Instant enqueue", instantEnqueue);
             if (GUILayout.Button("Spawn passenger")) {
-                Passenger passenger = ferryTrip.ferry.dock.SpawnPassenger();
-                if (instantEnqueue) passenger.MoveToDestination();
+                Passenger passenger = ferryTrip.ferry.dock.SpawnPassenger(instantEnqueue);
             }
 
             if (GUILayout.Button("Board passengers")) {

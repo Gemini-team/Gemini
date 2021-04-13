@@ -4,7 +4,7 @@ using UnityEngine;
 public class DockController : ExtendedMonoBehaviour {
     public GameObject[] passengerTemplates;
     public PassengerQueue queue;
-    public Transform spawnPoint;
+    public Transform spawnPoint, despawnPoint;
 
     private EmbarkPassenger boarder;
 
@@ -13,7 +13,7 @@ public class DockController : ExtendedMonoBehaviour {
         queue = GetComponentInChildren<PassengerQueue>();
     }
 
-    public Passenger SpawnPassenger() {
+    public Passenger SpawnPassenger(bool instantEnqueue = false) {
         GameObject instance = Instantiate(
             original: passengerTemplates[Random.Range(0, passengerTemplates.Length)],
             position: spawnPoint.position,
@@ -21,7 +21,7 @@ public class DockController : ExtendedMonoBehaviour {
 
         Passenger passenger = instance.GetComponent<Passenger>();
         passenger.transform.parent = transform;
-        queue.Enqueue(passenger);
+        queue.Enqueue(passenger, instantEnqueue);
 
         return passenger;
     }
@@ -35,7 +35,7 @@ public class DockController : ExtendedMonoBehaviour {
 
     public void IncomingPassenger(Passenger passenger) {
         passenger.transform.SetParent(transform);
-        passenger.SetDestination(spawnPoint.position);
+        passenger.SetDestination(despawnPoint.position);
 
         // Delay to ensure the agent's destination has been updated in time
         Schedule(() => {
@@ -46,7 +46,13 @@ public class DockController : ExtendedMonoBehaviour {
     }
 
     private void OnDrawGizmos() {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(spawnPoint.position, 0.75f);
+        if (spawnPoint != null) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(spawnPoint.position, 0.75f);
+        }
+        if (despawnPoint != null) {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(despawnPoint.position, 0.75f);
+        }
     }
 }

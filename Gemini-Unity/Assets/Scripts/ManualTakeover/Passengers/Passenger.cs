@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Passenger : MonoBehaviour {
     private const float 
-        ANIM_SPEED = 0.75f,
+        ANIM_SPEED = 0.6f,
         MIN_ANIM_SPEED = 0.25f,
         SPEED_THRESHOLD = 0.15f;
 
@@ -31,10 +31,6 @@ public class Passenger : MonoBehaviour {
     public void SetDestination(Vector3 destination) {
         if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
         agent.SetDestination(destination);
-    }
-
-    public void MoveToDestination() {
-        transform.position = agent.destination;
     }
 
     private void Update() {

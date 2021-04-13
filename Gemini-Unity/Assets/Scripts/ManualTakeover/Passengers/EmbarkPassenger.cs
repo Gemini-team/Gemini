@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EmbarkPassenger : MonoBehaviour {
+    [HideInInspector]
+    public UnityEvent OnBoardingCompleted;
     public Vector3[] seats;
 
     private List<Passenger> passengers = new List<Passenger>();
@@ -36,7 +38,11 @@ public class EmbarkPassenger : MonoBehaviour {
                     break;
                 }
             }
-            ferry.boarding = !boardingCompleted;
+
+            if (boardingCompleted) {
+                ferry.boarding = false;
+                OnBoardingCompleted?.Invoke();
+            }
         }
     }
 

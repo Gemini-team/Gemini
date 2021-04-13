@@ -12,7 +12,7 @@ public class FerryController : MonoBehaviour {
     public float force, maxSpeed, throttleSensitivity = 1;
 
     [HideInInspector]
-    public bool boarding;
+    public bool manualControl = true, boarding;
 
     private UIManager ui;
     private Rigidbody rb;
@@ -34,7 +34,7 @@ public class FerryController : MonoBehaviour {
         ui.SetBar("Throttle/Up", Mathf.Max(throttle, 0));
         ui.SetBar("Throttle/Down", Mathf.Max(-throttle, 0));
 
-        if (boarding || automatedTrip.Playing) return;
+        if (!manualControl || boarding || automatedTrip.Playing) return;
 
         if (Input.GetKeyDown(KeyCode.F)) {
             if (dock == null) TryConnectToDock();
@@ -50,7 +50,6 @@ public class FerryController : MonoBehaviour {
         throttle = Mathf.Clamp(throttle + dir * throttleSensitivity * Time.deltaTime, -1, 1);
         if (Input.GetKeyDown(KeyCode.X)) throttle = 0;
             
-
         rb.AddForce(transform.forward * throttle * force);
         rb.AddTorque(Vector3.up * rudder * force);
 
