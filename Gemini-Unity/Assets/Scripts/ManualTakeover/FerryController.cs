@@ -9,31 +9,39 @@ public class FerryController : MonoBehaviour {
 
     [HideInInspector]
     public UnityEvent OnConnectToDock, OnDisconnectFromDock;
-    public float force, maxSpeed, throttleSensitivity = 1;
+    public float force, rudderStrength = 1, maxSpeed;
 
+    private bool manualControl = true;
+    public bool ManualControl {
+        get => manualControl;
+        set {
+            if (value && !manualControl) {
+                ui.Alert("Manual takeover required", 3);
+            }
+            ui.Toggle("ManualIndicator", value);
+            manualControl = value;
+        }
+    }
+    
     [HideInInspector]
-    public bool manualControl = true, boarding;
+    public bool boarding;
 
     private UIManager ui;
     private Rigidbody rb;
     private FerryTrip automatedTrip;
     private Animator[] animators;
-    private float throttle;
 
     public DockController dock { get; private set; }
     public int DockDirection => dock == null ? 0 : (int)Mathf.Sign(Vector3.Dot(transform.position - dock.transform.Find("DockingArea").position, transform.forward));
 
     void Start() {
-        ui = FindObjectOfType<UIManager>();
+        ui = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
         rb = GetComponent<Rigidbody>();
         automatedTrip = GetComponent<FerryTrip>();
         animators = GetComponentsInChildren<Animator>();
     }
 
     void Update() {
-        ui.SetBar("Throttle/Up", Mathf.Max(throttle, 0));
-        ui.SetBar("Throttle/Down", Mathf.Max(-throttle, 0));
-
         if (!manualControl || boarding || automatedTrip.Playing) return;
 
         if (Input.GetKeyDown(KeyCode.F)) {
@@ -44,14 +52,11 @@ public class FerryController : MonoBehaviour {
         // Prevent ferry movement when docked
         if (dock != null) return;
         
-        float dir = Input.GetAxisRaw("Vertical");
-        float rudder = Input.GetAxis("Horizontal");
-
-        throttle = Mathf.Clamp(throttle + dir * throttleSensitivity * Time.deltaTime, -1, 1);
-        if (Input.GetKeyDown(KeyCode.X)) throttle = 0;
+        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * force;
+        float rudder = Input.GetAxisRaw("Rudder");
             
-        rb.AddForce(transform.forward * throttle * force);
-        rb.AddTorque(Vector3.up * rudder * force);
+        rb.AddForce(Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(input.x, 0, input.y));
+        rb.AddTorque(Vector3.up * force * rudder * rudderStrength);
 
         float mag = rb.velocity.magnitude;
         if (mag > maxSpeed) {
