@@ -21,8 +21,8 @@ TagManager:
   - Terrain
   - IgnoreCamera
   - Obstacle
-  - 
-  - 
+  - Passenger
+  - IgnorePassenger
   - 
   - 
   - 
