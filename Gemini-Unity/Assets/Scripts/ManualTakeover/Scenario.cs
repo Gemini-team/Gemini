@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Scenario : ExtendedMonoBehaviour {
-    private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20, SHUTDOWN_TIME = 20;
+    private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 20;
 
     public int spawnAmount = 5, tripCount = 3, stepDelay = 20;
     public float manualTakeoverDelay = 10;
@@ -24,7 +24,7 @@ public class Scenario : ExtendedMonoBehaviour {
         });
 
         ferry.OnConnectToDock.AddListener(() => { 
-            if (Playing && ferry.manualControl) {
+            if (Playing && ferry.ManualControl) {
                 Playing = false;
                 Debug.Log("Scenario completed");
                 Schedule(Application.Quit, SHUTDOWN_TIME);
@@ -39,7 +39,7 @@ public class Scenario : ExtendedMonoBehaviour {
 
     public void Play() {
         if (Playing || ferry.dock == null) return;
-        ferry.manualControl = false;
+        ferry.ManualControl = false;
         Playing = true;
         Step();
 
@@ -60,11 +60,15 @@ public class Scenario : ExtendedMonoBehaviour {
     private void Update() {
         if (!Playing) return;
 
-        if (!ferry.manualControl && tripCount == 0 && Time.time > manualTakeoverAtTime) {
-            trip.Playing = false;
-            ferry.manualControl = true;
-            ferry.GetComponent<Rigidbody>().AddForce(ferry.transform.forward * ferry.force * TAKEOVER_FORCE);
-            Debug.Log("Manual takeover");
+        if (Input.GetKeyDown(KeyCode.G) || (!ferry.ManualControl && tripCount == 0 && Time.time > manualTakeoverAtTime)) {
+            ManualTakeover();
         }
+    }
+
+    private void ManualTakeover() {
+        trip.Playing = false;
+        ferry.ManualControl = true;
+        ferry.GetComponent<Rigidbody>().AddForce(ferry.transform.forward * TAKEOVER_FORCE);
+        Debug.Log("Manual takeover");
     }
 }

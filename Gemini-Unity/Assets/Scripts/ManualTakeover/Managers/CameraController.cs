@@ -17,15 +17,16 @@ public class CameraController : MonoBehaviour {
 
     private void Start() {
         lookRotation = transform.eulerAngles;
+        if (mounts.Length > 0) {
+            MountTo(0);
+            transition = 1;  // Instantly move to mount
+        }
     }
 
     private void Update() {
         for (int i = 0; i < mounts.Length; i++) {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i)) {
-                startPos = transform.position;
-                startRot = transform.rotation;
-                transition = 0;
-                mount = mounts[i];
+                MountTo(i);
                 break;
             }
         }
@@ -46,10 +47,18 @@ public class CameraController : MonoBehaviour {
             if (leftClick || rightClick) {
                 transform.position += transform.forward * speed * Time.deltaTime * (leftClick ? -1 : 1);
             }
-        } else {
+        }
+        else {
             transition = Mathf.Clamp01(transition + Time.deltaTime / TRANSITION_DURATION);
             transform.position = Vector3.Lerp(startPos, mount.position, transition);
             transform.rotation = Quaternion.Lerp(startRot, mount.rotation, transition);
         }
+    }
+
+    private void MountTo(int index) {
+        startPos = transform.position;
+        startRot = transform.rotation;
+        transition = 0;
+        mount = mounts[index];
     }
 }
