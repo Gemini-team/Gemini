@@ -8,7 +8,6 @@ public class FerryTrip : AnimatedTrip {
     protected override void Start() {
         base.Start();
         ferry = GetComponent<FerryController>();
-        ferry.TryConnectToDock();
     }
 
     public override void SkipToEnd() {

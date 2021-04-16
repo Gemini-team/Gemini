@@ -39,6 +39,8 @@ public class FerryController : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         automatedTrip = GetComponent<FerryTrip>();
         animators = GetComponentsInChildren<Animator>();
+
+        TryConnectToDock();
     }
 
     void Update() {
