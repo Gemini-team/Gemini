@@ -3018,6 +3018,7 @@ GameObject:
   - component: {fileID: 1383457043}
   - component: {fileID: 1383457044}
   - component: {fileID: 1383457042}
+  - component: {fileID: 1383457045}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -3069,6 +3070,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 336038608}
   alertMessage: {fileID: 1930947712}
+--- !u!114 &1383457045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383457041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff8a40cae2844d49a7fe82f7e370c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1447534125
 GameObject:
   m_ObjectHideFlags: 0
