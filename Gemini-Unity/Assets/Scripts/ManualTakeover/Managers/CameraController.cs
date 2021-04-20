@@ -18,10 +18,6 @@ public class CameraController : MonoBehaviour {
     private Transform Mount => mountI.HasValue ? mounts[mountI.Value] : null;
 
     private Vector3 lookRotation;
-    private float transition;
-
-    private Vector3 startPos;
-    private Quaternion startRot;
 
     private void Start() {
         lookRotation = transform.eulerAngles;
@@ -30,7 +26,6 @@ public class CameraController : MonoBehaviour {
 
         if (mounts.Length > 0) {
             MountTo(0);
-            transition = 1;  // Instantly move to mount
         }
     }
 
@@ -49,9 +44,7 @@ public class CameraController : MonoBehaviour {
         }
 
         if (Input.GetMouseButtonDown(2)) {
-            lookRotation = transform.eulerAngles;
-            cam.fieldOfView = maxFOV;
-            mountI = null;
+            MountTo(null);
         }
 
         if (!mountI.HasValue) {
@@ -71,19 +64,20 @@ public class CameraController : MonoBehaviour {
             if (scroll != 0) {
                 cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - scroll * SCROLL_SENSITIVITY, MIN_FOV, maxFOV);
             }
-
-            transition = Mathf.Clamp01(transition + Time.deltaTime / TRANSITION_DURATION);
-            transform.position = Vector3.Lerp(startPos, Mount.position, transition);
-            transform.rotation = Quaternion.Lerp(startRot, Mount.rotation, transition);
         }
     }
 
-    private void MountTo(int index) {
-        startPos = transform.position;
-        startRot = transform.rotation;
-        transition = 0;
+    private void MountTo(int? index) {
         mountI = index;
 
         cam.fieldOfView = maxFOV;
+        transform.parent = Mount;
+
+        if (index.HasValue) {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        } else {
+            lookRotation = transform.eulerAngles;
+        }
     }
 }
