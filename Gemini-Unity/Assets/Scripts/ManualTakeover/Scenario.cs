@@ -13,6 +13,7 @@ public class Scenario : ExtendedMonoBehaviour {
     private float manualTakeoverAtTime;
 
     public bool Playing { get; private set; }
+    public bool Done { get; private set; }
 
     private void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -24,14 +25,19 @@ public class Scenario : ExtendedMonoBehaviour {
         });
 
         ferry.OnConnectToDock.AddListener(() => { 
-            if (Playing && ferry.ManualControl) {
+            if (!Done && ferry.ManualControl) {
+                Done = true;
                 Playing = false;
                 Debug.Log("Scenario completed");
                 Schedule(Application.Quit, SHUTDOWN_TIME);
             }
         });
 
-        player.GetComponent<EmbarkPassenger>().OnBoardingCompleted.AddListener(trip.Play);
+        player.GetComponent<EmbarkPassenger>().OnBoardingCompleted.AddListener(() => { 
+            if (Playing) {
+                trip.Play();
+            }
+        });
 
         Schedule(Play, 2);
     }
@@ -40,6 +46,7 @@ public class Scenario : ExtendedMonoBehaviour {
         if (Playing || ferry.dock == null) return;
 
         ferry.ManualControl = false;
+        Done = false;
         Playing = true;
         Step();
         
@@ -66,6 +73,7 @@ public class Scenario : ExtendedMonoBehaviour {
     }
 
     private void ManualTakeover() {
+        Playing = false;
         trip.Playing = false;
         ferry.ManualControl = true;
         ferry.GetComponent<Rigidbody>().AddForce(ferry.transform.forward * TAKEOVER_FORCE);
