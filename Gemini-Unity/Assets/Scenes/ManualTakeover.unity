@@ -122,6 +122,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 3f9e93b8c5722d3479698ac42d880bd8, type: 2}
+--- !u!1 &3430139 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1037132815776589516, guid: 900e8e2ca987eaf46b60230c2afda099,
+    type: 3}
+  m_PrefabInstance: {fileID: 1420163616189776513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &3430141
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3430139}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5304193263562146191, guid: e225f9f16314cda4cac0cb66ef774d15, type: 3}
 --- !u!1 &6474050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2568,14 +2588,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1380500737, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: force
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1380500737, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: rudderStrength
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6137059321811343213, guid: 5bad07ed802830f4d9b33c91b99a8275,
         type: 3}
       propertyPath: m_Name
@@ -2668,7 +2680,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383457041}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8ec61b7842b0e842b078f9cfb4c6189, type: 3}
   m_Name: 
@@ -3388,7 +3400,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: VKK V2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1420163616189776515, guid: 900e8e2ca987eaf46b60230c2afda099, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 900e8e2ca987eaf46b60230c2afda099, type: 3}
 --- !u!4 &5006512736716474914 stripped
 Transform:
@@ -3407,11 +3420,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RAVNKLOA V2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2654655470149093782, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3963410567208083019, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
         type: 3}
@@ -3468,10 +3476,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7977523674495316961, guid: efe6c8d4a4d3b484d805f31aa01dda5b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 665611368, guid: efe6c8d4a4d3b484d805f31aa01dda5b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: efe6c8d4a4d3b484d805f31aa01dda5b, type: 3}
