@@ -46,7 +46,7 @@ public class FerryController : MonoBehaviour {
     void Update() {
         if (!manualControl || boarding || automatedTrip.Playing) return;
 
-        if (Input.GetKeyDown(KeyCode.F)) {
+        if (Input.GetButtonDown("Dock")) {
             if (dock == null) TryConnectToDock();
             else TryDisconnectFromDock();
         }

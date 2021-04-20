@@ -8,7 +8,9 @@ public class CameraController : MonoBehaviour {
     public Transform[] mounts;
     public float speed, mouseSensitivity;
 
-    private Transform mount;
+    private int? mountI = null;
+    private Transform Mount => mountI.HasValue ? mounts[mountI.Value] : null;
+
     private Vector3 lookRotation;
     private float transition;
 
@@ -31,12 +33,18 @@ public class CameraController : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(2)) {
-            lookRotation = transform.eulerAngles;
-            mount = null;
+        float switchCam = Input.GetAxisRaw("SwitchCamera");
+        if (switchCam != 0) {
+            int index = mountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
+            MountTo(MathTools.Mod(index, mounts.Length));
         }
 
-        if (mount == null) {
+        if (Input.GetMouseButtonDown(2)) {
+            lookRotation = transform.eulerAngles;
+            mountI = null;
+        }
+
+        if (!mountI.HasValue) {
             Vector2 input = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             // Update euler angles as a vector to avoid quaternion clamping issues
             lookRotation += new Vector3(-input.y, input.x);
@@ -50,8 +58,8 @@ public class CameraController : MonoBehaviour {
         }
         else {
             transition = Mathf.Clamp01(transition + Time.deltaTime / TRANSITION_DURATION);
-            transform.position = Vector3.Lerp(startPos, mount.position, transition);
-            transform.rotation = Quaternion.Lerp(startRot, mount.rotation, transition);
+            transform.position = Vector3.Lerp(startPos, Mount.position, transition);
+            transform.rotation = Quaternion.Lerp(startRot, Mount.rotation, transition);
         }
     }
 
@@ -59,6 +67,6 @@ public class CameraController : MonoBehaviour {
         startPos = transform.position;
         startRot = transform.rotation;
         transition = 0;
-        mount = mounts[index];
+        mountI = index;
     }
 }

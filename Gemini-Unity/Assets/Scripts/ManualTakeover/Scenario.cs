@@ -28,7 +28,6 @@ public class Scenario : ExtendedMonoBehaviour {
                 Playing = false;
                 Debug.Log("Scenario completed");
                 Schedule(Application.Quit, SHUTDOWN_TIME);
-                
             }
         });
 
@@ -39,10 +38,11 @@ public class Scenario : ExtendedMonoBehaviour {
 
     public void Play() {
         if (Playing || ferry.dock == null) return;
+
         ferry.ManualControl = false;
         Playing = true;
         Step();
-
+        
         Debug.Log("Playing scenario");
     }
 
@@ -60,7 +60,7 @@ public class Scenario : ExtendedMonoBehaviour {
     private void Update() {
         if (!Playing) return;
 
-        if (Input.GetKeyDown(KeyCode.G) || (!ferry.ManualControl && tripCount == 0 && Time.time > manualTakeoverAtTime)) {
+        if (Input.GetButtonDown("ManualTakeover") || (!ferry.ManualControl && tripCount == 0 && Time.time > manualTakeoverAtTime)) {
             ManualTakeover();
         }
     }
