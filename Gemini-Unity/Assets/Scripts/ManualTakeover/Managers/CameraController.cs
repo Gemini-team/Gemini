@@ -6,16 +6,18 @@ public class CameraController : MonoBehaviour {
     private const float 
         MOUSE_SENSITIVITY = 1,
         SCROLL_SENSITIVITY = 20,
-        TRANSITION_DURATION = 1, 
+        SPEED_MULT = 2,
         MIN_FOV = 30;
 
     public Transform[] mounts;
     public float speed;
     private float maxFOV;
     private Camera cam;
+    private FerryController ferry;
 
     private int? mountI = null;
-    private Transform Mount => mountI.HasValue ? mounts[mountI.Value] : null;
+    public Transform Mount => mountI.HasValue ? mounts[mountI.Value] : null;
+    public bool FreeCam => !mountI.HasValue;
 
     private Vector3 lookRotation;
 
@@ -24,9 +26,12 @@ public class CameraController : MonoBehaviour {
         cam = GetComponent<Camera>();
         maxFOV = cam.fieldOfView;
 
-        if (mounts.Length > 0) {
-            MountTo(0);
-        }
+        ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
+        ferry.OnControlChange.AddListener(() => { 
+            if (ferry.ManualControl) {
+                MountTo(0);
+            }
+        });
     }
 
     private void Update() {
@@ -37,27 +42,27 @@ public class CameraController : MonoBehaviour {
             }
         }
 
+        Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * MOUSE_SENSITIVITY;
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Rudder"), Input.GetAxis("Vertical"));
         float switchCam = Input.GetAxisRaw("SwitchCamera");
+
         if (switchCam != 0) {
             int index = mountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
             MountTo(MathTools.Mod(index, mounts.Length));
         }
 
-        if (Input.GetMouseButtonDown(2)) {
+        // Don't activate free-cam if ferry is in manual mode
+        if (!ferry.ManualControl && !FreeCam && move != Vector3.zero) {
             MountTo(null);
         }
 
-        if (!mountI.HasValue) {
-            Vector2 input = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * MOUSE_SENSITIVITY;
+        if (FreeCam) {
             // Update euler angles as a vector to avoid quaternion clamping issues
-            lookRotation += new Vector3(-input.y, input.x);
+            lookRotation += new Vector3(-look.y, look.x);
             lookRotation.x = Mathf.Clamp(lookRotation.x, -89.9f, 89.9f);
             transform.rotation = Quaternion.Euler(lookRotation);
 
-            bool leftClick = Input.GetMouseButton(0), rightClick = Input.GetMouseButton(1);
-            if (leftClick || rightClick) {
-                transform.position += transform.forward * speed * Time.deltaTime * (leftClick ? -1 : 1);
-            }
+            transform.position += transform.rotation * move * speed * (Input.GetKey(KeyCode.LeftShift) ? SPEED_MULT : 1);
         }
         else {
             float scroll = Input.GetAxisRaw("Mouse ScrollWheel");

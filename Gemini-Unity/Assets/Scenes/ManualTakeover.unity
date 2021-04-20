@@ -2765,7 +2765,7 @@ MonoBehaviour:
   - {fileID: 561651317}
   - {fileID: 543118275}
   - {fileID: 711597404}
-  speed: 3
+  speed: 0.75
 --- !u!1 &1275390349
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,7 +3039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnAmount: 5
-  tripCount: 3
+  tripCount: 1
   stepDelay: 35
   manualTakeoverDelay: 20
 --- !u!4 &1383457043

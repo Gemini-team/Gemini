@@ -8,7 +8,7 @@ public class FerryController : MonoBehaviour {
     private const float DOCK_DIST_LIMIT = 2.5f, DOCK_ALIGN_THRESHOLD = 0.9825f;
 
     [HideInInspector]
-    public UnityEvent OnConnectToDock, OnDisconnectFromDock;
+    public UnityEvent OnConnectToDock, OnDisconnectFromDock, OnControlChange;
     public float force, rudderStrength = 1, maxSpeed;
 
     private bool manualControl = true;
@@ -20,6 +20,8 @@ public class FerryController : MonoBehaviour {
             }
             ui.Toggle("ManualIndicator", value);
             manualControl = value;
+
+            OnControlChange?.Invoke();
         }
     }
     
