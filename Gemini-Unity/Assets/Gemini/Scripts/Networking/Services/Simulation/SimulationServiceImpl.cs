@@ -5,6 +5,7 @@ using Grpc.Core;
 using System.Threading;
 using GeminiOSPInterface;
 using Gemini.Core;
+using Gemini.EMRS.Core;
 using System;
 
 namespace Gemini.Networking.Services {
@@ -39,6 +40,8 @@ namespace Gemini.Networking.Services {
 
             ThreadManager.ExecuteOnMainThread(() =>
             {
+                Sensor.UpdateSensorTime(time, Sensor.GetActiveSensors());
+
                 for (int boatIdx = 0; boatIdx < _boats.Length; boatIdx++)
                 {
                     if (boatIdx < _boats.Length)
