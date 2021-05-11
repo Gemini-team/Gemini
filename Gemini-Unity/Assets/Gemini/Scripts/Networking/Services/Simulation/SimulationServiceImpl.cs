@@ -26,8 +26,8 @@ namespace Gemini.Networking.Services {
             StepRequest request, ServerCallContext context)
         {
 
+            _simulationController.SignalEvent.WaitOne();
             return await Task.FromResult(Executor.Execute<StepResponse, Del<StepResponse, StepRequest>, StepRequest>(_simulationController.DoStep, request));
-
         }
 
         public override async Task<SetStartTimeResponse> SetStartTime(

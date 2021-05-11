@@ -4,6 +4,8 @@ using Gemini.EMRS.Core;
 using Gemini.EMRS.Core.ZBuffer;
 using Gemini.Networking.Clients;
 using Google.Protobuf;
+using UnityEngine.Experimental.Rendering;
+using System.IO;
 
 namespace Gemini.EMRS.RGB
 {
@@ -11,7 +13,7 @@ namespace Gemini.EMRS.RGB
 
         public CameraImage(float time, string frameID, uint height, uint width)
         {
-            data = ByteString.CopyFrom();
+            data = ByteString.CopyFromUtf8("");
             this.time = time;
             this.frameID = frameID;
             this.width = width;
@@ -84,6 +86,7 @@ namespace Gemini.EMRS.RGB
             cameraShader.SetInt("Height", PixelHeight / ImageCrop);
         }
 
+        int saveCount = 0;
 
         private void RGBUpdate(ScriptableRenderContext context, Camera[] cameras)
         {
@@ -91,7 +94,16 @@ namespace Gemini.EMRS.RGB
             {
                 _cameraData.SynchUpdate(cameraShader, "CSMain");
                 _sensorData.data = ByteString.CopyFrom(_cameraData.array);
-                _client.SendMessage(_sensorData);
+
+                var imgArr = ImageConversion.EncodeArrayToPNG(_cameraData.array, GraphicsFormat.R8G8B8A8_SRGB, (uint)PixelWidth, (uint)PixelHeight);
+                
+                if (saveCount == 0)
+                {
+                    File.WriteAllBytes("cam_img.png", imgArr);
+                    saveCount++;
+                }
+
+                //_client.SendMessage(_sensorData);
             }
             else
             {
@@ -102,8 +114,35 @@ namespace Gemini.EMRS.RGB
         private void ReadbackCompleted(AsyncGPUReadbackRequest request)
         {
             _sensorData.data = ByteString.CopyFrom(request.GetData<byte>().ToArray());
+
+            if (saveCount == 0)
+            {
+                //var imgArr = ImageConversion.EncodeArrayToPNG(_sensorData.data.ToByteArray(), GraphicsFormat.R8G8B8A8_SRGB, (uint)(PixelWidth / ImageCrop), (uint)(PixelHeight / ImageCrop));
+                //File.WriteAllBytes("cam_img_srgb_async.png", imgArr);
+                //saveCount++;
+
+                //var imgArr = ImageConversion.EncodeArrayToPNG(request.GetData<byte>().ToArray(), GraphicsFormat.R8G8B8A8_UNorm, (uint)(PixelWidth / ImageCrop), (uint)(PixelHeight / ImageCrop));
+                //var imgArr = ImageConversion.EncodeArrayToPNG(request.GetData<byte>().ToArray(), GraphicsFormat.R8G8B8A8_UNorm, (uint)PixelWidth, (uint)PixelHeight);
+                Debug.Log("width: " + request.width + ", height: " + request.height);
+
+                var imgArr = ImageConversion.EncodeArrayToPNG(
+                    request.GetData<byte>().ToArray(), 
+                    //GraphicsFormat.R8G8B8A8_UNorm, 
+                    GraphicsFormat.R8G8B8_UNorm, 
+                    (uint)(request.width), 
+                    (uint)(request.height));
+
+                Debug.Log("Data length: " + request.GetData<byte>().ToArray().Length);
+
+                File.WriteAllBytes("cam_img_unorm_async.png", imgArr);
+                saveCount++;
+
+            }
+
             _client.SendMessage(_sensorData);
+
         }
+
         private byte[] RenderTextureToBinary(Camera cam)
         {
             // The Render Texture in RenderTexture.active is the one

@@ -8,6 +8,7 @@ using Gemini.EMRS.Core;
 using Gemini.EMRS.RGB;
 using GeminiOSPInterface;
 using Grpc.Core;
+using System.Threading;
 
 public class SimulationController : ControllerBase, ISimulationService 
 {
@@ -17,13 +18,18 @@ public class SimulationController : ControllerBase, ISimulationService
 
     private GameObject[] _boats;
     
-    private bool _isStatesUpdated = false;
-
     private bool hasAllSensorsRenderedOnPrevUpdate = false;
 
     private RGBCamera[] _rgbCameras;
 
     private CameraClient _cameraClient;
+
+    private ManualResetEvent _signalEvent = new ManualResetEvent(false);
+
+    public ManualResetEvent SignalEvent
+    {
+        get => _signalEvent;
+    }
 
     public GameObject[] boatPrefabs;
 
@@ -37,7 +43,6 @@ public class SimulationController : ControllerBase, ISimulationService
     private void UpdateStates(StepRequest request)
     {
         UpdateBoats(request);
-        _isStatesUpdated = true;
     }
 
     public SetStartTimeResponse SetStartTime(SetStartTimeRequest request)
