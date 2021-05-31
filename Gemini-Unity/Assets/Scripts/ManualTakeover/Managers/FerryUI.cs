@@ -30,6 +30,6 @@ public class FerryUI : ExtendedMonoBehaviour {
     }
 
     private void Update() {
-        distanceGauge.text = ferry.AtDock == null ? Mathf.RoundToInt(ferry.RemainingDistance) + "m" : "0m";
+        distanceGauge.text = ferry.AtDock == null ? Mathf.RoundToInt(ferry.RemainingDistance) + "m" : "0m (Docked)";
     }
 }
