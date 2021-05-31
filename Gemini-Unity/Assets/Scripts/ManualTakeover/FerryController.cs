@@ -24,7 +24,9 @@ public class FerryController : MonoBehaviour {
             OnControlChange?.Invoke();
         }
     }
-    
+    public Vector2 input { get; private set; }
+    public float rudder { get; private set; }
+
     [HideInInspector]
     public bool boarding;
 
@@ -46,6 +48,9 @@ public class FerryController : MonoBehaviour {
     }
 
     void Update() {
+        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * force;
+        rudder = Input.GetAxisRaw("Rudder");
+
         if (!manualControl || boarding || automatedTrip.Playing) return;
 
         if (Input.GetButtonDown("Dock")) {
@@ -55,9 +60,6 @@ public class FerryController : MonoBehaviour {
 
         // Prevent ferry movement when docked
         if (dock != null) return;
-        
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * force;
-        float rudder = Input.GetAxisRaw("Rudder");
             
         rb.AddForce(Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(input.x, 0, input.y));
         rb.AddTorque(Vector3.up * force * rudder * rudderStrength);

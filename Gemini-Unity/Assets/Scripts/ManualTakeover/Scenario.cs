@@ -7,7 +7,7 @@ public class Scenario : ExtendedMonoBehaviour {
     private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 20;
 
     [HideInInspector]
-    public UnityEvent OnPlay, OnCompletion;
+    public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
 
     public int spawnAmount = 5, tripCount = 3, stepDelay = 20;
     public float manualTakeoverDelay = 10;
@@ -84,5 +84,7 @@ public class Scenario : ExtendedMonoBehaviour {
         Ferry.ManualControl = true;
         Ferry.GetComponent<Rigidbody>().AddForce(Ferry.transform.forward * TAKEOVER_FORCE);
         Debug.Log("Manual takeover");
+
+        OnManualTakeover?.Invoke();
     }
 }
