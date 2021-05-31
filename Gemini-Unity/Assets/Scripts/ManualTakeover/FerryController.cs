@@ -75,8 +75,8 @@ public class FerryController : MonoBehaviour {
         }
     }
 
-    public bool TryConnectToDock() {
-        float dist = float.MaxValue;
+    public DockController ClosestDock(out float dist) {
+        dist = float.MaxValue;
         DockController closestDock = null;
 
         foreach (DockController dock in FindObjectsOfType<DockController>()) {
@@ -86,6 +86,13 @@ public class FerryController : MonoBehaviour {
                 dist = dist_;
             }
         }
+
+        return closestDock;
+    }
+    public DockController ClosestDock() => ClosestDock(out float _);
+
+    public bool TryConnectToDock() {
+        DockController closestDock = ClosestDock(out float dist);
 
         if (dist > DOCK_DIST_LIMIT) {
             Debug.Log("Docking failed (too far away)");

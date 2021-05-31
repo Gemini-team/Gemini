@@ -3019,6 +3019,7 @@ GameObject:
   - component: {fileID: 1383457044}
   - component: {fileID: 1383457042}
   - component: {fileID: 1383457045}
+  - component: {fileID: 1383457046}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -3038,6 +3039,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ec61b7842b0e842b078f9cfb4c6189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPlay:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCompletion:
+    m_PersistentCalls:
+      m_Calls: []
   spawnAmount: 5
   tripCount: 3
   stepDelay: 35
@@ -3082,6 +3089,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff8a40cae2844d49a7fe82f7e370c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1383457046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383457041}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f02062cd195a47b41b2d284d652656c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interval: 1
 --- !u!1 &1447534125
 GameObject:
   m_ObjectHideFlags: 0
