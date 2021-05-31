@@ -15,12 +15,7 @@ public class FerryController : MonoBehaviour {
     public bool ManualControl {
         get => manualControl;
         set {
-            if (value && !manualControl) {
-                ui.Alert("Manual takeover required\nDock at " + DestinationDock.name, 15);
-            }
-            ui.Toggle("ManualIndicator", value);
             manualControl = value;
-
             OnControlChange?.Invoke();
         }
     }
@@ -30,7 +25,6 @@ public class FerryController : MonoBehaviour {
     [HideInInspector]
     public bool boarding;
 
-    private UIManager ui;
     private Rigidbody rb;
     private FerryTrip automatedTrip;
     private Animator[] animators;
@@ -42,7 +36,6 @@ public class FerryController : MonoBehaviour {
     public float RemainingDistance => Vector3.Distance(transform.position, DockPos(DestinationDock));
 
     void Start() {
-        ui = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
         rb = GetComponent<Rigidbody>();
         automatedTrip = GetComponent<FerryTrip>();
         animators = GetComponentsInChildren<Animator>();
