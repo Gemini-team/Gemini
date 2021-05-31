@@ -48,7 +48,7 @@ public class Scenario : ExtendedMonoBehaviour {
     }
 
     public void Play() {
-        if (Playing || Ferry.dock == null) return;
+        if (Playing || Ferry.AtDock == null) return;
 
         Ferry.ManualControl = false;
         Done = false;
@@ -62,8 +62,8 @@ public class Scenario : ExtendedMonoBehaviour {
     private void Step() {
         if (tripCount > 0) {
             tripCount--;
-            Repeat(() => { Ferry.dock.SpawnPassenger(); }, 
-            onCompletion: Ferry.dock.EmbarkAll, 
+            Repeat(() => { Ferry.AtDock.SpawnPassenger(); }, 
+            onCompletion: Ferry.AtDock.EmbarkAll, 
             times: spawnAmount, interval: SPAWN_INTERVAL);
 
             if (tripCount == 0) manualTakeoverAtTime = Time.time + stepDelay + manualTakeoverDelay;

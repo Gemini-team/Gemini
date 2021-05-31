@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class DataCollector : MonoBehaviour {
     private const string DIRECTORY = "./data/";
-    private readonly string[] HEADER = new string[] { "time", "distanceToDock", "speed", "position", "direction" };
+    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "movement", "position", "direction" };
     private const string SEPARATOR = ";";
 
     private Scenario scenario;
@@ -38,23 +37,22 @@ public class DataCollector : MonoBehaviour {
     }
 
     // Precondition: open == true
-    private IEnumerator TakeMeasurements() {
+    private IEnumerator TakeRegularMeasurements() {
         float prevDist = -1;
         
         while (open) {
-            scenario.Ferry.ClosestDock(out float dist);
-
+            float remainingDist = scenario.Ferry.RemainingDistance;
             object[] data = new object[] {
                 Time.time - startTime,
-                dist,
-                prevDist < 0 ? 0 : (prevDist - dist) / interval,
+                remainingDist,
+                prevDist < 0 ? 0 : (prevDist - remainingDist) / interval,
                 scenario.Ferry.transform.position,
                 transform.forward
             };
             WriteRow(data);
 
             yield return new WaitForSeconds(interval);
-            prevDist = dist;
+            prevDist = remainingDist;
         }
     }
 
@@ -67,7 +65,7 @@ public class DataCollector : MonoBehaviour {
         startTime = Time.time;
         open = true;
 
-        StartCoroutine(TakeMeasurements());
+        StartCoroutine(TakeRegularMeasurements());
     }
 
     private void TryStopMeasuring() {

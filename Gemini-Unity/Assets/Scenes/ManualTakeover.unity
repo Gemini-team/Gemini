@@ -152,6 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6474051}
   - component: {fileID: 6474052}
+  - component: {fileID: 6474053}
   m_Layer: 0
   m_Name: FerryPath
   m_TagString: Untagged
@@ -235,6 +236,21 @@ MonoBehaviour:
     showNormalsHelpInfo: 0
     tabIndex: 0
   initialized: 1
+--- !u!114 &6474053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6474050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643089513a378cc4996d0d1d3ea26bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: {fileID: 0}
+  to: {fileID: 0}
+  path: {fileID: 0}
 --- !u!1 &94838176
 GameObject:
   m_ObjectHideFlags: 0
@@ -3099,7 +3115,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383457041}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f02062cd195a47b41b2d284d652656c3, type: 3}
   m_Name: 
@@ -3741,7 +3757,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1309492758}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2074059488
+--- !u!114 &2074059489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

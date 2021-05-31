@@ -16,7 +16,7 @@ public class FerryController : MonoBehaviour {
         get => manualControl;
         set {
             if (value && !manualControl) {
-                ui.Alert("Manual takeover required", 3);
+                ui.Alert("Manual takeover required\nDock at " + DestinationDock.name, 15);
             }
             ui.Toggle("ManualIndicator", value);
             manualControl = value;
@@ -35,8 +35,11 @@ public class FerryController : MonoBehaviour {
     private FerryTrip automatedTrip;
     private Animator[] animators;
 
-    public DockController dock { get; private set; }
-    public int DockDirection => dock == null ? 0 : (int)Mathf.Sign(Vector3.Dot(transform.position - dock.transform.Find("DockingArea").position, transform.forward));
+    public DockController AtDock { get; private set; }
+    public DockController DestinationDock { get; private set; }
+    public Vector3 DockPos(DockController dock) => dock.transform.Find("DockingArea").position;
+    public int DockDirection => AtDock == null ? 0 : (int)Mathf.Sign(Vector3.Dot(transform.position - DockPos(AtDock), transform.forward));
+    public float RemainingDistance => Vector3.Distance(transform.position, DockPos(DestinationDock));
 
     void Start() {
         ui = GameObject.FindGameObjectWithTag("GameController").GetComponent<UIManager>();
@@ -44,6 +47,7 @@ public class FerryController : MonoBehaviour {
         automatedTrip = GetComponent<FerryTrip>();
         animators = GetComponentsInChildren<Animator>();
 
+        UpdateDestination();
         TryConnectToDock();
     }
 
@@ -54,13 +58,13 @@ public class FerryController : MonoBehaviour {
         if (!manualControl || boarding || automatedTrip.Playing) return;
 
         if (Input.GetButtonDown("Dock")) {
-            if (dock == null) TryConnectToDock();
+            if (AtDock == null) TryConnectToDock();
             else TryDisconnectFromDock();
         }
 
         // Prevent ferry movement when docked
-        if (dock != null) return;
-            
+        if (AtDock != null) return;
+
         rb.AddForce(Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(input.x, 0, input.y));
         rb.AddTorque(Vector3.up * force * rudder * rudderStrength);
 
@@ -77,37 +81,51 @@ public class FerryController : MonoBehaviour {
         }
     }
 
-    public DockController ClosestDock(out float dist) {
-        dist = float.MaxValue;
+    private DockController ClosestDock(System.Func<DockController, bool> predicate=null) {
         DockController closestDock = null;
+        float dist = float.MaxValue;
 
         foreach (DockController dock in FindObjectsOfType<DockController>()) {
-            float dist_ = Vector3.Distance(transform.position, dock.transform.Find("DockingArea").position);
-            if (dist_ < dist) {
-                closestDock = dock;
-                dist = dist_;
+            if (predicate == null || predicate.Invoke(dock)) {
+
+                float dist_ = Vector3.Distance(transform.position, DockPos(dock));
+                if (dist_ < dist) {
+                    closestDock = dock;
+                    dist = dist_;
+                }
             }
         }
 
         return closestDock;
     }
-    public DockController ClosestDock() => ClosestDock(out float _);
+
+    private void UpdateDestination() {
+        DestinationDock = ClosestDock(dock => !dock.Equals(AtDock));
+    }
 
     public bool TryConnectToDock() {
-        DockController closestDock = ClosestDock(out float dist);
+        DockController dock = ClosestDock();
 
-        if (dist > DOCK_DIST_LIMIT) {
+        if (Vector3.Distance(transform.position, DockPos(dock)) > DOCK_DIST_LIMIT) {
             Debug.Log("Docking failed (too far away)");
             return false;
         }
 
-        float alignment = Mathf.Abs(Vector3.Dot(closestDock.transform.Find("DockingArea").forward, transform.forward));
+        float alignment = Mathf.Abs(Vector3.Dot(dock.transform.Find("DockingArea").forward, transform.forward));
         if (alignment < DOCK_ALIGN_THRESHOLD) {
             Debug.Log("Docking failed (not aligned)");
             return false;
         }
 
-        dock = closestDock;
+        if (!dock.Equals(DestinationDock)) {
+            Debug.Log("Docking failed (incorrect dock)");
+            return false;
+        }
+
+        // Dock to destination, then find next destination
+        AtDock = DestinationDock;
+        UpdateDestination();
+
         UpdateAnimators(inTransit: false);
         Debug.Log("Docking successful");
 
@@ -116,9 +134,9 @@ public class FerryController : MonoBehaviour {
     }
 
     public bool TryDisconnectFromDock() {
-        if (boarding || dock == null) return false;
+        if (boarding || AtDock == null) return false;
 
-        dock = null;
+        AtDock = null;
         UpdateAnimators(inTransit: true);
 
         OnDisconnectFromDock?.Invoke();

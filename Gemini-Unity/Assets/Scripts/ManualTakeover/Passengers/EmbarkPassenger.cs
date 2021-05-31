@@ -25,7 +25,7 @@ public class EmbarkPassenger : MonoBehaviour {
         ferry.OnConnectToDock.AddListener(() => {
             foreach (Passenger passenger in passengers) {
                 passenger.agent.enabled = true;
-                ferry.dock.IncomingPassenger(passenger);
+                ferry.AtDock.IncomingPassenger(passenger);
             }
             passengers.Clear();
         });
@@ -49,7 +49,7 @@ public class EmbarkPassenger : MonoBehaviour {
     }
 
     public bool CanEmbarkFrom(DockController dock) {
-        return passengers.Count < seats.Length && ferry.dock.Equals(dock);
+        return passengers.Count < seats.Length && ferry.AtDock.Equals(dock);
     }
 
     public void Embark(Passenger passenger) {
