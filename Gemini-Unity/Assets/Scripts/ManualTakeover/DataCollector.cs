@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class DataCollector : MonoBehaviour {
     private const string DIRECTORY = "./data/";
-    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "movement", "position", "direction" };
+    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "movement", "position", "direction", "linearInput", "angularInput" };
     private const string SEPARATOR = ";";
 
     private Scenario scenario;
@@ -30,6 +30,13 @@ public class DataCollector : MonoBehaviour {
         if (interval <= 0) {
             Debug.LogWarning("Consider using a non-zero interval for data collection");
         }
+
+        scenario.OnManualTakeover.AddListener(() => { 
+            if (open) {
+                // TODO: Include this time in the stored measurements
+                Debug.Log("Manual takeover occurred at " + (Time.time - startTime));
+            }
+        });
     }
 
     private void WriteRow(object[] values) {
@@ -47,7 +54,9 @@ public class DataCollector : MonoBehaviour {
                 remainingDist,
                 prevDist < 0 ? 0 : (prevDist - remainingDist) / interval,
                 scenario.Ferry.transform.position,
-                transform.forward
+                scenario.Ferry.transform.forward,
+                scenario.Ferry.input,
+                scenario.Ferry.rudder
             };
             WriteRow(data);
 
