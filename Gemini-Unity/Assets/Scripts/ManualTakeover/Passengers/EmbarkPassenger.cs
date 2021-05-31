@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class EmbarkPassenger : MonoBehaviour {
+    private const float SEAT_OFFSET = 0.25f;
+
     [HideInInspector]
     public UnityEvent OnBoardingCompleted;
     public Vector3[] seats;
@@ -54,8 +56,10 @@ public class EmbarkPassenger : MonoBehaviour {
         int seatIndex = passengers.Count;
         if (ferry.DockDirection < 0) seatIndex = seats.Length - seatIndex - 1;
 
+        Vector3 seat = seats[seatIndex] + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * SEAT_OFFSET;
+
         passenger.transform.SetParent(transform);
-        passenger.SetDestination(transform.position + transform.rotation * seats[seatIndex]);
+        passenger.SetDestination(transform.position + transform.rotation * seat);
         passengers.Add(passenger);
 
         ferry.boarding = true;
