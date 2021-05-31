@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Writes relevant measurements to a csv file at regular intervals
 /// </summary>
-public class DataCollector : MonoBehaviour {
+public class DataLogger : MonoBehaviour {
     private const string DIRECTORY = "./data/";
     private readonly string[] HEADER = new string[] { "time", "remainingDistance", "movement", "position", "direction", "linearInput", "angularInput", "manualControl" };
     private const string SEPARATOR = ";";
