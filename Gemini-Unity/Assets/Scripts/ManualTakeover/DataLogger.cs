@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class DataLogger : MonoBehaviour {
     private const string DIRECTORY = "./data/";
-    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "movement", "position", "direction", "linearInput", "angularInput", "manualControl" };
+    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "speed", "position", "direction", "linearInput", "angularInput", "manualControl" };
     private const string SEPARATOR = ";";
 
     private Scenario scenario;
@@ -38,14 +38,12 @@ public class DataLogger : MonoBehaviour {
 
     // Precondition: open == true
     private IEnumerator TakeRegularMeasurements() {
-        float prevDist = -1;
-        
         while (open) {
             float remainingDist = scenario.Ferry.RemainingDistance;
             object[] data = new object[] {
                 Time.time - startTime,
                 remainingDist,
-                prevDist < 0 ? 0 : (prevDist - remainingDist) / interval,
+                scenario.Ferry.Speed,
                 scenario.Ferry.transform.position,
                 scenario.Ferry.transform.forward,
                 scenario.Ferry.input,
@@ -55,7 +53,6 @@ public class DataLogger : MonoBehaviour {
             WriteRow(data);
 
             yield return new WaitForSeconds(interval);
-            prevDist = remainingDist;
         }
     }
 

@@ -3738,6 +3738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nChannels: 1
   takeoverSound: {fileID: 8300000, guid: 3f35466fd2ea99043999f85e708747e4, type: 3}
+  engineSound: {fileID: 8300000, guid: 13a55e89e32acc24e991f59fa890bc40, type: 3}
 --- !u!1 &2125055112
 GameObject:
   m_ObjectHideFlags: 0

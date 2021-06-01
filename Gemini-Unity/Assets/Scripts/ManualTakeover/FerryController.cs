@@ -7,11 +7,24 @@ using UnityEngine.Events;
 public class FerryController : MonoBehaviour {
     private const float DOCK_DIST_LIMIT = 2.5f, DOCK_ALIGN_THRESHOLD = 0.9825f;
 
+    private Vector3 prevPos;
+    private Rigidbody rb;
+    private FerryTrip automatedTrip;
+    private Animator[] animators;
+
+    [HideInInspector]
+    public bool boarding;
+    public Vector2 input { get; private set; }
+    public float rudder { get; private set; }
+
     [HideInInspector]
     public MessageEvent DockMessage = new MessageEvent();
     [HideInInspector]
     public UnityEvent OnConnectToDock, OnDisconnectFromDock, OnControlChange;
     public float force, rudderStrength = 1, maxSpeed;
+
+    // Speed is calculated like this to account for scripted movement, which does not use the Rigidbody (See FerryTrip)
+    public float Speed => (transform.position - prevPos).magnitude / Time.deltaTime;
 
     private bool manualControl = true;
     public bool ManualControl {
@@ -21,15 +34,6 @@ public class FerryController : MonoBehaviour {
             OnControlChange?.Invoke();
         }
     }
-    public Vector2 input { get; private set; }
-    public float rudder { get; private set; }
-
-    [HideInInspector]
-    public bool boarding;
-
-    private Rigidbody rb;
-    private FerryTrip automatedTrip;
-    private Animator[] animators;
 
     public DockController AtDock { get; private set; }
     public DockController DestinationDock { get; private set; }
@@ -44,6 +48,8 @@ public class FerryController : MonoBehaviour {
 
         UpdateDestination();
         TryConnectToDock();
+
+        prevPos = transform.position;
     }
 
     void Update() {
@@ -69,6 +75,10 @@ public class FerryController : MonoBehaviour {
         }
     }
 
+    private void LateUpdate() {
+        prevPos = transform.position;
+    }
+
     private void UpdateAnimators(bool inTransit) {
         foreach (Animator anim in animators) {
             anim.SetBool("inTransit", inTransit);
@@ -76,7 +86,7 @@ public class FerryController : MonoBehaviour {
         }
     }
 
-    private DockController ClosestDock(System.Func<DockController, bool> predicate=null) {
+    private DockController ClosestDock(System.Func<DockController, bool> predicate = null) {
         DockController closestDock = null;
         float dist = float.MaxValue;
 

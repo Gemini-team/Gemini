@@ -7,6 +7,13 @@ public abstract class AudioManager : MonoBehaviour {
     private AudioSource[] channels;
     private int nextChannel;
 
+    private AudioSource CreateChannel() {
+        AudioSource channel = gameObject.AddComponent<AudioSource>();
+        channel.playOnAwake = false;
+        channel.spatialBlend = 1;
+        return channel;
+    }
+
     protected AudioSource ReserveChannel() {
         AudioSource channel = channels[nextChannel];
         nextChannel = (nextChannel + 1) % nChannels;
@@ -32,13 +39,21 @@ public abstract class AudioManager : MonoBehaviour {
         AudioSource channel = ReserveChannel();
         channel.PlayOneShot(sound);
     }
+
+    protected AudioSource PlayInfinite(AudioClip sound) {
+        AudioSource dedicatedChannel = CreateChannel();
+        dedicatedChannel.loop = true;
+        dedicatedChannel.clip = sound;
+        dedicatedChannel.Play();
+
+        return dedicatedChannel;
+    }
+
     private void Start() {
         channels = new AudioSource[nChannels];
 
         for (int i = 0; i < channels.Length; i++) {
-            channels[i] = gameObject.AddComponent<AudioSource>();
-            channels[i].playOnAwake = false;
-            channels[i].spatialBlend = 1;
+            channels[i] = CreateChannel();
         }
 
         AudioSetup();
