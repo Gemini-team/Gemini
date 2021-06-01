@@ -3036,7 +3036,7 @@ MonoBehaviour:
   OnCompletion:
     m_PersistentCalls:
       m_Calls: []
-  spawnAmount: 5
+  spawnAmount: 12
   tripCount: 3
   stepDelay: 35
   manualTakeoverDelay: 20
@@ -3718,27 +3718,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2074059487 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2074059487, guid: 5bad07ed802830f4d9b33c91b99a8275,
-    type: 3}
-  m_PrefabInstance: {fileID: 1309492758}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2074059489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2074059487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e736b4d06ad92044a3305ac8150bb5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nChannels: 1
-  takeoverSound: {fileID: 8300000, guid: 3f35466fd2ea99043999f85e708747e4, type: 3}
-  engineSound: {fileID: 8300000, guid: 13a55e89e32acc24e991f59fa890bc40, type: 3}
 --- !u!1 &2125055112
 GameObject:
   m_ObjectHideFlags: 0
