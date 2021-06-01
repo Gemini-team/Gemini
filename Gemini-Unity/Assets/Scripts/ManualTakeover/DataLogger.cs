@@ -14,6 +14,7 @@ public class DataLogger : MonoBehaviour {
     StreamWriter sw;
     private bool open = false;
     private float startTime;
+    private Vector3 startPos;
 
     public float interval = 1;
 
@@ -39,12 +40,11 @@ public class DataLogger : MonoBehaviour {
     // Precondition: open == true
     private IEnumerator TakeRegularMeasurements() {
         while (open) {
-            float remainingDist = scenario.Ferry.RemainingDistance;
             object[] data = new object[] {
                 Time.time - startTime,
-                remainingDist,
+                scenario.Ferry.RemainingDistance,
                 scenario.Ferry.Speed,
-                scenario.Ferry.transform.position,
+                scenario.Ferry.transform.position - startPos,
                 scenario.Ferry.transform.forward,
                 scenario.Ferry.input,
                 scenario.Ferry.rudder,
@@ -58,7 +58,9 @@ public class DataLogger : MonoBehaviour {
 
     private void BeginMeasuring() {
         TryStopMeasuring();
-        
+
+        startPos = FindObjectOfType<FerryController>().transform.position;
+
         sw = new StreamWriter(DIRECTORY + System.DateTime.Now + ".csv");
         WriteRow(HEADER);
 
