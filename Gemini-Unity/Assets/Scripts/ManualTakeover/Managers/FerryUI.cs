@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FerryUI : ExtendedMonoBehaviour {
+    private int ALERT_DURATION = 4, IMPORTANT_ALERT_DURATION = 15;
+
+    private Scenario scenario;
     private FerryController ferry;
     private Text alertMessage, distanceGauge;
 
-    private void Alert(string message, float? duration=null) {
+    private void Alert(string message, float? duration=null, Color? color=null) {
+        Toggle("AlertBox", true);
         alertMessage.text = message;
-        if (duration.HasValue) Schedule(() => alertMessage.text = "", duration.Value);
+        alertMessage.color = color.GetValueOrDefault(Color.white);
+        if (duration.HasValue) Schedule(() => Toggle("AlertBox", false), duration.Value);
     }
 
     private void Toggle(string name, bool state) {
@@ -17,16 +22,29 @@ public class FerryUI : ExtendedMonoBehaviour {
     }
 
     private void Start() {
-        alertMessage = transform.Find("AlertMessage").GetComponent<Text>();
+        alertMessage = transform.Find("AlertBox/Text").GetComponent<Text>();
         distanceGauge = transform.Find("Dashboard/Distance/Value").GetComponent<Text>();
+
+        Toggle("AlertBox", false);
+        Toggle("ManualIndicator", false);
+
+        scenario = FindObjectOfType<Scenario>();
+        scenario.OnPlay.AddListener(() => Alert("Autopilot engaged", ALERT_DURATION));
 
         ferry = FindObjectOfType<FerryController>();
         ferry.OnControlChange.AddListener(() => {
             if (ferry.ManualControl) {
-                Alert("Manual takeover required\nDock at " + ferry.DestinationDock.name, 15);
+                Alert("Manual takeover required\nDock at " + ferry.DestinationDock.name, duration: IMPORTANT_ALERT_DURATION, color: Color.red);
             }
             Toggle("ManualIndicator", ferry.ManualControl);
         });
+        ferry.DockMessage.AddListener(msg => {
+            Alert(msg, ALERT_DURATION);
+        });
+
+        EmbarkPassenger embarker = ferry.GetComponent<EmbarkPassenger>();
+        embarker.OnBoarding.AddListener(() => Alert("Boarding passengers"));
+        embarker.OnBoardingCompleted.AddListener(() => Alert("Boarding completed", ALERT_DURATION));
     }
 
     private void Update() {

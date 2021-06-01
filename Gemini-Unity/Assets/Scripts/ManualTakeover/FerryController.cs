@@ -8,6 +8,8 @@ public class FerryController : MonoBehaviour {
     private const float DOCK_DIST_LIMIT = 2.5f, DOCK_ALIGN_THRESHOLD = 0.9825f;
 
     [HideInInspector]
+    public MessageEvent DockMessage = new MessageEvent();
+    [HideInInspector]
     public UnityEvent OnConnectToDock, OnDisconnectFromDock, OnControlChange;
     public float force, rudderStrength = 1, maxSpeed;
 
@@ -100,18 +102,18 @@ public class FerryController : MonoBehaviour {
         DockController dock = ClosestDock();
 
         if (Vector3.Distance(transform.position, DockPos(dock)) > DOCK_DIST_LIMIT) {
-            Debug.Log("Docking failed (too far away)");
+            DockMessage.Invoke("Docking failed (too far away)");
             return false;
         }
 
         float alignment = Mathf.Abs(Vector3.Dot(dock.transform.Find("DockingArea").forward, transform.forward));
         if (alignment < DOCK_ALIGN_THRESHOLD) {
-            Debug.Log("Docking failed (not aligned)");
+            DockMessage.Invoke("Docking failed (not aligned)");
             return false;
         }
 
         if (!dock.Equals(DestinationDock)) {
-            Debug.Log("Docking failed (incorrect dock)");
+            DockMessage.Invoke("Docking failed (incorrect dock)");
             return false;
         }
 
@@ -120,7 +122,7 @@ public class FerryController : MonoBehaviour {
         UpdateDestination();
 
         UpdateAnimators(inTransit: false);
-        Debug.Log("Docking successful");
+        DockMessage.Invoke("Docking successful");
 
         OnConnectToDock?.Invoke();
         return true;

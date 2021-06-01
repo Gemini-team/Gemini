@@ -19,7 +19,7 @@ public class Passenger : MonoBehaviour {
     private CharacterCustomization character;
 
     private bool idle;
-    private Quaternion idleRotation;
+    private Quaternion idleRotation = Quaternion.identity;
 
     public bool ReachedDestination => agent == null || !agent.enabled || agent.remainingDistance <= agent.stoppingDistance;
 
