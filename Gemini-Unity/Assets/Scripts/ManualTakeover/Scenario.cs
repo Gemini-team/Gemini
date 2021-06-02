@@ -38,7 +38,7 @@ public class Scenario : ExtendedMonoBehaviour {
             }
         });
 
-        player.GetComponent<EmbarkPassenger>().OnBoardingCompleted.AddListener(() => { 
+        player.GetComponent<PassengerBoarder>().OnBoardingCompleted.AddListener(() => { 
             if (Playing) {
                 trip.Play();
             }
@@ -63,7 +63,7 @@ public class Scenario : ExtendedMonoBehaviour {
         if (tripCount > 0) {
             tripCount--;
             Repeat(() => { Ferry.AtDock.SpawnPassenger(); }, 
-            onCompletion: Ferry.AtDock.EmbarkAll, 
+            onCompletion: Ferry.AtDock.PassengerDeparture, 
             times: spawnAmount, interval: SPAWN_INTERVAL);
 
             if (tripCount == 0) manualTakeoverAtTime = Time.time + stepDelay + manualTakeoverDelay;

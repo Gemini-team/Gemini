@@ -79,7 +79,7 @@ public class MyWindow : EditorWindow {
             }
 
             if (GUILayout.Button("Board passengers")) {
-                ferryTrip.ferry.AtDock.EmbarkAll();
+                ferryTrip.ferry.AtDock.PassengerDeparture();
             }
         }
     }

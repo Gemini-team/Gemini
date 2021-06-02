@@ -42,9 +42,9 @@ public class FerryUI : ExtendedMonoBehaviour {
             Alert(msg, ALERT_DURATION);
         });
 
-        EmbarkPassenger embarker = ferry.GetComponent<EmbarkPassenger>();
-        embarker.OnBoarding.AddListener(() => Alert("Boarding passengers"));
-        embarker.OnBoardingCompleted.AddListener(() => Alert("Boarding completed", ALERT_DURATION));
+        PassengerBoarder boarder = ferry.GetComponent<PassengerBoarder>();
+        boarder.OnBoarding.AddListener(() => Alert("Boarding passengers"));
+        boarder.OnBoardingCompleted.AddListener(() => Alert("Boarding completed", ALERT_DURATION));
     }
 
     private void Update() {

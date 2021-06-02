@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EmbarkPassenger : MonoBehaviour {
+public class PassengerBoarder : MonoBehaviour {
     private const float SEAT_OFFSET = 0.25f;
 
     [HideInInspector]
@@ -25,8 +25,8 @@ public class EmbarkPassenger : MonoBehaviour {
         ferry.OnConnectToDock.AddListener(() => {
             foreach (Passenger passenger in passengers) {
                 passenger.agent.enabled = true;
-                ferry.AtDock.IncomingPassenger(passenger);
             }
+            ferry.AtDock.PassengerArrival(passengers);
             passengers.Clear();
         });
     }
@@ -48,11 +48,11 @@ public class EmbarkPassenger : MonoBehaviour {
         }
     }
 
-    public bool CanEmbarkFrom(DockController dock) {
-        return passengers.Count < seats.Length && ferry.AtDock.Equals(dock);
+    public bool CanBoardFrom(DockController dock) {
+		return passengers.Count < seats.Length && dock.Equals(ferry.AtDock);
     }
 
-    public void Embark(Passenger passenger) {
+    public void Board(Passenger passenger) {
         int seatIndex = passengers.Count;
         if (ferry.DockDirection < 0) seatIndex = seats.Length - seatIndex - 1;
 
