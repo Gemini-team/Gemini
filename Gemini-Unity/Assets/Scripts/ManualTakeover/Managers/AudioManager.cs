@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class AudioManager : MonoBehaviour {
     public int nChannels = 1;
+	public float volume = 1;
 
     private AudioSource[] channels;
     private int nextChannel;
@@ -11,6 +12,7 @@ public abstract class AudioManager : MonoBehaviour {
         AudioSource channel = gameObject.AddComponent<AudioSource>();
         channel.playOnAwake = false;
         channel.spatialBlend = 1;
+		channel.volume = volume;
         return channel;
     }
 
