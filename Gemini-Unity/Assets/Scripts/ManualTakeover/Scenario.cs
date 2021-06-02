@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Scenario : ExtendedMonoBehaviour {
-    private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 20;
+    private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 10;
 
     [HideInInspector]
     public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
@@ -14,7 +14,6 @@ public class Scenario : ExtendedMonoBehaviour {
 
     public FerryController Ferry { get; private set; }
     private FerryTrip trip;
-    private float manualTakeoverAtTime;
 
     public bool Playing { get; private set; }
     public bool Done { get; private set; }
@@ -24,27 +23,39 @@ public class Scenario : ExtendedMonoBehaviour {
         Ferry = player.GetComponent<FerryController>();
         trip = player.GetComponent<FerryTrip>();
 
-        trip.OnEndReached.AddListener(() => {
-            Schedule(Step, stepDelay);
-        });
-
         Ferry.OnConnectToDock.AddListener(() => { 
             if (!Done && Ferry.ManualControl) {
                 Done = true;
                 Playing = false;
                 Debug.Log("Scenario completed");
                 OnCompletion?.Invoke();
+				// TODO: Toggle end screen
                 Schedule(Application.Quit, SHUTDOWN_TIME);
             }
         });
 
+		// Ensure there are passengers on the destination dock before it is reached by the ferry
+		Ferry.OnDisconnectFromDock.AddListener(() => {
+			Repeat(() => { Ferry.DestinationDock.SpawnPassenger(); },
+			times: spawnAmount, interval: SPAWN_INTERVAL);
+		});
+
+		foreach (DockController dock in FindObjectsOfType<DockController>()) {
+			dock.OnArrivalComplete.AddListener(() => {
+				dock.PassengerDeparture();
+			});
+		}
+
         player.GetComponent<PassengerBoarder>().OnBoardingCompleted.AddListener(() => { 
-            if (Playing) {
-                trip.Play();
-            }
+            if (tripCount > 0) {
+				trip.Play();
+				tripCount--;
+
+				if (tripCount == 0) Schedule(ManualTakeover, manualTakeoverDelay);
+			}
         });
 
-        Schedule(Play, 2);
+        Schedule(Play, 1);
     }
 
     public void Play() {
@@ -53,27 +64,17 @@ public class Scenario : ExtendedMonoBehaviour {
         Ferry.ManualControl = false;
         Done = false;
         Playing = true;
-        Step();
+
+		Repeat(() => { Ferry.AtDock.SpawnPassenger(); },
+			onCompletion: Ferry.AtDock.PassengerDeparture,
+			times: spawnAmount, interval: SPAWN_INTERVAL);
         
         Debug.Log("Playing scenario");
         OnPlay?.Invoke();
     }
 
-    private void Step() {
-        if (tripCount > 0) {
-            tripCount--;
-            Repeat(() => { Ferry.AtDock.SpawnPassenger(); }, 
-            onCompletion: Ferry.AtDock.PassengerDeparture, 
-            times: spawnAmount, interval: SPAWN_INTERVAL);
-
-            if (tripCount == 0) manualTakeoverAtTime = Time.time + stepDelay + manualTakeoverDelay;
-        }
-    }
-
     private void Update() {
-        if (!Playing) return;
-
-        if (Input.GetButtonDown("ManualTakeover") || (!Ferry.ManualControl && tripCount == 0 && Time.time > manualTakeoverAtTime)) {
+        if (Playing && Input.GetButtonDown("ManualTakeover")) {
             ManualTakeover();
         }
     }

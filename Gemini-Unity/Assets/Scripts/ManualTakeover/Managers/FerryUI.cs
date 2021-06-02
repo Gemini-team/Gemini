@@ -29,7 +29,7 @@ public class FerryUI : ExtendedMonoBehaviour {
         Toggle("ManualIndicator", false);
 
         scenario = FindObjectOfType<Scenario>();
-        scenario.OnPlay.AddListener(() => Alert("Autopilot engaged", ALERT_DURATION));
+        scenario.OnPlay.AddListener(() => Alert("Autopilot engaged\nStandby", ALERT_DURATION));
 
         ferry = FindObjectOfType<FerryController>();
         ferry.OnControlChange.AddListener(() => {

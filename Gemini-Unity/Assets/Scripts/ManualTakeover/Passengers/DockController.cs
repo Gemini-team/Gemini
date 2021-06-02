@@ -1,19 +1,24 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DockController : ExtendedMonoBehaviour {
+	[HideInInspector]
+	public UnityEvent OnArrivalComplete;
+
     public GameObject[] passengerTemplates;
     public PassengerQueue queue;
     public Transform spawnPoint, despawnPoint;
 
     private PassengerBoarder boarder;
+	private int passengersInTransit;
 
     private void Start() {
         boarder = GameObject.FindGameObjectWithTag("Player").GetComponent<PassengerBoarder>();
         queue = GetComponentInChildren<PassengerQueue>();
     }
 
-    public Passenger SpawnPassenger(bool instantEnqueue = false) {
+    public Passenger SpawnPassenger() {
         GameObject instance = Instantiate(
             original: passengerTemplates[Random.Range(0, passengerTemplates.Length)],
             position: spawnPoint.position,
@@ -21,7 +26,7 @@ public class DockController : ExtendedMonoBehaviour {
 
         Passenger passenger = instance.GetComponent<Passenger>();
         passenger.transform.parent = transform;
-        queue.Enqueue(passenger, instantEnqueue);
+        queue.Enqueue(passenger);
 
         return passenger;
     }
@@ -34,7 +39,9 @@ public class DockController : ExtendedMonoBehaviour {
     }
 
     public void PassengerArrival(IList<Passenger> passengers) {
-        foreach (Passenger passenger in passengers) {
+		passengersInTransit += passengers.Count;
+
+		foreach (Passenger passenger in passengers) {
 			passenger.transform.SetParent(transform);
 			passenger.SetDestination(despawnPoint.position);
 
@@ -42,6 +49,11 @@ public class DockController : ExtendedMonoBehaviour {
 			Schedule(() => {
 				passenger.OnDestinationReached.AddListener(() => {
 					Destroy(passenger.gameObject);
+
+					passengersInTransit--;
+					if (passengersInTransit <= 0) {
+						OnArrivalComplete?.Invoke();
+					}
 				});
 			}, 0.1f);
 		}
