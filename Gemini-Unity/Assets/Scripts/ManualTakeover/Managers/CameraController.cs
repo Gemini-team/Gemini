@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour {
 
     public Transform[] mounts;
     public float speed;
+	public int startMount;
+	public bool enableFreeCam;
     private float maxFOV;
     private Camera cam;
     private FerryController ferry;
@@ -26,12 +28,8 @@ public class CameraController : MonoBehaviour {
         cam = GetComponent<Camera>();
         maxFOV = cam.fieldOfView;
 
-        ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
-        ferry.OnControlChange.AddListener(() => { 
-            if (ferry.ManualControl) {
-                MountTo(0);
-            }
-        });
+		if (!enableFreeCam) startMount = Mathf.Max(startMount, 0);
+		MountTo(startMount);
     }
 
     private void Update() {
@@ -42,35 +40,36 @@ public class CameraController : MonoBehaviour {
             }
         }
 
-        Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * MOUSE_SENSITIVITY;
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Rudder"), Input.GetAxis("Vertical"));
-        float switchCam = Input.GetAxisRaw("SwitchCamera");
+		float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+		if (scroll != 0) {
+			cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - scroll * SCROLL_SENSITIVITY, MIN_FOV, maxFOV);
+		}
 
-        if (switchCam != 0) {
-            int index = mountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
-            MountTo(MathTools.Mod(index, mounts.Length));
-        }
+		if (enableFreeCam) {
+			Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * MOUSE_SENSITIVITY;
+			Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Rudder"), Input.GetAxis("Vertical"));
+			float switchCam = Input.GetAxisRaw("SwitchCamera");
 
-        // Don't activate free-cam if ferry is in manual mode
-        if (!ferry.ManualControl && !FreeCam && move != Vector3.zero) {
-            MountTo(null);
-        }
+			if (switchCam != 0) {
+				int index = mountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
+				MountTo(MathTools.Mod(index, mounts.Length));
+			}
 
-        if (FreeCam) {
-            // Update euler angles as a vector to avoid quaternion clamping issues
-            lookRotation += new Vector3(-look.y, look.x);
-            lookRotation.x = Mathf.Clamp(lookRotation.x, -89.9f, 89.9f);
-            transform.rotation = Quaternion.Euler(lookRotation);
+			// Don't activate free-cam if ferry is in manual mode
+			if (!ferry.ManualControl && !FreeCam && move != Vector3.zero) {
+				MountTo(null);
+			}
 
-            transform.position += transform.rotation * move * speed * (Input.GetKey(KeyCode.LeftShift) ? SPEED_MULT : 1);
-        }
-        else {
-            float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
-            if (scroll != 0) {
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - scroll * SCROLL_SENSITIVITY, MIN_FOV, maxFOV);
-            }
-        }
-    }
+			if (FreeCam) {
+				// Update euler angles as a vector to avoid quaternion clamping issues
+				lookRotation += new Vector3(-look.y, look.x);
+				lookRotation.x = Mathf.Clamp(lookRotation.x, -89.9f, 89.9f);
+				transform.rotation = Quaternion.Euler(lookRotation);
+
+				transform.position += transform.rotation * move * speed * (Input.GetKey(KeyCode.LeftShift) ? SPEED_MULT : 1);
+			}
+		}
+	}
 
     private void MountTo(int? index) {
         mountI = index;
