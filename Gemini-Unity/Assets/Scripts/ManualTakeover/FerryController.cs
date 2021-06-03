@@ -21,6 +21,8 @@ public class FerryController : MonoBehaviour {
     public MessageEvent DockMessage = new MessageEvent();
     [HideInInspector]
     public UnityEvent OnConnectToDock, OnDisconnectFromDock, OnControlChange;
+	[HideInInspector]
+	public CollisionEvent OnCollision = new CollisionEvent();
     public float force, rudderStrength = 1, maxSpeed;
 
     // Speed is calculated like this to account for scripted movement, which does not use the Rigidbody (See FerryTrip)
@@ -86,7 +88,11 @@ public class FerryController : MonoBehaviour {
         }
     }
 
-    private DockController ClosestDock(System.Func<DockController, bool> predicate = null) {
+	private void OnCollisionEnter(Collision collision) {
+		OnCollision?.Invoke(collision);
+	}
+
+	private DockController ClosestDock(System.Func<DockController, bool> predicate = null) {
         DockController closestDock = null;
         float dist = float.MaxValue;
 
