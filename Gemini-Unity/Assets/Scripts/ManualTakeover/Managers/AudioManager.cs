@@ -37,9 +37,10 @@ public abstract class AudioManager : MonoBehaviour {
         StartCoroutine(Task());
     }
 
-    protected void PlayOnce(AudioClip sound, float? volume=null) {
+    protected void PlayOnce(AudioClip sound, float? volume=null, float randomPitchRange = 0) {
         AudioSource channel = ReserveChannel();
 		channel.volume = volume.GetValueOrDefault(this.volume);
+		channel.pitch = randomPitchRange == 0 ? 1f : Random.Range(1f - randomPitchRange, 1f + randomPitchRange);
         channel.PlayOneShot(sound);
     }
 

@@ -19,7 +19,7 @@ public class FerryAudio : AudioManager {
 		ferry.OnCollision.AddListener(collision => {
 			float volume = Mathf.Clamp01((collision.relativeVelocity.magnitude - MIN_IMPULSE) / (MAX_IMPULSE - MIN_IMPULSE));
 			if (volume > 0) {
-				PlayOnce(impactSound, volume);
+				PlayOnce(impactSound, volume, randomPitchRange: 0.2f);
 			}
 		});
 
