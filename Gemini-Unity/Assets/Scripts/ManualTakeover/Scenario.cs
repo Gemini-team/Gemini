@@ -19,7 +19,7 @@ public class Scenario : ExtendedMonoBehaviour {
 	private float startTime, endTime;
 
     public bool Playing { get; private set; }
-    public bool Done { get; private set; }
+	public bool Done { get; private set; } = true;
 	public float Duration => endTime - startTime;
 
     private void Start() {
@@ -47,7 +47,7 @@ public class Scenario : ExtendedMonoBehaviour {
 
 		foreach (DockController dock in FindObjectsOfType<DockController>()) {
 			dock.OnArrivalComplete.AddListener(() => {
-				dock.PassengerDeparture();
+				if (tripCount > 0) dock.PassengerDeparture();
 			});
 		}
 

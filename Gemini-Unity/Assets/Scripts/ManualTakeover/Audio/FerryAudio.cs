@@ -5,7 +5,7 @@ using UnityEngine;
 public class FerryAudio : AudioManager {
     private const float MIN_ENGINE_PITCH = 0.75f, MAX_ENGINE_PITCH = 1f, MIN_IMPULSE = 0.5f, MAX_IMPULSE = 2.5f;
 
-    public AudioClip takeoverSound, engineSound, impactSound, bellSound;
+    public AudioClip takeoverSound, engineSound, impactSound, explosionSound, bellSound;
 
 	private AudioSource engineChannel;
     private FerryController ferry;
@@ -26,6 +26,7 @@ public class FerryAudio : AudioManager {
 		ferry.OnDisconnectFromDock.AddListener(() => PlayOnce(bellSound));
 
         scenario.OnManualTakeover.AddListener(() => {
+			PlayOnce(explosionSound, volume: 0.8f);
             PlayUntil(1f, takeoverSound, () => scenario.Ferry.input == Vector2.zero, minDuration: 3);
         });
     }
