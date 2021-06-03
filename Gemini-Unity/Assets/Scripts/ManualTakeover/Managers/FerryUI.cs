@@ -27,7 +27,6 @@ public class FerryUI : ExtendedMonoBehaviour {
         distanceGauge = transform.Find("Dashboard/Distance/Value").GetComponent<Text>();
 
         Hide("AlertBox");
-        Hide("ManualIndicator");
 		Hide("EndScreen");
 		Hide("HelpScreen");
 
@@ -49,7 +48,7 @@ public class FerryUI : ExtendedMonoBehaviour {
             if (ferry.ManualControl) {
                 Alert("Manual takeover required\nDock at " + ferry.DestinationDock.name, duration: IMPORTANT_ALERT_DURATION, color: Color.red);
             }
-            Toggle("ManualIndicator", ferry.ManualControl);
+			transform.Find("ModeIndicator/Text").GetComponent<Text>().text = "MODE: " + (ferry.ManualControl ? "MANUAL" : "AUTOMATIC");
         });
         ferry.DockMessage.AddListener(msg => {
             Alert(msg, ALERT_DURATION);
