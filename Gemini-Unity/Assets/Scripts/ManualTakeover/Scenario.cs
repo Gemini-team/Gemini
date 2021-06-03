@@ -10,7 +10,7 @@ public class Scenario : ExtendedMonoBehaviour {
     [HideInInspector]
     public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
 
-    public int spawnAmount = 5, tripCount = 3, stepDelay = 20;
+    public int minSpawnAmount = 2, maxSpawnAmount = 12, tripCount = 3, stepDelay = 20;
     public float manualTakeoverDelay = 10;
 
     public FerryController Ferry { get; private set; }
@@ -42,7 +42,7 @@ public class Scenario : ExtendedMonoBehaviour {
 		// Ensure there are passengers on the destination dock before it is reached by the ferry
 		Ferry.OnDisconnectFromDock.AddListener(() => {
 			Repeat(() => { Ferry.DestinationDock.SpawnPassenger(); },
-			times: spawnAmount, interval: SPAWN_INTERVAL);
+			times: Random.Range(minSpawnAmount, maxSpawnAmount), interval: SPAWN_INTERVAL);
 		});
 
 		foreach (DockController dock in FindObjectsOfType<DockController>()) {
@@ -73,7 +73,7 @@ public class Scenario : ExtendedMonoBehaviour {
 
 		Repeat(() => { Ferry.AtDock.SpawnPassenger(); },
 			onCompletion: Ferry.AtDock.PassengerDeparture,
-			times: spawnAmount, interval: SPAWN_INTERVAL);
+			times: Random.Range(minSpawnAmount, maxSpawnAmount), interval: SPAWN_INTERVAL);
         
         Debug.Log("Playing scenario");
         OnPlay?.Invoke();
