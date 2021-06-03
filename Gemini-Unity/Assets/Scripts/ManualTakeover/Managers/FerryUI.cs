@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,25 +10,39 @@ public class FerryUI : ExtendedMonoBehaviour {
     private Text alertMessage, distanceGauge;
 
     private void Alert(string message, float? duration=null, Color? color=null) {
-        Toggle("AlertBox", true);
+        Show("AlertBox");
         alertMessage.text = message;
         alertMessage.color = color.GetValueOrDefault(Color.white);
-        if (duration.HasValue) Schedule(() => Toggle("AlertBox", false), duration.Value);
+        if (duration.HasValue) Schedule(() => Hide("AlertBox"), duration.Value);
     }
 
-    private void Toggle(string name, bool state) {
-        transform.Find(name).gameObject.SetActive(state);
-    }
+	private void Toggle(string name, bool state) {
+		transform.Find(name).gameObject.SetActive(state);
+	}
+	public void Show(string name) => Toggle(name, true);
+	public void Hide(string name) => Toggle(name, false);
 
-    private void Start() {
+	private void Start() {
         alertMessage = transform.Find("AlertBox/Text").GetComponent<Text>();
         distanceGauge = transform.Find("Dashboard/Distance/Value").GetComponent<Text>();
 
-        Toggle("AlertBox", false);
-        Toggle("ManualIndicator", false);
+        Hide("AlertBox");
+        Hide("ManualIndicator");
+		Hide("EndScreen");
+		Hide("HelpScreen");
 
         scenario = FindObjectOfType<Scenario>();
-        scenario.OnPlay.AddListener(() => Alert("Autopilot engaged\nStandby", ALERT_DURATION));
+        scenario.OnPlay.AddListener(() => {
+			Hide("StartScreen");
+			Alert("Autopilot engaged\nStandby", ALERT_DURATION);
+		});
+		scenario.OnCompletion.AddListener(() => {
+			Transform endScreen = transform.Find("EndScreen");
+			endScreen.gameObject.SetActive(true);
+
+			TimeSpan ts = TimeSpan.FromSeconds(scenario.Duration);
+			endScreen.Find("Duration/Value").GetComponent<Text>().text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
+		});
 
         ferry = FindObjectOfType<FerryController>();
         ferry.OnControlChange.AddListener(() => {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Scenario : ExtendedMonoBehaviour {
     private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 10;
@@ -15,8 +16,11 @@ public class Scenario : ExtendedMonoBehaviour {
     public FerryController Ferry { get; private set; }
     private FerryTrip trip;
 
+	private float startTime, endTime;
+
     public bool Playing { get; private set; }
     public bool Done { get; private set; }
+	public float Duration => endTime - startTime;
 
     private void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -27,10 +31,11 @@ public class Scenario : ExtendedMonoBehaviour {
             if (!Done && Ferry.ManualControl) {
                 Done = true;
                 Playing = false;
-                Debug.Log("Scenario completed");
+				Ferry.ManualControl = false;
+				endTime = Time.timeSinceLevelLoad;
+
+				Debug.Log("Scenario completed");
                 OnCompletion?.Invoke();
-				// TODO: Toggle end screen
-                Schedule(Application.Quit, SHUTDOWN_TIME);
             }
         });
 
@@ -54,13 +59,14 @@ public class Scenario : ExtendedMonoBehaviour {
 				if (tripCount == 0) Schedule(ManualTakeover, manualTakeoverDelay);
 			}
         });
-
-        Schedule(Play, 1);
     }
+
+	public void ReloadScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
     public void Play() {
         if (Playing || Ferry.AtDock == null) return;
 
+		startTime = Time.timeSinceLevelLoad;
         Ferry.ManualControl = false;
         Done = false;
         Playing = true;
@@ -74,8 +80,11 @@ public class Scenario : ExtendedMonoBehaviour {
     }
 
     private void Update() {
-        if (Playing && Input.GetButtonDown("ManualTakeover")) {
-            ManualTakeover();
+        if (Playing) {
+			endTime = Time.timeSinceLevelLoad;
+			if (Input.GetButtonDown("ManualTakeover")) {
+				ManualTakeover();
+			}
         }
     }
 
