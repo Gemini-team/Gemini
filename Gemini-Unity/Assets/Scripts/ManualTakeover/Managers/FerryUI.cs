@@ -32,7 +32,6 @@ public class FerryUI : ExtendedMonoBehaviour {
 
         scenario = FindObjectOfType<Scenario>();
         scenario.OnPlay.AddListener(() => {
-			Hide("StartScreen");
 			Alert("Autopilot engaged\nStandby", ALERT_DURATION);
 		});
 		scenario.OnCompletion.AddListener(() => {

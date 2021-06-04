@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Launch_ManualTakeover.unity
+    guid: f7fbb5b37d9c2684cbc22af128adeb47
+  - enabled: 1
     path: Assets/Scenes/ManualTakeover.unity
     guid: 0798e7cf4f0684b469cdb8f4948db356
   m_configObjects: {}

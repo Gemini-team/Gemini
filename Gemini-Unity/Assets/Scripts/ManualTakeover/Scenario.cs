@@ -12,6 +12,7 @@ public class Scenario : ExtendedMonoBehaviour {
 
     public int minSpawnAmount = 2, maxSpawnAmount = 12, tripCount = 3, stepDelay = 20;
     public float manualTakeoverDelay = 10;
+	public bool autoPlay = true;
 
     public FerryController Ferry { get; private set; }
     private FerryTrip trip;
@@ -59,9 +60,12 @@ public class Scenario : ExtendedMonoBehaviour {
 				if (tripCount == 0) Schedule(ManualTakeover, manualTakeoverDelay);
 			}
         });
+
+		// Ensure the scene is setup and ready before autoplay
+		if (autoPlay) Schedule(Play, 1f);
     }
 
-	public void ReloadScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	public void RestartGame() => SceneManager.LoadScene(0);
 
     public void Play() {
         if (Playing || Ferry.AtDock == null) return;

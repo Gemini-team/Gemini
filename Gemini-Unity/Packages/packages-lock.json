@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.sitterheim.unityresolutiondialog": {
+      "version": "https://github.com/sitterheim/UnityResolutionDialog.git#release/stable",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "33bbea72dd495318c0358525ef4a93dff898db64"
+    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,
