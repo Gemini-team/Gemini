@@ -7,10 +7,11 @@ using UnityEngine;
 /// </summary>
 public class DataLogger : MonoBehaviour {
     private const string DIRECTORY = "./data/";
-    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "speed", "position", "direction", "linearInput", "angularInput", "manualControl" };
+    private readonly string[] HEADER = new string[] { "time", "remainingDistance", "speed", "position", "direction", "linearInput", "angularInput", "manualControl", "camera" };
     private const string SEPARATOR = ";";
 
     private Scenario scenario;
+	private CameraController cameraController;
     StreamWriter sw;
     private bool open = false;
     private float startTime;
@@ -19,9 +20,11 @@ public class DataLogger : MonoBehaviour {
     public float interval = 1;
 
     private void Start() {
+		cameraController = FindObjectOfType<CameraController>();
         scenario = FindObjectOfType<Scenario>();
-        // TODO: Consider beginning measurements on manual takeover instead
-        scenario.OnPlay.AddListener(BeginMeasuring);
+
+		// TODO: Consider beginning measurements on manual takeover instead
+		scenario.OnPlay.AddListener(BeginMeasuring);
         scenario.OnCompletion.AddListener(TryStopMeasuring);
 
         if (!Directory.Exists(DIRECTORY)) {
@@ -40,15 +43,16 @@ public class DataLogger : MonoBehaviour {
     // Precondition: open == true
     private IEnumerator TakeRegularMeasurements() {
         while (open) {
-            object[] data = new object[] {
-                Time.time - startTime,
-                scenario.Ferry.RemainingDistance,
-                scenario.Ferry.Speed,
-                scenario.Ferry.transform.position - startPos,
-                scenario.Ferry.transform.forward,
-                scenario.Ferry.input,
-                scenario.Ferry.rudder,
-                scenario.Ferry.ManualControl ? "yes" : "no"
+			object[] data = new object[] {
+				Time.time - startTime,
+				scenario.Ferry.RemainingDistance,
+				scenario.Ferry.Speed,
+				scenario.Ferry.transform.position - startPos,
+				scenario.Ferry.transform.forward,
+				scenario.Ferry.input,
+				scenario.Ferry.rudder,
+				scenario.Ferry.ManualControl ? "1" : "0",
+				cameraController.MountI.GetValueOrDefault(0) + 1
             };
             WriteRow(data);
 
