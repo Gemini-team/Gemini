@@ -11,7 +11,7 @@ public class Passenger : MonoBehaviour {
         SPEED_THRESHOLD = 0.15f,
         MIN_IDLE_INTERVAL = 5,
         MAX_IDLE_INTERVAL = 10,
-        IDLE_ANIM_SPEED = 1.5f;
+        IDLE_ANIM_SPEED = 3;
 
     [HideInInspector]
     public UnityEvent OnDestinationReached;
@@ -28,15 +28,6 @@ public class Passenger : MonoBehaviour {
         agent.SetDestination(destination);
     }
 
-    private IEnumerator IdleAnimation() {
-        while (true) {
-            yield return new WaitUntil(() => idle);
-
-            idleRotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-            yield return new WaitForSeconds(Random.Range(MIN_IDLE_INTERVAL, MAX_IDLE_INTERVAL));
-        }
-    }
-
     private void Start() {
         agent = GetComponentInChildren<NavMeshAgent>();
         character = GetComponentInChildren<CharacterCustomization>();
@@ -45,8 +36,6 @@ public class Passenger : MonoBehaviour {
         // character.BakeCharacter();
         agent.updateRotation = true;
         agent.updatePosition = true;
-
-        StartCoroutine(IdleAnimation());
     }
 
     private void Update() {
@@ -58,19 +47,20 @@ public class Passenger : MonoBehaviour {
         });
 
         if (!idle && ReachedDestination) {
-            OnDestinationReached?.Invoke();
+			idleRotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+			OnDestinationReached?.Invoke();
         }
-
+		
         if (idle) {
             transform.rotation = Quaternion.Lerp(transform.rotation, idleRotation, Time.deltaTime * IDLE_ANIM_SPEED);
         }
     }
 
-    private void LateUpdate() {
-        idle = ReachedDestination;
-    }
+	private void LateUpdate() {
+		idle = ReachedDestination;
+	}
 
-    void OnDrawGizmos() {
+	void OnDrawGizmos() {
         if (agent == null) return;
 
         Gizmos.color = Color.magenta;
