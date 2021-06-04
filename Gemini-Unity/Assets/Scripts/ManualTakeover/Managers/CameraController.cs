@@ -17,9 +17,9 @@ public class CameraController : MonoBehaviour {
     private Camera cam;
     private FerryController ferry;
 
-    private int? mountI = null;
-    public Transform Mount => mountI.HasValue ? mounts[mountI.Value] : null;
-    public bool FreeCam => !mountI.HasValue;
+	public int? MountI { get; private set; } = null;
+    public Transform Mount => MountI.HasValue ? mounts[MountI.Value] : null;
+    public bool FreeCam => !MountI.HasValue;
 
     private Vector3 lookRotation;
 
@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour {
 			float switchCam = Input.GetAxisRaw("SwitchCamera");
 
 			if (switchCam != 0) {
-				int index = mountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
+				int index = MountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
 				MountTo(MathTools.Mod(index, mounts.Length));
 			}
 
@@ -72,7 +72,7 @@ public class CameraController : MonoBehaviour {
 	}
 
     private void MountTo(int? index) {
-        mountI = index;
+        MountI = index;
 
         cam.fieldOfView = maxFOV;
         transform.parent = Mount;

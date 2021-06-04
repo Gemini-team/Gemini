@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class Scenario : ExtendedMonoBehaviour {
     private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 10;
@@ -64,8 +63,6 @@ public class Scenario : ExtendedMonoBehaviour {
 		// Ensure the scene is setup and ready before autoplay
 		if (autoPlay) Schedule(Play, 1f);
     }
-
-	public void RestartGame() => SceneManager.LoadScene(0);
 
     public void Play() {
         if (Playing || Ferry.AtDock == null) return;
