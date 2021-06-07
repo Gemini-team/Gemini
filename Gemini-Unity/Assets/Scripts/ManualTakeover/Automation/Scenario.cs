@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Scenario : ExtendedMonoBehaviour {
-    private const float SPAWN_INTERVAL = 1, TAKEOVER_FORCE = 20000, SHUTDOWN_TIME = 10;
+    private const float SPAWN_INTERVAL = 1, SHUTDOWN_TIME = 10;
 
     [HideInInspector]
     public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
@@ -65,7 +65,12 @@ public class Scenario : ExtendedMonoBehaviour {
     }
 
     public void Play() {
-        if (Playing || Ferry.AtDock == null) return;
+        if (Playing) return;
+
+		if (Ferry.AtDock == null) {
+			Debug.LogError("Couldn't play scenario (ferry not docked)");
+			return;
+		}
 
 		startTime = Time.timeSinceLevelLoad;
         Ferry.ManualControl = false;
@@ -93,7 +98,6 @@ public class Scenario : ExtendedMonoBehaviour {
         Playing = false;
         trip.Playing = false;
         Ferry.ManualControl = true;
-        Ferry.GetComponent<Rigidbody>().AddForce(Ferry.transform.forward * TAKEOVER_FORCE);
         Debug.Log("Manual takeover");
 
         OnManualTakeover?.Invoke();

@@ -63,7 +63,7 @@ public class DataLogger : MonoBehaviour {
     private void BeginMeasuring() {
         TryStopMeasuring();
 
-        startPos = FindObjectOfType<FerryController>().transform.position;
+        startPos = GameObject.FindGameObjectWithTag("Player").transform.position;
 
         sw = new StreamWriter(DIRECTORY + System.DateTime.Now + ".csv");
         WriteRow(HEADER);

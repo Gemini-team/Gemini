@@ -77,7 +77,7 @@ public class GameUI : ExtendedMonoBehaviour {
 			endScreen.Find("Duration/Value").GetComponent<Text>().text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
 		});
 
-		ferry = FindObjectOfType<FerryController>();
+		ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
 		ferry.OnControlChange.AddListener(() => {
 			if (ferry.ManualControl) {
 				Warning("Manual takeover required\nDock at " + ferry.DestinationDock.name);

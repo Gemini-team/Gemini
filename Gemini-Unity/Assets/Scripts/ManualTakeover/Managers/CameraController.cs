@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour {
 	public bool enableFreeCam;
     private float maxFOV;
     private Camera cam;
-    private FerryController ferry;
+    private BoatController ferry;
 
 	public int? MountI { get; private set; } = null;
     public Transform Mount => MountI.HasValue ? mounts[MountI.Value] : null;
