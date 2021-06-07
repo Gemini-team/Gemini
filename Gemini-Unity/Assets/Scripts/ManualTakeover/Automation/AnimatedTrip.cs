@@ -70,8 +70,6 @@ public abstract class AnimatedTrip : MonoBehaviour {
 		float closestTime = route.path.GetClosestTimeOnPath(transform.position);
 		target = route.path.GetPointAtTime(closestTime + LOOK_AHEAD_TIME * (reverse ? -1 : 1), EndOfPathInstruction.Stop);
 
-		Debug.Log("Playing " + name + " | time: " + closestTime + " | target: " + target);
-
 		transform.rotation = Quaternion.Euler(transform.eulerAngles.x, route.path.GetRotation(closestTime).eulerAngles.y, transform.eulerAngles.z);
 
 		controller.input = new Vector2(0, Throttle);
@@ -82,11 +80,14 @@ public abstract class AnimatedTrip : MonoBehaviour {
 		}
 	}
 
-	public virtual void Play() {
+	public virtual bool Play() {
+		if (controller.ManualControl) return false;
+
 		Playing = true;
 		waitUntil = Time.time + startDelay;
 
 		OnPlay?.Invoke();
+		return true;
 	}
 
 	public virtual void Stop() {

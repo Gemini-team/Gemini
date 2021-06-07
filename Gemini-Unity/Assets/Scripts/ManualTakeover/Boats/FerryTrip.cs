@@ -20,12 +20,14 @@ public class FerryTrip : AnimatedTrip {
 		if (!ferry.TryConnectToDock()) {
 			Debug.LogError("Docking failed");
 		}
-		Debug.Log("Stop FerryTrip");
 	}
 
-	public override void Play() {
-		ferry.TryDisconnectFromDock();
-		base.Play();
-		Debug.Log("Playing FerryTrip");
+	public override bool Play() {
+		if (!base.Play()) return false;
+
+		if (!ferry.TryDisconnectFromDock()) {
+			Debug.LogError("Departure failed");
+		}
+		return true;
 	}
 }

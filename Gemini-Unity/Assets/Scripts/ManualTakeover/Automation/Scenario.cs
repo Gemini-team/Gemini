@@ -53,7 +53,10 @@ public class Scenario : ExtendedMonoBehaviour {
 
         player.GetComponent<PassengerBoarder>().OnBoardingCompleted.AddListener(() => { 
             if (tripCount > 0) {
-				trip.Play();
+				if (!trip.Play()) {
+					Debug.LogError("FerryTrip failed");
+					return;
+				}
 				tripCount--;
 
 				if (tripCount == 0) Schedule(ManualTakeover, manualTakeoverDelay);

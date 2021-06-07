@@ -23,9 +23,12 @@ public class Passenger : MonoBehaviour {
 
     public bool ReachedDestination => agent == null || !agent.enabled || agent.remainingDistance <= agent.stoppingDistance;
 
+	private static SyncTicket syncTicket = new SyncTicket(0.5f, 1f);
+
     public void SetDestination(Vector3 destination) {
         if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
-        agent.SetDestination(destination);
+
+		StartCoroutine(syncTicket.TakeTicketAndWait(() => agent.SetDestination(destination)));
     }
 
     private void Start() {
