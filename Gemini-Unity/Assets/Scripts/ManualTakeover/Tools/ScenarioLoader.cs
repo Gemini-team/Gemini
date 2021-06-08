@@ -3,10 +3,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ScenarioLoader : MonoBehaviour {
+	public Dropdown dropdown;
 	public int baseScene = 1;
 
 	public void PlayScenario() {
-		int scenarioScene = GetComponent<Dropdown>().value + baseScene + 1;
+		int scenarioScene = dropdown.value + baseScene + 1;
 
 		SceneManager.sceneLoaded += (scene, _) => {
 			if (scene.buildIndex == scenarioScene) {

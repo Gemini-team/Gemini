@@ -47,7 +47,7 @@ public class CameraController : MonoBehaviour {
 
 		if (enableFreeCam) {
 			Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * MOUSE_SENSITIVITY;
-			Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Rudder"), Input.GetAxis("Vertical"));
+			Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Yaw"), Input.GetAxis("Vertical"));
 			float switchCam = Input.GetAxisRaw("SwitchCamera");
 
 			if (switchCam != 0) {

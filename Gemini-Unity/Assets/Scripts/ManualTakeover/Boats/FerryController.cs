@@ -114,10 +114,10 @@ public class FerryController : BoatController {
 
 	protected override void Update() {
 		if (ManualControl) {
-			input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-			rudder = Input.GetAxis("Rudder");
+			input = new Vector2(FerryInput.GetAxisRaw("Horizontal"), FerryInput.GetAxisRaw("Throttle"));
+			rudder = FerryInput.GetAxisRaw("Rudder");
 
-			if (!boarding && Input.GetButtonDown("Dock")) {
+			if (!boarding && FerryInput.GetButtonDown("Dock")) {
 				if (AtDock == null) TryConnectToDock();
 				else TryDisconnectFromDock();
 			}

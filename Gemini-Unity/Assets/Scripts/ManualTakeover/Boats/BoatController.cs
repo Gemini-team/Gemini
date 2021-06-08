@@ -25,6 +25,8 @@ public class BoatController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		engine = GetComponent<BoatProbes>();
 		prevPos = transform.position;
+
+		engine._playerControlled = false;
 	}
 
 	protected virtual void Update() {
