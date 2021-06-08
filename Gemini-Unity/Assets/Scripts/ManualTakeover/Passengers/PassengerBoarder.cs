@@ -67,9 +67,11 @@ public class PassengerBoarder : MonoBehaviour {
     }
 
     private void OnDrawGizmosSelected() {
-        Gizmos.color = Color.white;
+		/*
+		Gizmos.color = Color.white;
         foreach (Vector3 seat in seats) {
             Gizmos.DrawSphere(transform.position + transform.rotation * seat, 0.5f);
         }
+		*/
     }
 }

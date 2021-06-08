@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 90ccc368243621c4485a0de7f206362f,
+  m_LightingDataAsset: {fileID: 112000000, guid: bcc9db2d12ed3f84c868740c9c4aec83,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1263,7 +1263,7 @@ MonoBehaviour:
   _defaultClippingState: 0
   _applyTestMaterial: 0
   _showOceanProxyPlane: 0
-  _editModeFPS: 30
+  _editModeFPS: 0
   _followSceneCamera: 0
   _forceBatchMode: 0
   _forceNoGPU: 0
@@ -4512,7 +4512,7 @@ MonoBehaviour:
   antialiasing: 0
   SMAAQuality: 2
   dithering: 0
-  stopNaNs: 0
+  stopNaNs: 1
   taaSharpenStrength: 0.6
   physicalParameters:
     m_Iso: 200
@@ -4875,10 +4875,6 @@ PrefabInstance:
       propertyPath: route
       value: 
       objectReference: {fileID: 6474052}
-    - target: {fileID: 496184805, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: startDelay
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6137059321811343213, guid: 5bad07ed802830f4d9b33c91b99a8275,
         type: 3}
       propertyPath: m_Name
@@ -5043,7 +5039,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1383457043}
-  - component: {fileID: 1383457042}
   - component: {fileID: 1383457045}
   - component: {fileID: 1383457046}
   - component: {fileID: 1383457044}
@@ -5054,33 +5049,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1383457042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1383457041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ec61b7842b0e842b078f9cfb4c6189, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnPlay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnManualTakeover:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCompletion:
-    m_PersistentCalls:
-      m_Calls: []
-  minSpawnAmount: 2
-  maxSpawnAmount: 12
-  tripCount: 3
-  stepDelay: 35
-  manualTakeoverDelay: 25
-  autoPlay: 1
 --- !u!4 &1383457043
 Transform:
   m_ObjectHideFlags: 0
@@ -5911,11 +5879,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: finn
       objectReference: {fileID: 0}
-    - target: {fileID: 1824931590611183636, guid: 755fbb0a52eca4f0a93754c6f3d28827,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2658140708709350907, guid: 755fbb0a52eca4f0a93754c6f3d28827,
         type: 3}
       propertyPath: m_RootOrder
@@ -5969,26 +5932,6 @@ PrefabInstance:
     - target: {fileID: 2658140708709350907, guid: 755fbb0a52eca4f0a93754c6f3d28827,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5515330025080939967, guid: 755fbb0a52eca4f0a93754c6f3d28827,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 52.99
-      objectReference: {fileID: 0}
-    - target: {fileID: 5515330025080939967, guid: 755fbb0a52eca4f0a93754c6f3d28827,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 5515330025080939967, guid: 755fbb0a52eca4f0a93754c6f3d28827,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5515330025080939967, guid: 755fbb0a52eca4f0a93754c6f3d28827,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

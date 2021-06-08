@@ -31,7 +31,7 @@ public class MyWindow : EditorWindow {
         if (!setup) {
             setup = true;
 			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryTrip>();
-            scenario = GameObject.FindGameObjectWithTag("GameController").GetComponent<Scenario>();
+            scenario = FindObjectOfType<Scenario>();
         }
 
         if (scenario.Playing) {
