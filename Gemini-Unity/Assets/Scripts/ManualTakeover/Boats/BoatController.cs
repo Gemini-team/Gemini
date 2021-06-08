@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Crest;
 
-[RequireComponent(typeof(BoatAlignNormal))]
+//[RequireComponent(typeof(BoatAlignNormal))]
 [RequireComponent(typeof(Rigidbody))]
 public class BoatController : MonoBehaviour {
 	[HideInInspector]
@@ -14,7 +14,7 @@ public class BoatController : MonoBehaviour {
 
 	private Vector3 prevPos;
 	private Rigidbody rb;
-	public BoatAlignNormal engine { get; private set; }
+	public BoatProbes engine { get; private set; }
 
 	// [HideInInspector]
 	public Vector2 input;
@@ -34,13 +34,12 @@ public class BoatController : MonoBehaviour {
 
 	protected virtual void Start() {
 		rb = GetComponent<Rigidbody>();
-		engine = GetComponent<BoatAlignNormal>();
+		engine = GetComponent<BoatProbes>();
 		prevPos = transform.position;
 	}
 
 	protected virtual void Update() {
-		// Controls implementation based on Crest.BoatAlignNormal
-		Vector3 forcePosition = rb.position + engine._forceHeightOffset * Vector3.up;
+		Vector3 forcePosition = transform.position + engine._forceHeightOffset * Vector3.up;
 		rb.AddForceAtPosition(transform.forward * engine._enginePower * input.y, forcePosition, ForceMode.Acceleration);
 		rb.AddForceAtPosition(transform.right * engine._enginePower * input.x, forcePosition, ForceMode.Acceleration);
 		rb.AddTorque(transform.up * engine._turnPower * rudder, ForceMode.Acceleration);		

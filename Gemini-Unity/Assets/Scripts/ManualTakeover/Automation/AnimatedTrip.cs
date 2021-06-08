@@ -21,7 +21,7 @@ public abstract class AnimatedTrip : MonoBehaviour {
 	internal bool reverse;
 	private bool playing;
 	private float waitUntil;
-	private BoatController controller;
+	protected BoatController controller { get; private set; }
 
 	private Vector3 target;
 	private float rudder;
@@ -65,7 +65,6 @@ public abstract class AnimatedTrip : MonoBehaviour {
 
 	protected virtual void Update() {
 		if (!Playing || Time.time < waitUntil) return;
-
 
 		float closestTime = route.path.GetClosestTimeOnPath(transform.position);
 		target = route.path.GetPointAtTime(closestTime + LOOK_AHEAD_TIME * (reverse ? -1 : 1), EndOfPathInstruction.Stop);
