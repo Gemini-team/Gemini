@@ -61,7 +61,7 @@ public class GameUI : ExtendedMonoBehaviour {
 		Hide("AlertBox");
 		Hide("EndScreen");
 		Hide("HelpScreen");
-		Hide("QuitScreen");
+		Hide("ExitScreen");
 
 		scenario = FindObjectOfType<Scenario>();
 		scenario.OnPlay.AddListener(() => {
@@ -97,7 +97,7 @@ public class GameUI : ExtendedMonoBehaviour {
 		distanceGauge.text = ferry.AtDock == null ? Mathf.RoundToInt(ferry.RemainingDistance) + "m" : "0m (Docked)";
 
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Show("QuitScreen");
+			Show("ExitScreen");
 		}
 	}
 }
