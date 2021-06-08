@@ -18,10 +18,7 @@ public class BoatTrip : AnimatedTrip {
 
 		ferryTrip.OnPlay.AddListener(() => {
 			if (!DoAnimate) Stop();
-			else {
-				controller.ManualControl = false;
-				Play();
-			}
+			else Play();
 		});
 
 		ferryTrip.OnStop.AddListener(Stop);

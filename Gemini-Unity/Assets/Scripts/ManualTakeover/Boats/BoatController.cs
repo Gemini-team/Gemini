@@ -8,8 +8,6 @@ using Crest;
 [RequireComponent(typeof(Rigidbody))]
 public class BoatController : MonoBehaviour {
 	[HideInInspector]
-	public UnityEvent OnControlChange;
-	[HideInInspector]
 	public CollisionEvent OnCollision = new CollisionEvent();
 
 	private Vector3 prevPos;
@@ -22,15 +20,6 @@ public class BoatController : MonoBehaviour {
 	public float rudder;
 
 	public float Speed => rb.velocity.magnitude;
-
-	private bool manualControl = true;
-	public bool ManualControl {
-		get => manualControl;
-		set {
-			manualControl = value;
-			OnControlChange?.Invoke();
-		}
-	}
 
 	protected virtual void Start() {
 		rb = GetComponent<Rigidbody>();

@@ -9,7 +9,7 @@ public class FerryController : BoatController {
 	[HideInInspector]
 	public MessageEvent DockMessage = new MessageEvent();
 	[HideInInspector]
-	public UnityEvent OnConnectToDock, OnDisconnectFromDock;
+	public UnityEvent OnConnectToDock, OnDisconnectFromDock, OnControlChange;
 	[HideInInspector]
 
 	public DockController AtDock { get; private set; }
@@ -17,6 +17,15 @@ public class FerryController : BoatController {
 	public Vector3 DockPos(DockController dock) => dock.transform.Find("DockingArea").position;
 	public int DockDirection => AtDock == null ? 0 : (int)Mathf.Sign(Vector3.Dot(transform.position - DockPos(AtDock), transform.forward));
 	public float RemainingDistance => Vector3.Distance(transform.position, DockPos(DestinationDock));
+
+	private bool manualControl = true;
+	public bool ManualControl {
+		get => manualControl;
+		set {
+			manualControl = value;
+			OnControlChange?.Invoke();
+		}
+	}
 
 	[HideInInspector]
 	public bool boarding;

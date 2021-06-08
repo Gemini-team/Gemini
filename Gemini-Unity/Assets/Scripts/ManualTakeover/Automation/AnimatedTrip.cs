@@ -80,8 +80,6 @@ public abstract class AnimatedTrip : MonoBehaviour {
 	}
 
 	public virtual bool Play() {
-		if (controller.ManualControl) return false;
-
 		Playing = true;
 		waitUntil = Time.time + startDelay;
 

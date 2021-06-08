@@ -23,11 +23,14 @@ public class FerryTrip : AnimatedTrip {
 	}
 
 	public override bool Play() {
-		if (!base.Play()) return false;
+		if (ferry.ManualControl) return false;
+		base.Play();
 
 		if (!ferry.TryDisconnectFromDock()) {
 			Debug.LogError("Departure failed");
+			return false;
 		}
+
 		return true;
 	}
 }
