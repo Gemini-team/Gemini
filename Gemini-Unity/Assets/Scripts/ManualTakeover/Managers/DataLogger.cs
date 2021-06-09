@@ -20,6 +20,12 @@ public class DataLogger : MonoBehaviour {
     public float interval = 1;
 
     private void Start() {
+		// Only create log files if in build
+		if (Application.isEditor) {
+			enabled = false;
+			return;
+		}
+
 		cameraController = FindObjectOfType<CameraController>();
         scenario = FindObjectOfType<Scenario>();
 
