@@ -7,7 +7,7 @@ public class PassengerBoarder : MonoBehaviour {
     private const float SEAT_OFFSET = 0.25f;
 
     [HideInInspector]
-    public UnityEvent OnBoarding, OnBoardingCompleted;
+    public UnityEvent OnBoardingBegin, OnBoarding, OnBoardingCompleted;
     public Vector3[] seats;
 
     private List<Passenger> passengers = new List<Passenger>();
@@ -64,7 +64,11 @@ public class PassengerBoarder : MonoBehaviour {
         passenger.SetDestination(transform.position + transform.rotation * seat);
         passengers.Add(passenger);
 
-        ferry.boarding = true;
+		if (!ferry.boarding) {
+			ferry.boarding = true;
+			OnBoardingBegin?.Invoke();
+		}
+
         OnBoarding?.Invoke();
     }
 
