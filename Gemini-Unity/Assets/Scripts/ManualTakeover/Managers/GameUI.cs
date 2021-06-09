@@ -7,15 +7,15 @@ using UnityEngine.UI;
 public class GameUI : ExtendedMonoBehaviour {
 	private const float NOTIFICATION_DURATION = 4, WARNING_DURATION = 15, BLINK_INTERVAL = 1;
 
-	private Color BGColorNormal => new Color(0, 0, 0, 0.5f);
-	private Color BGColorWarning => new Color(0.5f, 0, 0, 1);
+	private Color BGColorNormal => new Color(1, 1, 1, 0.5f);
+	private Color BGColorWarning => new Color(0.85f, 0.2f, 0, 1);
 
 	private Scenario scenario;
 	private FerryController ferry;
 	private Image alertBox;
-	private Text alertMessage, distanceGauge;
+	private Text alertMessage;
 
-	private List<Coroutine> notificationCoroutines = new List<Coroutine>();
+	private readonly List<Coroutine> notificationCoroutines = new List<Coroutine>();
 
 	private void Notification(string message, float? duration = NOTIFICATION_DURATION) {
 		alertBox.color = BGColorNormal;
@@ -56,7 +56,6 @@ public class GameUI : ExtendedMonoBehaviour {
 	private void Start() {
 		alertBox = transform.Find("AlertBox").GetComponent<Image>();
 		alertMessage = transform.Find("AlertBox/Text").GetComponent<Text>();
-		distanceGauge = transform.Find("Dashboard/Distance/Value").GetComponent<Text>();
 
 		Hide("AlertBox");
 		Hide("EndScreen");
@@ -93,8 +92,6 @@ public class GameUI : ExtendedMonoBehaviour {
 	}
 
 	private void Update() {
-		distanceGauge.text = ferry.AtDock == null ? Mathf.RoundToInt(ferry.RemainingDistance) + "m" : "0m (Docked)";
-
 		if (Input.GetButtonDown("Pause")) {
 			Show("ExitScreen");
 		}

@@ -13,6 +13,8 @@ public class PassengerBoarder : MonoBehaviour {
     private List<Passenger> passengers = new List<Passenger>();
     private FerryController ferry;
 
+    public float PassengerCount => passengers.Count;
+
     private void Start() {
         ferry = GetComponent<FerryController>();
 

@@ -14,9 +14,9 @@ public class BoatController : MonoBehaviour {
 	private Rigidbody rb;
 	public BoatProbes engine { get; private set; }
 
-	// [HideInInspector]
+	[HideInInspector]
 	public Vector2 input;
-	// [HideInInspector]
+	[HideInInspector]
 	public float rudder;
 
 	public float Speed => rb.velocity.magnitude;

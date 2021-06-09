@@ -179,5 +179,6 @@ MonoBehaviour:
   autoPlay: 1
   obstaclePrefab: {fileID: 5368407831779898926, guid: 1a8fdb0f9d4ddad4fb9d2a31bea99d85,
     type: 3}
-  spawnPoint: {x: -7.94, y: -1.75, z: -76.9}
+  spawnPoint: {x: -7.94, y: -0.5, z: -76.9}
+  rotation: {x: 0, y: 50, z: 0}
   distance: 15

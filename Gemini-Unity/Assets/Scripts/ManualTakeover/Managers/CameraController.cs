@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour {
     private const float 
@@ -16,6 +17,9 @@ public class CameraController : MonoBehaviour {
     private float maxFOV;
     private Camera cam;
     private FerryController ferry;
+
+    [HideInInspector]
+    public MaybeIntEvent OnMount = new MaybeIntEvent();
 
 	public int? MountI { get; private set; } = null;
     public Transform Mount => MountI.HasValue ? mounts[MountI.Value] : null;
@@ -71,7 +75,7 @@ public class CameraController : MonoBehaviour {
 		}
 	}
 
-    private void MountTo(int? index) {
+    public void MountTo(int? index) {
         MountI = index;
 
         cam.fieldOfView = maxFOV;
@@ -83,5 +87,7 @@ public class CameraController : MonoBehaviour {
         } else {
             lookRotation = transform.eulerAngles;
         }
+
+        OnMount?.Invoke(index);
     }
 }
