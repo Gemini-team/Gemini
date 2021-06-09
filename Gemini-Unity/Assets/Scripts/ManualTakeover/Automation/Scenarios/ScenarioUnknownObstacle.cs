@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScenarioUnknownObstacle : Scenario {
 	[Space(10)]
 	public GameObject obstaclePrefab;
-	public Vector3 spawnPoint;
+	public Vector3 spawnPoint, rotation;
 	public float distance;
 
 	private GameObject obstacle;
@@ -13,7 +13,7 @@ public class ScenarioUnknownObstacle : Scenario {
 	protected override void TripStartAction() {
 		base.TripStartAction();
 		if (tripCount == 0) {
-			obstacle = Instantiate(obstaclePrefab, spawnPoint, Quaternion.identity);
+			obstacle = Instantiate(obstaclePrefab, spawnPoint, Quaternion.Euler(rotation));
 		}
 	}
 

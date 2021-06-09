@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public abstract class Scenario : ExtendedMonoBehaviour {
-	private const float SPAWN_INTERVAL = 1, SHUTDOWN_TIME = 10;
+	private const float SPAWN_INTERVAL = 1;
 
 	[HideInInspector]
 	public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
