@@ -3264,34 +3264,6 @@ PrefabInstance:
       propertyPath: route
       value: 
       objectReference: {fileID: 6474052}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineOn
-      value: 
-      objectReference: {fileID: 8300000, guid: 8dacc6796bbd85b419f9762339e1f250, type: 3}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineEnd
-      value: 
-      objectReference: {fileID: 8300000, guid: f01f368a5fe5da2409895b47a325db65, type: 3}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineOff
-      value: 
-      objectReference: {fileID: 8300000, guid: f01f368a5fe5da2409895b47a325db65, type: 3}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineLoop
-      value: 
-      objectReference: {fileID: 8300000, guid: 0fc4ab84910d2da44b846dcee7a7ba22, type: 3}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 0fc4ab84910d2da44b846dcee7a7ba22, type: 3}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineStart
-      value: 
-      objectReference: {fileID: 8300000, guid: 8dacc6796bbd85b419f9762339e1f250, type: 3}
-    - target: {fileID: 2074059489, guid: 5bad07ed802830f4d9b33c91b99a8275, type: 3}
-      propertyPath: engineTailSound
-      value: 
-      objectReference: {fileID: 8300000, guid: f01f368a5fe5da2409895b47a325db65, type: 3}
     - target: {fileID: 6137059321811343213, guid: 5bad07ed802830f4d9b33c91b99a8275,
         type: 3}
       propertyPath: m_Name
@@ -4297,10 +4269,6 @@ PrefabInstance:
       propertyPath: route
       value: 
       objectReference: {fileID: 94838178}
-    - target: {fileID: 1399623271, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
-      propertyPath: animateOn
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827,
         type: 3}
       propertyPath: m_Name
