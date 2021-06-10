@@ -20,6 +20,8 @@ public class ObjectDetectionWidget : MonoBehaviour {
         Vector2 max = cam.WorldToScreenPoint(target.bounds.max);
 
         rt.localPosition = (min + max) * 0.5f;
-        rt.sizeDelta = (max - min) * SIZE_MULTIPLIER;
+
+        Vector2 diff = max - min;
+        rt.sizeDelta = new Vector2(Mathf.Abs(diff.x), Mathf.Abs(diff.y)) * SIZE_MULTIPLIER;
     }
 }
