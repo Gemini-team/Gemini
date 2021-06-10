@@ -34,4 +34,12 @@ public class InputMapper : MonoBehaviour {
 			}
 		}
 	}
+
+	public void ResetToDefault() {
+		foreach (Transform obj in root) {
+			KeyCode kc = FerryInput.defaultBindings[obj.name];
+			FerryInput.SetBinding(obj.name, kc);
+			inputs[obj.name].text = kc.ToString();
+		}
+	}
 }
