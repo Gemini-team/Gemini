@@ -21,7 +21,7 @@ public class BoatController : MonoBehaviour {
 	public bool ReceivingInput => !Mathf.Approximately(Mathf.Abs(input.x) + Mathf.Abs(input.y) + Mathf.Abs(rudder), 0);
 	public virtual bool CanMove => true;
 
-	public float Speed => rb.velocity.magnitude;
+	public float Speed => rb == null ? 0 : rb.velocity.magnitude;
 
 	protected virtual void Start() {
 		rb = GetComponent<Rigidbody>();
