@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static MathTools;
 
 public class ETAWidget : MonoBehaviour {
-    private const float UPDATE_INTERVAL = 5, AVG_SPEED = 5;
+    private const float UPDATE_INTERVAL = 5;
 
     private FerryController ferry;
     private Text text;
-
+    private readonly RollingAverage rollingSpeedAvg = new RollingAverage(count: 15, initialAverage: 0.6f);
 
     private void Start() {
         ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
@@ -24,8 +26,9 @@ public class ETAWidget : MonoBehaviour {
     private IEnumerator UpdateETA() {
         while (true) {
             if (ferry.AtDock == null && ferry.DestinationDock != null) {
-                // Pseudo-approximation of ETA
-                DateTime eta = DateTime.Now.AddSeconds(ferry.RemainingDistance / AVG_SPEED);
+                rollingSpeedAvg.PushValue(ferry.Speed);
+
+                DateTime eta = DateTime.Now.AddSeconds(ferry.RemainingDistance / rollingSpeedAvg.Average);
                 text.text = "ETA: " + string.Format("{0:00}:{1:00}", eta.Hour, eta.Minute);
             }
             yield return new WaitForSeconds(UPDATE_INTERVAL);
