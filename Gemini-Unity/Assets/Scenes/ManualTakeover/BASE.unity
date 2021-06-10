@@ -7199,6 +7199,14 @@ PrefabInstance:
       propertyPath: route
       value: 
       objectReference: {fileID: 94838178}
+    - target: {fileID: 1557325035, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
+      propertyPath: _turnPower
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557325035, guid: 755fbb0a52eca4f0a93754c6f3d28827, type: 3}
+      propertyPath: _enginePower
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827,
         type: 3}
       propertyPath: m_Name

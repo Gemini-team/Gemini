@@ -12,6 +12,8 @@ public class FerryController : BoatController {
 	public UnityEvent OnConnectToDock, OnDisconnectFromDock, OnControlChange;
 	[HideInInspector]
 
+	public override bool CanMove => AtDock == null;
+
 	public DockController AtDock { get; private set; }
 	public DockController DestinationDock { get; private set; }
 	public Vector3 DockPos(DockController dock) => dock.transform.Find("DockingArea").position;
@@ -112,7 +114,7 @@ public class FerryController : BoatController {
 		}
 	}
 
-	protected override void Update() {
+	private void Update() {
 		if (ManualControl) {
 			input = new Vector2(FerryInput.GetAxisRaw("Horizontal"), FerryInput.GetAxisRaw("Throttle"));
 			rudder = FerryInput.GetAxisRaw("Rudder");
@@ -121,10 +123,6 @@ public class FerryController : BoatController {
 				if (AtDock == null) TryConnectToDock();
 				else TryDisconnectFromDock();
 			}
-		}
-
-		if (AtDock == null) {
-			base.Update();
 		}
 	}
 }
