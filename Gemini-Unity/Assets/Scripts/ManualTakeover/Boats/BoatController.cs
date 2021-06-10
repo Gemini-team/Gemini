@@ -18,6 +18,7 @@ public class BoatController : MonoBehaviour {
 	[HideInInspector]
 	public float rudder;
 
+	public bool ReceivingInput => !Mathf.Approximately(Mathf.Abs(input.x) + Mathf.Abs(input.y) + Mathf.Abs(rudder), 0);
 	public virtual bool CanMove => true;
 
 	public float Speed => rb.velocity.magnitude;

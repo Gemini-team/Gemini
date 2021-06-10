@@ -8,7 +8,7 @@ public abstract class AudioManager : MonoBehaviour {
     private AudioSource[] channels;
     private int nextChannel;
 
-    private AudioSource CreateChannel() {
+    protected AudioSource CreateChannel() {
         AudioSource channel = gameObject.AddComponent<AudioSource>();
         channel.playOnAwake = false;
         channel.spatialBlend = 1;

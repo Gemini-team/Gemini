@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FerryAudio : AudioManager {
-    private const float MIN_ENGINE_PITCH = 0.75f, MAX_ENGINE_PITCH = 1f, MIN_IMPULSE = 0.5f, MAX_IMPULSE = 2.5f, MAX_SPEED = 3f;
+    private const float MIN_IMPULSE = 0.5f, MAX_IMPULSE = 2.5f, LINGER = 0.2f;
 
-    public AudioClip takeoverSound, engineSound, impactSound, bellSound;
+    public AudioClip engineSound, engineTailSound, takeoverSound, impactSound, bellSound;
 
 	private AudioSource engineChannel;
     private FerryController ferry;
@@ -15,6 +15,7 @@ public class FerryAudio : AudioManager {
 		ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
 
 		engineChannel = PlayInfinite(engineSound);
+        engineChannel.Stop();
 
 		ferry.OnCollision.AddListener(collision => {
 			float volume = Mathf.Clamp01((collision.relativeVelocity.magnitude - MIN_IMPULSE) / (MAX_IMPULSE - MIN_IMPULSE));
@@ -28,9 +29,22 @@ public class FerryAudio : AudioManager {
         scenario.OnManualTakeover.AddListener(() => {
             PlayUntil(1f, takeoverSound, () => scenario.Ferry.input == Vector2.zero, minDuration: 3);
         });
+
+        StartCoroutine(EngineSound());
     }
 
-    private void Update() {
-        engineChannel.pitch = MIN_ENGINE_PITCH + (MAX_ENGINE_PITCH - MIN_ENGINE_PITCH) * ferry.Speed / MAX_SPEED;
+    private IEnumerator EngineSound() {
+        while (true) {
+            yield return new WaitUntil(() => ferry.ReceivingInput);
+
+            engineChannel.Play();
+            while (ferry.ReceivingInput) {
+                yield return new WaitForSeconds(LINGER);
+            }
+
+            engineChannel.Stop();
+            engineChannel.PlayOneShot(engineTailSound);
+            yield return new WaitForSeconds(engineTailSound.length);
+        }
     }
 }
