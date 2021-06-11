@@ -8,8 +8,6 @@ public class GameUI : ExtendedMonoBehaviour {
 	private Scenario scenario;
 	private FerryController ferry;
 
-	private Color BGColorWarning => new Color(0.85f, 0.2f, 0, 1);
-
 	private void Toggle(string name, bool state) {
 		transform.Find(name).gameObject.SetActive(state);
 	}
@@ -39,7 +37,7 @@ public class GameUI : ExtendedMonoBehaviour {
 		ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
 		ferry.OnControlChange.AddListener(() => {
 			if (ferry.ManualControl) {
-				notifications.PushNotification(scenario.FailureDescription + "\nManual takeover required", BGColorWarning);
+				GetComponentInChildren<WarningWidget>().ShowWarning(scenario.FailureDescription + "\n Manual takeover required");
 			}
 			transform.Find("ModeIndicator/Text").GetComponent<Text>().text = "MODE: " + (ferry.ManualControl ? "MANUAL" : "AUTOMATIC");
 		});
