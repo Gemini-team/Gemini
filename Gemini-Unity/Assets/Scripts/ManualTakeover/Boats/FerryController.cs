@@ -33,6 +33,7 @@ public class FerryController : BoatController {
 	public bool boarding;
 
 	private Animator[] animators;
+	private RigidbodyConstraints rbConstraints;
 
 	private void UpdateDestination() {
 		DestinationDock = ClosestDock(dock => !dock.Equals(AtDock));
@@ -84,6 +85,7 @@ public class FerryController : BoatController {
 
 		// Dock to destination, then find next destination
 		AtDock = DestinationDock;
+		rb.constraints = RigidbodyConstraints.FreezeAll;
 		UpdateDestination();
 
 		UpdateAnimators(inTransit: false);
@@ -97,6 +99,7 @@ public class FerryController : BoatController {
 		if (boarding || AtDock == null) return false;
 
 		AtDock = null;
+		rb.constraints = rbConstraints;
 		UpdateAnimators(inTransit: true);
 
 		OnDisconnectFromDock?.Invoke();
@@ -107,6 +110,7 @@ public class FerryController : BoatController {
 		base.Start();
 
 		animators = GetComponentsInChildren<Animator>();
+		rbConstraints = rb.constraints;
 
 		UpdateDestination();
 		if (!TryConnectToDock()) {

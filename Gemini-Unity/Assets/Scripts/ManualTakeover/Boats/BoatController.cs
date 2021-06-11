@@ -10,7 +10,7 @@ public class BoatController : MonoBehaviour {
 	[HideInInspector]
 	public CollisionEvent OnCollision = new CollisionEvent();
 
-	private Rigidbody rb;
+	protected Rigidbody rb { get; private set; }
 	public BoatProbes engine { get; private set; }
 
 	[HideInInspector]
