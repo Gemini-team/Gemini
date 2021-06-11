@@ -28,6 +28,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 	protected virtual void TripStartAction() { }
 	protected virtual void Step() { }
 
+	public abstract string ScenarioName { get; }
 	public abstract string FailureWarning { get; }
 
 	public virtual void SetupScenario() {

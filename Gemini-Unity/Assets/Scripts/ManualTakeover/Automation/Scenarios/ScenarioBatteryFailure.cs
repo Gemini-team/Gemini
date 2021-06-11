@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenarioBatteryFailure : Scenario {
+	public override string ScenarioName => "BatteryFailure";
+    public override string FailureWarning => "Battery failure detected";
     private string FailureImminentWarning => "Battery 2 temperature above 80 \u00b0C";
-	public override string FailureWarning => "Battery failure detected";
 
     [Space(10)]
 	public float failureDelay = 15;

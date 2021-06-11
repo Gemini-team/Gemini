@@ -4,7 +4,9 @@ using UnityEngine;
 using Crest;
 
 public class ScenarioUnknownObstacle : Scenario {
-    public override string FailureWarning => "Collision detected";
+	public override string ScenarioName => "UnknownObstacle";
+
+	public override string FailureWarning => "Collision detected";
 
     [Space(10)]
 	public GameObject obstacle;

@@ -65,7 +65,11 @@ public class DataLogger : MonoBehaviour {
 
         startPos = GameObject.FindGameObjectWithTag("Player").transform.position;
 
-        sw = new StreamWriter(DIRECTORY + System.DateTime.Now + ".csv");
+        string scenarioInfo = scenario.ScenarioName;
+        if (PlayerPrefs.GetInt("ObjectDetection") == 1) scenarioInfo += " OD";
+        if (PlayerPrefs.GetInt("AIDecisionSupport") == 1) scenarioInfo += " AI";
+
+        sw = new StreamWriter(DIRECTORY + System.DateTime.Now + " " + scenarioInfo + ".csv");
         WriteRow(HEADER);
 
         startTime = Time.time;
