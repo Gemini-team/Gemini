@@ -11,6 +11,11 @@ public class ObjectDetectionWidget : MonoBehaviour {
     private RectTransform rt;
 
     private void Start() {
+        if (PlayerPrefs.HasKey("ObjectDetection") && PlayerPrefs.GetInt("ObjectDetection") == 0) {
+            gameObject.SetActive(false);
+            return;
+        }
+
         cam = Camera.main;
         rt = GetComponent<RectTransform>();
     }
