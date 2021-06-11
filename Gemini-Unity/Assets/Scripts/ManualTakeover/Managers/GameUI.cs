@@ -39,7 +39,7 @@ public class GameUI : ExtendedMonoBehaviour {
 		ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
 		ferry.OnControlChange.AddListener(() => {
 			if (ferry.ManualControl) {
-				notifications.PushNotification("Manual takeover required\nDock at " + ferry.DestinationDock.name, BGColorWarning);
+				notifications.PushNotification(scenario.FailureDescription + "\nManual takeover required", BGColorWarning);
 			}
 			transform.Find("ModeIndicator/Text").GetComponent<Text>().text = "MODE: " + (ferry.ManualControl ? "MANUAL" : "AUTOMATIC");
 		});

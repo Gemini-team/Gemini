@@ -1,35 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Crest;
 
 public class ScenarioUnknownObstacle : Scenario {
-	[Space(10)]
-	public GameObject obstaclePrefab;
-	public Vector3 spawnPoint, rotation;
-	public float distance;
+	public override string FailureDescription => "Unexpected collision detected";
 
-	private GameObject obstacle;
+    [Space(10)]
+	public GameObject obstacle;
 
-	protected override void TripStartAction() {
+	private BoatProbes floatingObject;
+
+    private void Start() {
+		if (obstacle == null) throw new System.ArgumentNullException("Obstacle is not set");
+
+		obstacle.GetComponent<DetectCollision>().OnCollision.AddListener(_ => ManualTakeover());
+
+		floatingObject = obstacle.GetComponent<BoatProbes>();
+		floatingObject._playerControlled = false;
+		obstacle.SetActive(false);
+    }
+
+    protected override void TripStartAction() {
 		base.TripStartAction();
+
 		if (tripCount == 0) {
-			obstacle = Instantiate(obstaclePrefab, spawnPoint, Quaternion.Euler(rotation));
+			Debug.Log("Moving floating obstacle");
+			obstacle.SetActive(true);
+			floatingObject._engineBias = 1;
 		}
 	}
 
-	protected override void Step() {
-		if (obstacle != null && Vector3.Distance(Ferry.transform.position, obstacle.transform.position) <= distance) {
-			ManualTakeover();
-		}
-	}
+    protected override void ManualTakeover() {
+        base.ManualTakeover();
 
-	private void OnDrawGizmos() {
-		if (Playing && tripCount == 0) {
-			Gizmos.color = Color.cyan;
-			Gizmos.DrawWireSphere(Ferry.transform.position, distance);
-		}
+		floatingObject._engineBias = 0.5f;
+    }
 
-		Gizmos.color = Color.magenta;
-		Gizmos.DrawWireSphere(spawnPoint, 1);
+    private void OnDrawGizmos() {
+		if (obstacle != null) {
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawWireSphere(obstacle.transform.position, 2);
+			Gizmos.DrawLine(obstacle.transform.position, obstacle.transform.position + obstacle.transform.rotation * Vector3.forward * 500);
+		}
 	}
 }

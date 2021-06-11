@@ -24,7 +24,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 	protected virtual void TripStartAction() { }
 	protected virtual void Step() { }
 
-	private void Start() { }
+	public abstract string FailureDescription { get; }
 
 	public virtual void SetupScenario() {
 		Debug.Log("Setting up scenario");

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenarioBatteryFailure : Scenario {
-	[Space(10)]
+	public override string FailureDescription => "Battery failure detected";
+
+    [Space(10)]
 	public float failureDelay = 15;
 	public AudioClip explosionSound;
 
