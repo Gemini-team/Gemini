@@ -103,6 +103,7 @@ public class FerryController : BoatController {
 		UpdateAnimators(inTransit: true);
 
 		OnDisconnectFromDock?.Invoke();
+		DockMessage?.Invoke("Undocking successful. Departing...");
 		return true;
 	}
 

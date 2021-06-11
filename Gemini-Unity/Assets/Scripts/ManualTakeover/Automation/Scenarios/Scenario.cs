@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public class ManualTakeoverEvent : UnityEvent<float, string> { }
+
 public abstract class Scenario : ExtendedMonoBehaviour {
 	private const float SPAWN_INTERVAL = 1;
 
 	[HideInInspector]
 	public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
+	[HideInInspector]
+	public ManualTakeoverEvent OnManualTakeoverImminent = new ManualTakeoverEvent();
 
 	public int minSpawnAmount = 2, maxSpawnAmount = 12, tripCount = 3;
 	public bool autoPlay = true;
@@ -24,7 +28,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 	protected virtual void TripStartAction() { }
 	protected virtual void Step() { }
 
-	public abstract string FailureDescription { get; }
+	public abstract string FailureWarning { get; }
 
 	public virtual void SetupScenario() {
 		Debug.Log("Setting up scenario");

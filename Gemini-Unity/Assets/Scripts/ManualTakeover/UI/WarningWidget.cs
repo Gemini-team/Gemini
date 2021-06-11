@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class WarningWidget : ExtendedMonoBehaviour {
     private const float BLINK_INTERVAL = 1;
 
-    private Color BlinkColor(bool on) => on ? new Color(1, 0.25f, 0, 1) : new Color(1, 1, 1, 0.5f);
-
     public float duration = 15;
 
     private List<Coroutine> coroutines = new List<Coroutine>();
@@ -25,7 +23,7 @@ public class WarningWidget : ExtendedMonoBehaviour {
         IEnumerator Blink() {
             bool on = true;
             while (true) {
-                image.color = BlinkColor(on);
+                image.color = on ? UIColors.Warning : UIColors.Background;
                 yield return new WaitForSeconds(BLINK_INTERVAL);
                 on = !on;
             }

@@ -8,13 +8,11 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(VerticalLayoutGroup))]
 public class NotificationWidget : MonoBehaviour {
-	private Color DEFAULT_BG_COLOR => new Color(1, 1, 1, 0.5f);
-
 	public GameObject notificationPrefab;
 	public int count;
 	public float animationDuration = 1;
 	
-	private Queue<(string, Color)> messages = new Queue<(string, Color)>();
+	private Queue<(string, string, Color)> messages = new Queue<(string, string, Color)>();
 
 	private bool animating;
 	private bool Cycle => transform.childCount > count;
@@ -24,26 +22,31 @@ public class NotificationWidget : MonoBehaviour {
 	private void Start() {
 		if (count <= 0) throw new System.ArgumentOutOfRangeException("Count must be at least 1");
 		if (notificationPrefab == null) throw new System.ArgumentNullException("Notification prefab is not set");
-		
+
 		animationDistance = notificationPrefab.GetComponent<RectTransform>().rect.height + GetComponent<VerticalLayoutGroup>().spacing;
 
 		StartCoroutine(DrawNotifications());
 	}
 
-	public void PushNotification(string message, Color? bgColor=null) {
-		messages.Enqueue((message, bgColor.GetValueOrDefault(DEFAULT_BG_COLOR)));
+	public void PushNotification(string message, string tag=null, Color? bgColor=null) {
+		messages.Enqueue((message, tag, bgColor.GetValueOrDefault(UIColors.Background)));
 	}
 
 	private IEnumerator DrawNotifications() {
 		while (true) {
 			yield return new WaitUntil(() => messages.Count > 0 && !animating);
+			var (message, tagText, bgColor) = messages.Dequeue();
 
 			if (!Cycle) Instantiate(notificationPrefab, transform);
 
-			var (message, bgColor) = messages.Dequeue();
 			Transform notification = transform.GetChild(transform.childCount - 1);
+			Transform tag = notification.Find("Tag");
+
 			notification.GetComponent<Image>().color = bgColor;
 			notification.Find("Text").GetComponent<Text>().text = message;
+
+			tag.GetComponent<Image>().color = tagText == null ? Color.clear : bgColor;
+			tag.Find("Text").GetComponent<Text>().text = tagText ?? "";
 
 			// Animation flicker fix
 			if (!Cycle) transform.localPosition = Vector3.down * animationDistance;
