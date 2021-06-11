@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WarningWidget : ExtendedMonoBehaviour {
     private const float BLINK_INTERVAL = 1;
 
-    private Color BlinkColor(bool on) => on ? new Color(0.85f, 0.2f, 0, 1) : new Color(1, 1, 1, 0.5f);
+    private Color BlinkColor(bool on) => on ? new Color(1, 0.25f, 0, 1) : new Color(1, 1, 1, 0.5f);
 
     public float duration = 15;
 

@@ -39,7 +39,6 @@ public class GameUI : ExtendedMonoBehaviour {
 			if (ferry.ManualControl) {
 				GetComponentInChildren<WarningWidget>().ShowWarning(scenario.FailureDescription + "\n Manual takeover required");
 			}
-			transform.Find("ModeIndicator/Text").GetComponent<Text>().text = "MODE: " + (ferry.ManualControl ? "MANUAL" : "AUTOMATIC");
 		});
 		ferry.DockMessage.AddListener(msg => {
 			notifications.PushNotification(msg);
