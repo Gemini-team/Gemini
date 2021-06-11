@@ -22,11 +22,14 @@ public abstract class AudioManager : MonoBehaviour {
         return channel;
     }
 
-    public void PlayUntil(float interval, AudioClip sound, System.Func<bool> predicate, float minDuration = 0) {
+    public void PlayUntil(float interval, AudioClip sound, System.Func<bool> predicate, float minDuration = 0, float? volume = null, float spatialBlend = 1) {
         IEnumerator Task() {
             float startTime = Time.time;
 
             AudioSource channel = ReserveChannel();
+            channel.volume = volume.GetValueOrDefault(this.volume);
+            channel.spatialBlend = spatialBlend;
+            channel.pitch = 1;
             channel.clip = sound;
 
             while (Time.time - startTime < minDuration || predicate.Invoke()) {
@@ -37,9 +40,10 @@ public abstract class AudioManager : MonoBehaviour {
         StartCoroutine(Task());
     }
 
-    public void PlayOnce(AudioClip sound, float? volume=null, float randomPitchRange = 0) {
+    public void PlayOnce(AudioClip sound, float? volume=null, float spatialBlend = 1, float randomPitchRange = 0) {
         AudioSource channel = ReserveChannel();
 		channel.volume = volume.GetValueOrDefault(this.volume);
+        channel.spatialBlend = spatialBlend;
 		channel.pitch = randomPitchRange == 0 ? 1f : Random.Range(1f - randomPitchRange, 1f + randomPitchRange);
         channel.PlayOneShot(sound);
     }
