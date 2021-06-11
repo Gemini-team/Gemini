@@ -14,7 +14,7 @@ public class ObjectDetectionWidget : MonoBehaviour {
 
     private void Start() {
         if (PlayerPrefs.HasKey("ObjectDetection") && PlayerPrefs.GetInt("ObjectDetection") == 0) {
-            enabled = false;
+            gameObject.SetActive(false);
             return;
         }
 
