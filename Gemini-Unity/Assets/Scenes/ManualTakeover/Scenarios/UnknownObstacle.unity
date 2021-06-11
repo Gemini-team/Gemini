@@ -265,8 +265,8 @@ MonoBehaviour:
   OnCompletion:
     m_PersistentCalls:
       m_Calls: []
-  minSpawnAmount: 1
-  maxSpawnAmount: 1
-  tripCount: 1
+  minSpawnAmount: 2
+  maxSpawnAmount: 12
+  tripCount: 3
   autoPlay: 1
   obstacle: {fileID: 1629280764}
