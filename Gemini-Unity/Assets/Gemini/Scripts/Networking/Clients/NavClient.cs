@@ -23,6 +23,7 @@ public class NavClient : Sensor
     private Vector3 _unityLinearVelocity;
     private Vector3 _unityAngularVelocity;
 
+    private Rigidbody _rigidBody;
 
     private void Awake()
     {
@@ -32,12 +33,16 @@ public class NavClient : Sensor
 
     private void Start()
     {
-
         _navPosition = new Vec3();
         _navOrientation = new Navigation.Quaternion();
 
         _navLinearVelocity = new Vec3();
         _navAngularVelocity = new Vec3();
+
+        if (GetComponent<Rigidbody>() != null)
+        {
+            _rigidBody = GetComponent<Rigidbody>();
+        }
     }
 
     void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
@@ -64,16 +69,29 @@ public class NavClient : Sensor
         _navOrientation.Z = _unityOrientation.z;
         _navOrientation.W = _unityOrientation.w;
 
-        // TODO: In the future this should either be estimated from position and time
-        // or this should be retreived from a Rigidbody component, depending on which
-        // type of simulation that is running.
-        _navLinearVelocity.X = 0.0f;
-        _navLinearVelocity.Y = 0.0f;
-        _navLinearVelocity.Z = 0.0f;
+        if (_rigidBody != null)
+        {
 
-        _navAngularVelocity.X = 0.0f;
-        _navAngularVelocity.Y = 0.0f;
-        _navAngularVelocity.Z = 0.0f;
+            _unityLinearVelocity = ConventionTransforms.VelocityUnityToNED(_rigidBody.velocity);
+            _navLinearVelocity.X = _unityLinearVelocity.x;
+            _navLinearVelocity.Y = _unityLinearVelocity.y;
+            _navLinearVelocity.Z = _unityLinearVelocity.z;
+
+            _unityAngularVelocity = ConventionTransforms.AngularVelocityUnityToNED(_rigidBody.angularVelocity); 
+            _navAngularVelocity.X = _unityAngularVelocity.x;
+            _navAngularVelocity.Y = _unityAngularVelocity.y;
+            _navAngularVelocity.Z = _unityAngularVelocity.z;
+
+        }
+        else {
+            _navLinearVelocity.X = 0.0f;
+            _navLinearVelocity.Y = 0.0f;
+            _navLinearVelocity.Z = 0.0f;
+
+            _navAngularVelocity.X = 0.0f;
+            _navAngularVelocity.Y = 0.0f;
+            _navAngularVelocity.Z = 0.0f;
+        }
 
         gate = true;
     }
