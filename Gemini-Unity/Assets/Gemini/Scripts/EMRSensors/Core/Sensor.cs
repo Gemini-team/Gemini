@@ -15,16 +15,12 @@ namespace Gemini.EMRS.Core
         //public bool RunRecording = false;
 
         // Change this to the IP that the server are running on for you
-<<<<<<< HEAD
-        public static string serverIP = "192.168.26.128";
-=======
 
         // Ubuntu 18.04 VM
         public static string serverIP = "192.168.1.235";
 
         // Ubuntu 20.04 VM
         //public static string serverIP = "192.168.80.128";
->>>>>>> develop
 
         public static int serverPort = 30052;
         protected static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
