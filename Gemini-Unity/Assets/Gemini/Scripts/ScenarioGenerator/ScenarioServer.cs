@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Gemini.EMRS.Core;
+using System;
 
 namespace Gemini.EMRS.ScenarioGenerator {
     public class ScenarioServer : MonoBehaviour
@@ -28,6 +29,11 @@ namespace Gemini.EMRS.ScenarioGenerator {
                 {
                     nextScenarioTime = _boatScenarios[boatIdx].UpdateVessel();
                 }
+            
+                DateTime currentTime = DateTime.Now;  
+                nextScenarioTime = currentTime.Day * 24 * 60 * 60 + currentTime.Hour * 60 * 60 
+                                   + currentTime.Minute * 60  + currentTime.Second + currentTime.Millisecond / 1000.0f;
+
                 Sensor.UpdateSensorTime(nextScenarioTime,_sensors);
             }
         }

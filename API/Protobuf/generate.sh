@@ -11,7 +11,7 @@
 OUTDIR=../../Gemini-Unity/Assets/Gemini/Scripts/Networking/ProtobufFiles/$1
 
 # TODO: THIS DOES NOT WORK, SHOULD BE CHANGED TO TAKE IN PATH AS ARG.
-PYTHON_OUTDIR=../Clients/PythonClients/
+PYTHON_OUTDIR=../../Clients/python/
 
 SRC_DIR=ProtoFiles/
 if [ $# -eq 0 ]; then

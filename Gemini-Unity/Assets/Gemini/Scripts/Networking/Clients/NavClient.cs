@@ -8,6 +8,7 @@ using Grpc.Core;
 
 public class NavClient : Sensor
 {
+    public string VesselName; 
 
     private Navigation.Navigation.NavigationClient _navigationClient = new Navigation.Navigation.NavigationClient(_streamingChannel);
 
@@ -103,7 +104,8 @@ public class NavClient : Sensor
                         Position = _navPosition,
                         Orientation = _navOrientation,
                         LinearVelocity = _navLinearVelocity,
-                        AngularVelocity = _navAngularVelocity
+                        AngularVelocity = _navAngularVelocity,
+                        VesselName = VesselName
                     }).Success;
 
                 connected = success;
