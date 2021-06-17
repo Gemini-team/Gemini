@@ -51,7 +51,7 @@ namespace Gemini.EMRS.ScenarioGenerator {
             _boatScenarios = new BoatScenario[BoatPrefabs.Length];
             for (int boatIndex = 0; boatIndex < _boatScenarios.Length-1; boatIndex++)
             {
-                BoatPrefabs[boatIndex] = Instantiate(BoatPrefabs[boatIndex], new Vector3(0, 0, 0), Quaternion.identity);
+                //BoatPrefabs[boatIndex] = Instantiate(BoatPrefabs[boatIndex], new Vector3(0, 0, 0), Quaternion.identity);
                 _boatScenarios[boatIndex] = new BoatScenario(filePath, BoatPrefabs[boatIndex], boatIndex + 1);
             }
             _boatScenarios[_boatScenarios.Length-1] = new BoatScenario(filePath, BoatPrefabs[_boatScenarios.Length-1], _boatScenarios.Length);
