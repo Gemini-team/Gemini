@@ -9,6 +9,7 @@ using Grpc.Core;
 public class NavClient : Sensor
 {
     public string VesselName; 
+    private Transform piren;
 
     private Navigation.Navigation.NavigationClient _navigationClient = new Navigation.Navigation.NavigationClient(_streamingChannel);
 
@@ -27,6 +28,7 @@ public class NavClient : Sensor
     private void Awake()
     {
         SetupSensorCallbacks(new SensorCallback(NavUpdate, SensorCallbackOrder.Last)); 
+        piren = GameObject.Find("PirenFrame").transform;
     }
 
     private void Start()
@@ -45,7 +47,14 @@ public class NavClient : Sensor
 
     void NavUpdate(ScriptableRenderContext context, Camera[] cameras)
     {
-        _unityPosition = ConventionTransforms.PositionUnityToNED(gameObject.transform.position);
+        var pirenOffset = new Vector3(
+            -piren.position.x + gameObject.transform.position.x,
+            -piren.position.y + gameObject.transform.position.y,
+            -piren.position.z + gameObject.transform.position.z
+            );
+
+        //_unityPosition = ConventionTransforms.PositionUnityToNED(gameObject.transform.position);
+        _unityPosition = ConventionTransforms.PositionUnityToNED(pirenOffset);
 
         _unityOrientation = UnityEngine.Quaternion.Euler(ConventionTransforms.EulerOrientationUnityToNED(gameObject.transform.rotation.eulerAngles));
             

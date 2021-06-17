@@ -17,7 +17,7 @@ namespace Gemini.EMRS.Core
         // Change this to the IP that the server are running on for you
 
         // Ubuntu 18.04 VM
-        public static string serverIP = "192.168.1.235";
+        public static string serverIP = "192.168.1.237";
 
         // Ubuntu 20.04 VM
         //public static string serverIP = "192.168.80.128";
