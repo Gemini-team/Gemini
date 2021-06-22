@@ -14,13 +14,8 @@ namespace Gemini.EMRS.Core
 
         //public bool RunRecording = false;
 
-        // Change this to the IP that the server are running on for you
-
-        // Ubuntu 18.04 VM
-        public static string serverIP = "192.168.1.237";
-
-        // Ubuntu 20.04 VM
-        //public static string serverIP = "192.168.80.128";
+        // Docker Container
+        public static string serverIP = "127.0.0.1";
 
         public static int serverPort = 30052;
         protected static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
