@@ -61,7 +61,7 @@ public class PassengerBoarder : MonoBehaviour {
         Vector3 seat = seats[seatIndex] + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * SEAT_OFFSET;
 
         passenger.transform.SetParent(transform);
-        passenger.SetDestination(transform.position + transform.rotation * seat);
+        passenger.SetDestinationSynced(transform.position + transform.rotation * seat);
         passengers.Add(passenger);
 
 		if (!ferry.boarding) {

@@ -43,7 +43,7 @@ public class DockController : ExtendedMonoBehaviour {
 
 		foreach (Passenger passenger in passengers) {
 			passenger.transform.SetParent(transform);
-			passenger.SetDestination(despawnPoint.position);
+			passenger.SetDestinationSynced(despawnPoint.position);
 
 			// Delay to ensure the agent's destination has been updated in time
 			Schedule(() => {

@@ -13,7 +13,7 @@ public class PassengerQueue : MonoBehaviour {
 
     public void Enqueue(Passenger passenger, bool instant = false) {
         Vector3 pos = QueuePosition(passengers.Count);
-        passenger.SetDestination(pos);
+        passenger.SetDestinationImmediate(pos);
         passengers.Add(passenger);
         if (instant) passenger.transform.position = pos;
     }
@@ -23,7 +23,7 @@ public class PassengerQueue : MonoBehaviour {
         passengers.RemoveAt(0);
 
         for (int i = 0; i < passengers.Count; i++) {
-            passengers[i].SetDestination(QueuePosition(i));
+            passengers[i].SetDestinationImmediate(QueuePosition(i));
         }
 
         return passenger;

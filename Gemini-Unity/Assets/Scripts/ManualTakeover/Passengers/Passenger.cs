@@ -9,8 +9,6 @@ public class Passenger : MonoBehaviour {
         ANIM_SPEED = 0.6f,
         MIN_ANIM_SPEED = 0.25f,
         SPEED_THRESHOLD = 0.15f,
-        MIN_IDLE_INTERVAL = 5,
-        MAX_IDLE_INTERVAL = 10,
         IDLE_ANIM_SPEED = 3;
 
     [HideInInspector]
@@ -23,13 +21,18 @@ public class Passenger : MonoBehaviour {
 
     public bool ReachedDestination => agent == null || !agent.enabled || agent.remainingDistance <= agent.stoppingDistance;
 
-	// private static SyncTicket syncTicket = new SyncTicket(0.5f, 1f);
+	private static SyncTicket syncTicket = new SyncTicket(0.5f, 1);
 
-    public void SetDestination(Vector3 destination) {
+    public void SetDestinationImmediate(Vector3 destination) {
         if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
 
 		agent.SetDestination(destination);
-		// StartCoroutine(syncTicket.TakeTicketAndWait(() => agent.SetDestination(destination)));  Temporarily disabled due to boarding bug
+    }
+
+    public void SetDestinationSynced(Vector3 destination) {
+        if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
+
+        StartCoroutine(syncTicket.TakeTicketAndWait(() => agent.SetDestination(destination)));
     }
 
     private void Start() {
