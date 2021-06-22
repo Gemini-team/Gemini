@@ -16,7 +16,7 @@ public class ScenarioUnknownObstacle : Scenario {
     private void Start() {
 		if (obstacle == null) throw new System.ArgumentNullException("Obstacle is not set");
 
-		obstacle.GetComponent<DetectCollision>().OnCollision.AddListener(_ => ManualTakeover());
+		obstacle.GetComponent<DetectCollision>().OnCollision.AddListener(_ => TriggerManualTakeoverEvent());
 
 		floatingObject = obstacle.GetComponent<BoatProbes>();
 		floatingObject._playerControlled = false;
@@ -33,8 +33,8 @@ public class ScenarioUnknownObstacle : Scenario {
 		}
 	}
 
-    protected override void ManualTakeover() {
-        base.ManualTakeover();
+    protected override void TriggerManualTakeoverEvent() {
+        base.TriggerManualTakeoverEvent();
 
 		floatingObject._engineBias = 0.5f;
     }

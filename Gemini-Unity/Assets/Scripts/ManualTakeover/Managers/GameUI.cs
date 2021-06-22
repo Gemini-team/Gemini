@@ -26,6 +26,9 @@ public class GameUI : ExtendedMonoBehaviour {
 		scenario.OnPlay.AddListener(() => {
 			notifications.PushNotification("Autopilot engaged\nStandby");
 		});
+		scenario.OnManualTakeoverRequired.AddListener(() => {
+			GetComponentInChildren<WarningWidget>().ShowWarning(scenario.FailureWarning + "\n Manual takeover required");
+		});
 		scenario.OnCompletion.AddListener(() => {
 			Transform endScreen = transform.Find("EndScreen");
 			endScreen.gameObject.SetActive(true);
@@ -35,11 +38,6 @@ public class GameUI : ExtendedMonoBehaviour {
 		});
 
 		ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
-		ferry.OnControlChange.AddListener(() => {
-			if (ferry.ManualControl) {
-				GetComponentInChildren<WarningWidget>().ShowWarning(scenario.FailureWarning + "\n Manual takeover required");
-			}
-		});
 		ferry.DockMessage.AddListener(msg => {
 			notifications.PushNotification(msg);
 		});

@@ -26,7 +26,7 @@ public class FerryAudio : AudioManager {
 
 		ferry.OnDisconnectFromDock.AddListener(() => PlayOnce(bellSound));
 
-        scenario.OnManualTakeover.AddListener(() => {
+        scenario.OnManualTakeoverRequired.AddListener(() => {
             PlayUntil(1f, takeoverSound, () => scenario.Ferry.input == Vector2.zero, minDuration: 3, spatialBlend: 0);
         });
 

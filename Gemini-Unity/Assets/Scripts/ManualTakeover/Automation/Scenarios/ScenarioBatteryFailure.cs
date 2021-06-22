@@ -11,20 +11,20 @@ public class ScenarioBatteryFailure : Scenario {
 	public float failureDelay = 15;
 	public AudioClip explosionSound;
 
-	protected override void ManualTakeover() {
+	protected override void TriggerManualTakeoverEvent() {
 		if (!Playing) return;
 
 		GameObject ferry = GameObject.FindGameObjectWithTag("Player");
 		ferry.GetComponentInChildren<FerryAudio>().PlayOnce(explosionSound);
 		ferry.transform.Find("Particles/Smoke").GetComponent<ParticleSystem>().Play();
 
-		base.ManualTakeover();
+		base.TriggerManualTakeoverEvent();
 	}
 
 	protected override void TripStartAction() {
 		if (tripCount == 0) {
 			OnManualTakeoverImminent?.Invoke(failureDelay, FailureImminentWarning);
-			Schedule(ManualTakeover, failureDelay);
+			Schedule(TriggerManualTakeoverEvent, failureDelay);
 		}
 	}
 }

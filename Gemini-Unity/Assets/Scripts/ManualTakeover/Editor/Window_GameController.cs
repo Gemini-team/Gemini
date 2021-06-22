@@ -34,7 +34,7 @@ public class MyWindow : EditorWindow {
             scenario = FindObjectOfType<Scenario>();
         }
 
-        if (scenario.Playing) {
+        if (!scenario.Done) {
             LabelField("Playing scenario...");
             if (Time.timeScale > 1 && GUILayout.Button("Normal playblack")) {
                 Time.timeScale = 1;

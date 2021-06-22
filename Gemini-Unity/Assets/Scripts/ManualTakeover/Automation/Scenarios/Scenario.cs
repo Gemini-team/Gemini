@@ -9,7 +9,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 	private const float SPAWN_INTERVAL = 1;
 
 	[HideInInspector]
-	public UnityEvent OnPlay, OnManualTakeover, OnCompletion;
+	public UnityEvent OnPlay, OnManualTakeoverRequired, OnCompletion;
 	[HideInInspector]
 	public ManualTakeoverEvent OnManualTakeoverImminent = new ManualTakeoverEvent();
 
@@ -21,12 +21,12 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 
 	private float startTime, endTime;
 
-	public bool Playing { get; private set; }
+	protected bool Playing { get; private set; }
 	public bool Done { get; private set; } = true;
+	public bool manualTakeoverRequired;
 	public float Duration => endTime - startTime;
 
 	protected virtual void TripStartAction() { }
-	protected virtual void Step() { }
 
 	public abstract string ScenarioName { get; }
 	public abstract string FailureWarning { get; }
@@ -40,9 +40,9 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 
 		Ferry.OnConnectToDock.AddListener(() => {
 			if (!Done && Ferry.ManualControl) {
-				Done = true;
-				Playing = false;
+				Pause();
 				Ferry.ManualControl = false;
+				Done = true;
 				endTime = Time.timeSinceLevelLoad;
 
 				Debug.Log("Scenario completed");
@@ -87,6 +87,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 		}
 
 		startTime = Time.timeSinceLevelLoad;
+		manualTakeoverRequired = false;
 		Ferry.ManualControl = false;
 		Done = false;
 		Playing = true;
@@ -95,28 +96,44 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 			onCompletion: Ferry.AtDock.PassengerDeparture,
 			times: Random.Range(minSpawnAmount, maxSpawnAmount), interval: SPAWN_INTERVAL);
 
-		Debug.Log("Playing scenario");
 		OnPlay?.Invoke();
+		Debug.Log("Playing scenario");
 	}
 
-	private void Update() {
-		if (Playing) {
-			endTime = Time.timeSinceLevelLoad;
-			if (Input.GetButtonDown("ManualTakeover")) {
-				ManualTakeover();
-			}
-			Step();
-		}
-	}
-
-	protected virtual void ManualTakeover() {
+	private void Pause() {
 		if (!Playing) return;
 
 		Playing = false;
 		trip.Playing = false;
 		Ferry.ManualControl = true;
-		Debug.Log("Manual takeover");
+	}
 
-		OnManualTakeover?.Invoke();
+	private void Resume() {
+		if (Done || Playing) return;
+
+		Playing = true;
+		trip.Playing = true;
+		Ferry.ManualControl = false;
+	}
+
+	private void Update() {
+		if (Done) return;
+
+		endTime = Time.timeSinceLevelLoad;
+
+		if (!manualTakeoverRequired && Input.GetButtonDown("ManualTakeover")) {
+			if (Playing) Pause();
+			else Resume();
+		}
+	}
+
+	protected virtual void TriggerManualTakeoverEvent() {
+		if (!Playing || manualTakeoverRequired) return;
+
+		manualTakeoverRequired = true;
+		Pause();
+
+		Debug.Log("Manual takeover required");
+		OnManualTakeoverRequired?.Invoke();
 	}
 }
