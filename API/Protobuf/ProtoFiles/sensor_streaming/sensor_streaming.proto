@@ -58,6 +58,7 @@ message LidarStreamingRequest {
     uint32 row_step = 7;
     bytes data = 8;
     bool is_dense = 9;
+    string frame_id = 10;
 }
 
 message LidarStreamingResponse {
