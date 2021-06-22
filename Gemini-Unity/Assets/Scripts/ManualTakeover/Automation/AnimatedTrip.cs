@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(BoatController))]
 public abstract class AnimatedTrip : MonoBehaviour {
-	private const float LOOK_AHEAD_TIME = 0.05f, ALIGNMENT_THRESHOLD = 0.98f;
+	private const float LOOK_AHEAD_TIME = 0.1f, CORRECTION_DAMPENING = 10f, RUDDER_CUTOFF = 0.1f, HEADING_ALIGNMENT_THRESHOLD = 0.8f;
 
 	[HideInInspector]
 	public UnityEvent OnPlay, OnStop, OnEndReached;
@@ -24,7 +24,6 @@ public abstract class AnimatedTrip : MonoBehaviour {
 	protected BoatController controller { get; private set; }
 
 	private Vector3 target;
-	private float rudder;
 
 	private float TimeLeft {
 		get {
@@ -69,10 +68,14 @@ public abstract class AnimatedTrip : MonoBehaviour {
 		float closestTime = route.path.GetClosestTimeOnPath(transform.position);
 		target = route.path.GetPointAtTime(closestTime + LOOK_AHEAD_TIME * (reverse ? -1 : 1), EndOfPathInstruction.Stop);
 
-		transform.rotation = Quaternion.Euler(transform.eulerAngles.x, route.path.GetRotation(closestTime).eulerAngles.y, transform.eulerAngles.z);
+		Quaternion idealHeading = route.path.GetRotation(closestTime, EndOfPathInstruction.Stop);
+		float correctionAngle = idealHeading.eulerAngles.y - transform.eulerAngles.y;
+
+		float rudder = Mathf.Clamp(correctionAngle / CORRECTION_DAMPENING, -1, 1);
+		if (Mathf.Abs(rudder) < RUDDER_CUTOFF) rudder = 0;
 
 		controller.input = new Vector2(0, Throttle);
-		controller.rudder = 0;
+		controller.rudder = rudder;
 
 		if (TimeLeft <= stopTime) {
 			SkipToEnd();
@@ -103,6 +106,9 @@ public abstract class AnimatedTrip : MonoBehaviour {
 			Gizmos.color = Color.green;
 			Gizmos.DrawLine(transform.position, target);
 			Gizmos.DrawWireSphere(target, 0.75f);
+
+			Gizmos.color = Color.magenta;
+			Gizmos.DrawLine(transform.position, transform.position + transform.forward * 20);
 		}
 	}
 }

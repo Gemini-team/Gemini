@@ -7,6 +7,8 @@ public static class MathTools {
         return (x % m + m) % m;
     }
 
+    public static int Sign(float f) => Mathf.Approximately(f, 0) ? 0 : (int)Mathf.Sign(f);
+
     public class RollingAverage {
         public float Average { get; private set; }
         private int count;
