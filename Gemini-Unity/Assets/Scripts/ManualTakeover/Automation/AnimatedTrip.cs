@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(BoatController))]
 public abstract class AnimatedTrip : MonoBehaviour {
-	private const float LOOK_AHEAD_TIME = 0.1f, CORRECTION_DAMPENING = 10f, RUDDER_CUTOFF = 0.1f, HEADING_ALIGNMENT_THRESHOLD = 0.8f;
+	private const float LOOK_AHEAD_TIME = 0.1f, CORRECTION_DAMPENING = 10f, RUDDER_CUTOFF = 0.1f;
 
 	[HideInInspector]
 	public UnityEvent OnPlay, OnStop, OnEndReached;
@@ -16,7 +16,7 @@ public abstract class AnimatedTrip : MonoBehaviour {
 	public float easeIn = 0.1f, easeOut = 0.1f;
 	public float startDelay = 2, stopTime = 0.001f;
 	public float speedScale = 1;
-	public bool canDriveInReverse;
+	public bool omniDirectional;
 
 	internal bool reverse;
 	private bool playing;
@@ -48,7 +48,6 @@ public abstract class AnimatedTrip : MonoBehaviour {
 				}
 			}
 
-			if (reverse && canDriveInReverse) throttle *= -1;
 			return throttle * speedScale;
 		}
 	}
@@ -70,11 +69,17 @@ public abstract class AnimatedTrip : MonoBehaviour {
 
 		Quaternion idealHeading = route.path.GetRotation(closestTime, EndOfPathInstruction.Stop);
 		float correctionAngle = idealHeading.eulerAngles.y - transform.eulerAngles.y;
+		Vector2 input = Vector2.up;
 
-		float rudder = Mathf.Clamp(correctionAngle / CORRECTION_DAMPENING, -1, 1);
+		if (omniDirectional) {
+			Vector3 direction = Quaternion.Euler(0, -transform.eulerAngles.y, 0) * (target - transform.position);
+			input = new Vector2(direction.x, direction.z).normalized;
+		}
+
+		float rudder = Mathf.Clamp(correctionAngle / CORRECTION_DAMPENING, -1f, 1f);
 		if (Mathf.Abs(rudder) < RUDDER_CUTOFF) rudder = 0;
 
-		controller.input = new Vector2(0, Throttle);
+		controller.input = Throttle * input;
 		controller.rudder = rudder;
 
 		if (TimeLeft <= stopTime) {
@@ -108,7 +113,7 @@ public abstract class AnimatedTrip : MonoBehaviour {
 			Gizmos.DrawWireSphere(target, 0.75f);
 
 			Gizmos.color = Color.magenta;
-			Gizmos.DrawLine(transform.position, transform.position + transform.forward * 20);
+			Gizmos.DrawLine(transform.position, transform.position + (transform.right * controller.input.x + transform.forward * controller.input.y) * 20);
 		}
 	}
 }
