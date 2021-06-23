@@ -2637,12 +2637,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1028705175 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1349044953345871848, guid: 755fbb0a52eca4f0a93754c6f3d28827,
-    type: 3}
-  m_PrefabInstance: {fileID: 1655820331}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1179390174
 GameObject:
   m_ObjectHideFlags: 0
@@ -3253,13 +3247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24bc7e8573847adbdf1198360b3c794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_References:
-    m_Keys:
-    - d66bfaaa4adf6f4479700386676b68b4
-    - 38c2ab89bd5daac488f888cb83b3ff89
-    m_Values:
-    - {fileID: 2011758921}
-    - {fileID: 1028705175}
 --- !u!4 &1314065874
 Transform:
   m_ObjectHideFlags: 1
@@ -4571,12 +4558,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2011758921 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6137059321811343213, guid: 5bad07ed802830f4d9b33c91b99a8275,
-    type: 3}
-  m_PrefabInstance: {fileID: 1309492758}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2125055112
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,6 +4720,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 682723595, guid: 0a4c9ed0ab7d1f34bb1fbffb1b13b9c4, type: 3}
+      propertyPath: m_Text
+      value: FERRY MANUALLY STOPPPED
+      objectReference: {fileID: 0}
+    - target: {fileID: 861476691, guid: 0a4c9ed0ab7d1f34bb1fbffb1b13b9c4, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 861476691, guid: 0a4c9ed0ab7d1f34bb1fbffb1b13b9c4, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6313726
+      objectReference: {fileID: 0}
     - target: {fileID: 6266685386383996106, guid: 0a4c9ed0ab7d1f34bb1fbffb1b13b9c4,
         type: 3}
       propertyPath: m_Name

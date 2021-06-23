@@ -23,7 +23,7 @@ public class WarningWidget : ExtendedMonoBehaviour {
         IEnumerator Blink() {
             bool on = true;
             while (true) {
-                image.color = on ? UIColors.Warning : UIColors.Background;
+                image.color = on ? UIColors.Alert : UIColors.Background;
                 yield return new WaitForSeconds(BLINK_INTERVAL);
                 on = !on;
             }

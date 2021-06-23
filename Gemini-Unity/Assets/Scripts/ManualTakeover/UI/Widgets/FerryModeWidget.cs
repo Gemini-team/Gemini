@@ -8,10 +8,16 @@ public class FerryModeWidget : MonoBehaviour {
         Text label = transform.Find("Text").GetComponent<Text>();
         Image image = GetComponent<Image>();
 
+        Scenario scenario = FindObjectOfType<Scenario>();
         FerryController ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
         ferry.OnControlChange.AddListener(() => {
-            image.color = ferry.ManualControl ? UIColors.Warning : UIColors.PositiveInfo;
-            label.text = ferry.ManualControl ? "MANUAL CONTROL ENGAGED" : "AUTOPILOT ENGAGED";
+            if (ferry.ManualControl) {
+                image.color = scenario.ManualTakeoverRequired ? UIColors.Alert : UIColors.Warning;
+                label.text = scenario.ManualTakeoverRequired ? "MANUAL CONTROL ENGAGED" : "FERRY MANUALLY STOPPED";
+            } else {
+                image.color = UIColors.Positive;
+                label.text = "AUTOPILOT ENGAGED";
+            }
         });
     }
 }
