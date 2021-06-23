@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ManualTakeover/MainMenu.unity
     guid: 4acc57b8bd754104eb58a409709c06d8
   - enabled: 1
+    path: Assets/Scenes/ManualTakeover/SharedUI.unity
+    guid: d9c832c632e0d2644ab6823d7672a7a3
+  - enabled: 1
     path: Assets/Scenes/ManualTakeover/RecordingScene.unity
     guid: 934284d4bb15e6043a5ce67b9201ac78
   - enabled: 1

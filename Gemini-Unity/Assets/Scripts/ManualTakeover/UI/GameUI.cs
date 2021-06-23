@@ -20,7 +20,6 @@ public class GameUI : ExtendedMonoBehaviour {
 		notifications = FindObjectOfType<NotificationWidget>();
 		
 		Hide("EndScreen");
-		Hide("ExitScreen");
 
 		scenario = FindObjectOfType<Scenario>();
 		scenario.OnPlay.AddListener(() => {
@@ -45,11 +44,5 @@ public class GameUI : ExtendedMonoBehaviour {
 		PassengerBoarder boarder = ferry.GetComponent<PassengerBoarder>();
 		boarder.OnBoardingBegin.AddListener(() => notifications.PushNotification("Boarding passengers"));
 		boarder.OnBoardingCompleted.AddListener(() => notifications.PushNotification("Boarding completed"));
-	}
-
-	private void Update() {
-		if (Input.GetButtonDown("Pause")) {
-			Show("ExitScreen");
-		}
 	}
 }
