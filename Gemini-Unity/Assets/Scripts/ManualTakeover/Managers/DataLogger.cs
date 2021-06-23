@@ -108,10 +108,11 @@ public class DataLogger : MonoBehaviour {
         startPos = GameObject.FindGameObjectWithTag("Player").transform.position;
 
         string scenarioInfo = scenario.ScenarioName;
-        if (PlayerPrefs.GetInt("ObjectDetection") == 1) scenarioInfo += " OD";
-        if (PlayerPrefs.GetInt("AIDecisionSupport") == 1) scenarioInfo += " AI";
+        if (PlayerPrefs.GetInt("ObjectDetection") == 1) scenarioInfo += "_OD";
+        if (PlayerPrefs.GetInt("AIDecisionSupport") == 1) scenarioInfo += "_AI";
 
-        string rootPath = Path.Combine(ROOT_DIRECTORY, System.DateTime.Now + " " + scenarioInfo);
+        // Manually specify datetime format, to ensure the string can be used as a path
+        string rootPath = Path.Combine(ROOT_DIRECTORY, System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + "_" + scenarioInfo);
         CreateDirectoryIfNeeded(rootPath);
 
         swLog = CreateCSV(rootPath, "log");
