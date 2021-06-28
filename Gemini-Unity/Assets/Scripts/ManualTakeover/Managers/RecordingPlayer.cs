@@ -28,7 +28,7 @@ public class RecordingPlayer : MonoBehaviour {
     }
 
     private int index;
-    private List<(float time, Vector3[] data)> frames = new List<(float, Vector3[])>();
+    private List<(float time, bool manualControl, Vector3[] data)> frames = new List<(float, bool, Vector3[])>();
 
 
     public void Load(string path) {
@@ -41,7 +41,8 @@ public class RecordingPlayer : MonoBehaviour {
 
             frames.Add((
                 time: DataLogger.Formatter.ParseFloat(vals[0]),
-                data: (from string val in vals.Skip(1) select DataLogger.Formatter.ParseVector3(val)).ToArray()
+                manualControl: int.Parse(vals[1]) == 1,
+                data: (from string val in vals.Skip(2) select DataLogger.Formatter.ParseVector3(val)).ToArray()
             ));
         }
 
