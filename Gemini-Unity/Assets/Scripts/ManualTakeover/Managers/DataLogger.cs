@@ -15,7 +15,16 @@ public class DataLogger : MonoBehaviour {
             sw = new StreamWriter(path);
         }
 
-        public static float ParseFloat(string s) => float.Parse(s.Replace(".", ","));
+        public static float ParseFloat(string s) {
+            try {
+                // If system uses period as delimiter
+                return float.Parse(s);
+            } catch (System.FormatException) {
+                // If system uses comma as delimiter
+                // Note that float is always stored with period in the data file (See Formatter.FormatFloat)
+                return float.Parse(s.Replace(".", ","));
+            }
+        }
 
         public static Vector3 ParseVector3(string s) {
             string[] vals = s.Replace("(", "").Replace(")", "").Split(',');
@@ -26,6 +35,7 @@ public class DataLogger : MonoBehaviour {
                 ParseFloat(vals[2]));
         }
 
+        /// Ensures float is always stored with period in data file (This precondition is required by Formatter.ParseVector3)
         private string FormatFloat(float f) => f.ToString().Replace(",", ".");
 
         public void PushLine() {
