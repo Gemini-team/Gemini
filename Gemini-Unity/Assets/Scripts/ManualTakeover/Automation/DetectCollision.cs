@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DetectCollision : MonoBehaviour {
-    public CollisionEvent OnCollision = new CollisionEvent();
+    public CollisionEvent OnCollisionMessage = new CollisionEvent();
+    public LayerMask layermask;
+    public bool deactivateOnCollision;
 
     private void OnCollisionEnter(Collision collision) {
-        OnCollision?.Invoke(collision);
+        if (enabled && layermask == (layermask | (1 << collision.gameObject.layer))) {
+            OnCollisionMessage?.Invoke(collision);
+            if (deactivateOnCollision) enabled = false;
+        }
     }
 }

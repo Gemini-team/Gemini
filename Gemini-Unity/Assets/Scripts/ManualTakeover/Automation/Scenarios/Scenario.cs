@@ -14,10 +14,10 @@ public abstract class Scenario : ExtendedMonoBehaviour {
     public ManualTakeoverEvent OnManualTakeoverImminent = new ManualTakeoverEvent();
 
     public int minSpawnAmount = 2, maxSpawnAmount = 12, tripCount = 3;
-    public bool autoPlay = true;
+    public bool autoPlay = true, infinite = false;
 
     public FerryController Ferry { get; private set; }
-    private FerryTrip trip;
+    private FerryAutopilot trip;
 
     private float startTime, endTime;
 
@@ -36,10 +36,10 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Ferry = player.GetComponent<FerryController>();
-        trip = player.GetComponent<FerryTrip>();
+        trip = player.GetComponent<FerryAutopilot>();
 
         Ferry.OnConnectToDock.AddListener(() => {
-            if (!Done && Ferry.ManualControl) {
+            if (tripCount <= 0 && !Done && Ferry.ManualControl) {
                 Pause();
                 Ferry.ManualControl = false;
                 Done = true;
@@ -53,7 +53,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
         // Ensure there are passengers on the destination dock before it is reached by the ferry
         Ferry.OnDisconnectFromDock.AddListener(() => {
             Repeat(() => { Ferry.DestinationDock.SpawnPassenger(); },
-            times: Random.Range(minSpawnAmount, maxSpawnAmount), interval: SPAWN_INTERVAL);
+            times: Random.Range(minSpawnAmount, maxSpawnAmount + 1), interval: SPAWN_INTERVAL);
         });
 
         foreach (DockController dock in FindObjectsOfType<DockController>()) {
@@ -64,11 +64,15 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 
         player.GetComponent<PassengerBoarder>().OnBoardingCompleted.AddListener(() => {
             if (tripCount > 0) {
-                if (!trip.Play()) {
-                    Debug.LogError("FerryTrip failed");
-                    return;
+                if (!Ferry.ManualControl) {  // Only play trip if ferry's autopilot is engaged
+                    bool success = trip.Play();
+                    if (!success) {
+                        Debug.LogError("FerryTrip failed");
+                        return;
+                    }
                 }
-                tripCount--;
+
+                if (!infinite) tripCount--;
 
                 TripStartAction();
             }

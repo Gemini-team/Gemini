@@ -10,7 +10,7 @@ public class AIDecisionSupport : MonoBehaviour {
 
     private IEnumerator WarnFailureImminent(float delay, string message) {
         yield return new WaitForSeconds(delay - WARN_AT_TIME_LEFT);
-        notifications.PushNotification($"{message}\nTakeover required in {Mathf.CeilToInt(WARN_AT_TIME_LEFT)} seconds", tag: TAG, bgColor: UIColors.Warning);
+        notifications.PushNotification(message, tag: TAG, bgColor: UIColors.Warning);
     }
 
     private void Start() {
@@ -28,7 +28,7 @@ public class AIDecisionSupport : MonoBehaviour {
             StartCoroutine(WarnFailureImminent(delay, message));
         });
 
-        foreach (BoatTrip boatTrip in FindObjectsOfType<BoatTrip>()) {
+        foreach (AnimatedAutopilot boatTrip in FindObjectsOfType<AnimatedAutopilot>()) {
             boatTrip.OnPlay.AddListener(() => notifications.PushNotification("Moving boat detected\nCollision avoidance system engaged", tag: TAG));
         }
     }

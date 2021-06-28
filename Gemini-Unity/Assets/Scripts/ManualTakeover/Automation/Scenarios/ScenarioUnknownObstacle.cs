@@ -8,19 +8,35 @@ public class ScenarioUnknownObstacle : Scenario {
 
 	public override string FailureWarning => "Collision detected";
 
+	private string FailureImminentWarning => "Possible object detected of unknown classification\nStand by for possible takeover";
+
+	public float warningDistance = 20;
+
     [Space(10)]
 	public GameObject obstacle;
 
-	private BoatProbes floatingObject;
+	private Transform ferry;
+	private bool warningSent;
 
     private void Start() {
 		if (obstacle == null) throw new System.ArgumentNullException("Obstacle is not set");
 
-		obstacle.GetComponent<DetectCollision>().OnCollision.AddListener(_ => TriggerManualTakeoverEvent());
+		ferry = GameObject.FindGameObjectWithTag("Player").transform;
+		BoatProbes floatingObject = obstacle.GetComponent<BoatProbes>();
+		DetectCollision detectCollision = obstacle.GetComponent<DetectCollision>();
 
-		floatingObject = obstacle.GetComponent<BoatProbes>();
+		detectCollision.OnCollisionMessage.AddListener(_ => TriggerManualTakeoverEvent());
 		floatingObject._playerControlled = false;
-		obstacle.SetActive(false);
+
+		detectCollision.enabled = false;
+		obstacle.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+    }
+
+    private void Update() {
+        if (Playing && !warningSent && Vector3.Distance(ferry.position, obstacle.transform.position) <= warningDistance) {
+			warningSent = true;
+			OnManualTakeoverImminent?.Invoke(0, FailureImminentWarning);
+		}
     }
 
     protected override void TripStartAction() {
@@ -28,22 +44,14 @@ public class ScenarioUnknownObstacle : Scenario {
 
 		if (tripCount == 0) {
 			Debug.Log("Moving floating obstacle");
-			obstacle.SetActive(true);
-			floatingObject._engineBias = 1;
+			obstacle.GetComponent<DetectCollision>().enabled = true;
+			obstacle.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+			obstacle.GetComponent<AnimatedAutopilot>().Play();
 		}
 	}
 
     protected override void TriggerManualTakeoverEvent() {
         base.TriggerManualTakeoverEvent();
-
-		floatingObject._engineBias = 0.5f;
-    }
-
-    private void OnDrawGizmos() {
-		if (obstacle != null) {
-			Gizmos.color = Color.magenta;
-			Gizmos.DrawWireSphere(obstacle.transform.position, 2);
-			Gizmos.DrawLine(obstacle.transform.position, obstacle.transform.position + obstacle.transform.rotation * Vector3.forward * 500);
-		}
+		obstacle.GetComponent<AnimatedAutopilot>().Stop();
 	}
 }

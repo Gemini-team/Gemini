@@ -23,7 +23,7 @@ public class ScenarioBatteryFailure : Scenario {
 
 	protected override void TripStartAction() {
 		if (tripCount == 0) {
-			OnManualTakeoverImminent?.Invoke(failureDelay, FailureImminentWarning);
+			OnManualTakeoverImminent?.Invoke(failureDelay, FailureImminentWarning + $"\nTakeover required in {Mathf.CeilToInt(failureDelay)} seconds");
 			Schedule(TriggerManualTakeoverEvent, failureDelay);
 		}
 	}

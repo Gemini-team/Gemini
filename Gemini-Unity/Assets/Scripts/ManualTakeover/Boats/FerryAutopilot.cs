@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FerryTrip : AnimatedTrip {
+public class FerryAutopilot : BoatAutopilot {
 	public FerryController ferry { get; private set; }
 
 	protected override void Start() {
 		base.Start();
 		ferry = GetComponent<FerryController>();
-	}
-
-	public override void SkipToEnd() {
-		base.SkipToEnd();
-		reverse = !reverse;
 	}
 
 	public override void Stop() {
@@ -23,7 +18,10 @@ public class FerryTrip : AnimatedTrip {
 	}
 
 	public override bool Play() {
-		if (ferry.ManualControl) return false;
+		if (ferry.ManualControl) {
+			Debug.LogError("Manual control engaged");
+			return false;
+		}
 		base.Play();
 
 		if (!ferry.TryDisconnectFromDock()) {

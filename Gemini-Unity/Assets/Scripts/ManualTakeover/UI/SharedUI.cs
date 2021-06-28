@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SharedUI : MonoBehaviour {
     public ToggleableLayoutGroup menuGroup;
 
-    public void ExitGame() => SceneManager.LoadScene(GameController.MENU_SCENE, LoadSceneMode.Single);
+    public void ExitGame() => SceneManager.LoadScene((int)Scenes.MENU_SCENE, LoadSceneMode.Single);
 
     private void Start() {
         menuGroup.Setup();
@@ -20,7 +20,7 @@ public class SharedUI : MonoBehaviour {
     private void Update() {
         if (Input.GetButtonDown("Pause")) {
             if (menuGroup.AnyVisible) menuGroup.HideAll();
-            else menuGroup.Show("GameMenu");
+            else menuGroup.Show("MissionMenu");
         }
     }
 }

@@ -1894,7 +1894,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Battery Failure
+  m_Text: Training
 --- !u!222 &758129742
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4480,9 +4480,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Battery Failure
+    - m_Text: Training
       m_Image: {fileID: 0}
-    - m_Text: Unknown Obstacle
+    - m_Text: Level 1
+      m_Image: {fileID: 0}
+    - m_Text: Level 2
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

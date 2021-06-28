@@ -7,7 +7,7 @@ public class MyWindow : EditorWindow {
     private bool setup;
 
     private Scenario scenario;
-    private FerryTrip ferryTrip;
+    private FerryAutopilot ferryTrip;
 
     [MenuItem("Window/GameController")]
     static void Init() {
@@ -30,7 +30,7 @@ public class MyWindow : EditorWindow {
 
         if (!setup) {
             setup = true;
-			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryTrip>();
+			ferryTrip = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryAutopilot>();
             scenario = FindObjectOfType<Scenario>();
         }
 
