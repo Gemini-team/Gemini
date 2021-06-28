@@ -119,7 +119,9 @@ public class FerryController : BoatController {
 		}
 	}
 
-	private void Update() {
+	protected override void Update() {
+		base.Update();
+
 		if (ManualControl) {
 			input = new Vector2(FerryInput.GetAxisRaw("Horizontal"), FerryInput.GetAxisRaw("Throttle"));
 			rudder = FerryInput.GetAxisRaw("Rudder");

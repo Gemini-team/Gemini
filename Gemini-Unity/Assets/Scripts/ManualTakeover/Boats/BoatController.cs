@@ -9,6 +9,7 @@ using Crest;
 public class BoatController : MonoBehaviour {
 	[HideInInspector]
 	public CollisionEvent OnCollision = new CollisionEvent();
+	public UnityEvent OnReceivedInput;
 
 	protected Rigidbody rb { get; private set; }
 	public BoatProbes engine { get; private set; }
@@ -22,12 +23,20 @@ public class BoatController : MonoBehaviour {
 	public virtual bool CanMove => true;
 
 	public float Speed => rb == null ? 0 : rb.velocity.magnitude;
+	private bool receivedInput;
 
 	protected virtual void Start() {
 		rb = GetComponent<Rigidbody>();
 		engine = GetComponent<BoatProbes>();
 
 		engine._playerControlled = false;
+	}
+
+	protected virtual void Update() {
+		if (ReceivingInput && !receivedInput) {
+			OnReceivedInput?.Invoke();
+        }
+		receivedInput = ReceivingInput;
 	}
 
 	private void FixedUpdate() {

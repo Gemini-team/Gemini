@@ -10,6 +10,12 @@ public class FerryModeWidget : MonoBehaviour {
 
         Scenario scenario = FindObjectOfType<Scenario>();
         FerryController ferry = GameObject.FindGameObjectWithTag("Player").GetComponent<FerryController>();
+        ferry.OnReceivedInput.AddListener(() => {
+            if (ferry.ManualControl) {
+                image.color = UIColors.Alert;
+                label.text = "MANUAL CONTROL ENGAGED";
+            }
+        });
         ferry.OnControlChange.AddListener(() => {
             if (ferry.ManualControl) {
                 image.color = scenario.ManualTakeoverRequired ? UIColors.Alert : UIColors.Warning;
