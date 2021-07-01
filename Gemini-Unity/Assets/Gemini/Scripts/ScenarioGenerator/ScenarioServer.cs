@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Gemini.EMRS.Core;
+using System;
 
 namespace Gemini.EMRS.ScenarioGenerator {
     public class ScenarioServer : MonoBehaviour
@@ -28,6 +29,11 @@ namespace Gemini.EMRS.ScenarioGenerator {
                 {
                     nextScenarioTime = _boatScenarios[boatIdx].UpdateVessel();
                 }
+            
+                DateTime currentTime = DateTime.Now;  
+                nextScenarioTime = currentTime.Day * 24 * 60 * 60 + currentTime.Hour * 60 * 60 
+                                   + currentTime.Minute * 60  + currentTime.Second + currentTime.Millisecond / 1000.0f;
+
                 Sensor.UpdateSensorTime(nextScenarioTime,_sensors);
             }
         }
@@ -45,7 +51,7 @@ namespace Gemini.EMRS.ScenarioGenerator {
             _boatScenarios = new BoatScenario[BoatPrefabs.Length];
             for (int boatIndex = 0; boatIndex < _boatScenarios.Length-1; boatIndex++)
             {
-                BoatPrefabs[boatIndex] = Instantiate(BoatPrefabs[boatIndex], new Vector3(0, 0, 0), Quaternion.identity);
+                //BoatPrefabs[boatIndex] = Instantiate(BoatPrefabs[boatIndex], new Vector3(0, 0, 0), Quaternion.identity);
                 _boatScenarios[boatIndex] = new BoatScenario(filePath, BoatPrefabs[boatIndex], boatIndex + 1);
             }
             _boatScenarios[_boatScenarios.Length-1] = new BoatScenario(filePath, BoatPrefabs[_boatScenarios.Length-1], _boatScenarios.Length);

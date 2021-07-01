@@ -2,13 +2,13 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "io.grpc.examples.remotecontrol";
-option java_outer_classname = "RemoteControl";
+option java_package = "io.gemini.forcecontrol";
+option java_outer_classname = "ForceControl";
 option objc_class_prefix = "HLW";
 
-package remotecontrol;
+package gemini.forcecontrol;
 
-service RemoteControl {
+service ForceControl {
     rpc ApplyForce(ForceRequest) returns (ForceResponse) {}
 }
 

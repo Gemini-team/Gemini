@@ -15,8 +15,6 @@ namespace Gemini.Core
             UpdateMain();
         }
 
-        /// <summary>Sets an action to be executed on the main thread.</summary>
-        /// <param name="_action">The action to be executed on the main thread.</param>
         public static void ExecuteOnMainThread(Action _action)
         {
             if (_action == null)

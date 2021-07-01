@@ -27,22 +27,22 @@ namespace Navigation {
             "ChtuYXZpZ2F0aW9uL25hdmlnYXRpb24ucHJvdG8SCm5hdmlnYXRpb24iJwoE",
             "VmVjMxIJCgF4GAEgASgCEgkKAXkYAiABKAISCQoBehgDIAEoAiI4CgpRdWF0",
             "ZXJuaW9uEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCEgkKAXcY",
-            "BCABKAIizAEKEU5hdmlnYXRpb25SZXF1ZXN0EhEKCXRpbWVTdGFtcBgBIAEo",
+            "BCABKAIi4AEKEU5hdmlnYXRpb25SZXF1ZXN0EhEKCXRpbWVTdGFtcBgBIAEo",
             "ARIiCghwb3NpdGlvbhgCIAEoCzIQLm5hdmlnYXRpb24uVmVjMxIrCgtvcmll",
             "bnRhdGlvbhgDIAEoCzIWLm5hdmlnYXRpb24uUXVhdGVybmlvbhIoCg5saW5l",
             "YXJWZWxvY2l0eRgEIAEoCzIQLm5hdmlnYXRpb24uVmVjMxIpCg9hbmd1bGFy",
-            "VmVsb2NpdHkYBSABKAsyEC5uYXZpZ2F0aW9uLlZlYzMiJQoSTmF2aWdhdGlv",
-            "blJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgyZgoKTmF2aWdhdGlvbhJYChVT",
-            "ZW5kTmF2aWdhdGlvbk1lc3NhZ2USHS5uYXZpZ2F0aW9uLk5hdmlnYXRpb25S",
-            "ZXF1ZXN0Gh4ubmF2aWdhdGlvbi5OYXZpZ2F0aW9uUmVzcG9uc2UiAEIxChtp",
-            "by5ncnBjLmV4YW1wbGVzLm5hdmlnYXRpb25CCk5hdmlnYXRpb25QAaICA0hM",
-            "V2IGcHJvdG8z"));
+            "VmVsb2NpdHkYBSABKAsyEC5uYXZpZ2F0aW9uLlZlYzMSEgoKdmVzc2VsTmFt",
+            "ZRgGIAEoCSIlChJOYXZpZ2F0aW9uUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEo",
+            "CDJmCgpOYXZpZ2F0aW9uElgKFVNlbmROYXZpZ2F0aW9uTWVzc2FnZRIdLm5h",
+            "dmlnYXRpb24uTmF2aWdhdGlvblJlcXVlc3QaHi5uYXZpZ2F0aW9uLk5hdmln",
+            "YXRpb25SZXNwb25zZSIAQjEKG2lvLmdycGMuZXhhbXBsZXMubmF2aWdhdGlv",
+            "bkIKTmF2aWdhdGlvblABogIDSExXYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.Vec3), global::Navigation.Vec3.Parser, new[]{ "X", "Y", "Z" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.Quaternion), global::Navigation.Quaternion.Parser, new[]{ "X", "Y", "Z", "W" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.NavigationRequest), global::Navigation.NavigationRequest.Parser, new[]{ "TimeStamp", "Position", "Orientation", "LinearVelocity", "AngularVelocity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.NavigationRequest), global::Navigation.NavigationRequest.Parser, new[]{ "TimeStamp", "Position", "Orientation", "LinearVelocity", "AngularVelocity", "VesselName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Navigation.NavigationResponse), global::Navigation.NavigationResponse.Parser, new[]{ "Success" }, null, null, null)
           }));
     }
@@ -478,6 +478,7 @@ namespace Navigation {
       orientation_ = other.orientation_ != null ? other.orientation_.Clone() : null;
       linearVelocity_ = other.linearVelocity_ != null ? other.linearVelocity_.Clone() : null;
       angularVelocity_ = other.angularVelocity_ != null ? other.angularVelocity_.Clone() : null;
+      vesselName_ = other.vesselName_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -541,6 +542,17 @@ namespace Navigation {
       }
     }
 
+    /// <summary>Field number for the "vesselName" field.</summary>
+    public const int VesselNameFieldNumber = 6;
+    private string vesselName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string VesselName {
+      get { return vesselName_; }
+      set {
+        vesselName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as NavigationRequest);
@@ -559,6 +571,7 @@ namespace Navigation {
       if (!object.Equals(Orientation, other.Orientation)) return false;
       if (!object.Equals(LinearVelocity, other.LinearVelocity)) return false;
       if (!object.Equals(AngularVelocity, other.AngularVelocity)) return false;
+      if (VesselName != other.VesselName) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -570,6 +583,7 @@ namespace Navigation {
       if (orientation_ != null) hash ^= Orientation.GetHashCode();
       if (linearVelocity_ != null) hash ^= LinearVelocity.GetHashCode();
       if (angularVelocity_ != null) hash ^= AngularVelocity.GetHashCode();
+      if (VesselName.Length != 0) hash ^= VesselName.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -603,6 +617,10 @@ namespace Navigation {
         output.WriteRawTag(42);
         output.WriteMessage(AngularVelocity);
       }
+      if (VesselName.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(VesselName);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -625,6 +643,9 @@ namespace Navigation {
       }
       if (angularVelocity_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(AngularVelocity);
+      }
+      if (VesselName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(VesselName);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -663,6 +684,9 @@ namespace Navigation {
           AngularVelocity = new global::Navigation.Vec3();
         }
         AngularVelocity.MergeFrom(other.AngularVelocity);
+      }
+      if (other.VesselName.Length != 0) {
+        VesselName = other.VesselName;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -705,6 +729,10 @@ namespace Navigation {
               AngularVelocity = new global::Navigation.Vec3();
             }
             input.ReadMessage(AngularVelocity);
+            break;
+          }
+          case 50: {
+            VesselName = input.ReadString();
             break;
           }
         }
