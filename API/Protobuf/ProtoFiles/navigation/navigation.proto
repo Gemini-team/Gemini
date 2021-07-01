@@ -30,6 +30,7 @@ message NavigationRequest {
     Quaternion orientation = 3; 
     Vec3 linearVelocity = 4;
     Vec3 angularVelocity = 5;
+    string vesselName = 6;
 }
 
 message NavigationResponse {
