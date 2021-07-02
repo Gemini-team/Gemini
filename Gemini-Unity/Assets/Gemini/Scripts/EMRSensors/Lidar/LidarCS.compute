@@ -53,7 +53,8 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 		// This is the output shown in Unity	
 		lines[id.x] = pixelCoordinates;
 		// This will be used for sending of pointclouds
-		LidarData[id.x].position = float3(-pixelCoordinates.x, -pixelCoordinates.z, -pixelCoordinates.y);
+		// Transform to the LiDAR specific coordinate system
+		LidarData[id.x].position = float3(pixelCoordinates.z, -pixelCoordinates.x, pixelCoordinates.y);
 		LidarData[id.x].intensity = 6;
 		LidarData[id.x].ring = int(N_phi*(float(coord.y)/float(ImageHeightRes))) ;
 		LidarData[id.x].time = 1.0;
