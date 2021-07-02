@@ -17,6 +17,7 @@ namespace Gemini.EMRS.Core
         // Docker Container
         public static string serverIP = "127.0.0.1";
 
+
         public static int serverPort = 30052;
         protected static Channel _streamingChannel = new Channel(serverIP + ":" + serverPort, ChannelCredentials.Insecure);
         protected SensorStreaming.SensorStreamingClient _streamingClient = new SensorStreaming.SensorStreamingClient(_streamingChannel);
