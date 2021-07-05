@@ -22,6 +22,7 @@ namespace Gemini.EMRS.Lidar {
 
         [Space]
         [Header("Lidar Parameters")]
+        public string FrameId;
         public int WidthRes = 2048;
         private int HeightRes = 32;
 
@@ -198,6 +199,7 @@ namespace Gemini.EMRS.Lidar {
             lidarStreamingRequest.IsDense = message.is_dense;
 
             lidarStreamingRequest.IsDense = message.is_dense;
+            lidarStreamingRequest.FrameId = FrameId;
 
             bool success = false;
             connectionTime = Time.time;
