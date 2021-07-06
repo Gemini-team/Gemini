@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Gemini/Examples/SensorsCombined.unity
+    guid: aec318325275b6a40a4ebfae7978b838
   m_configObjects: {}
