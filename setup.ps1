@@ -68,4 +68,4 @@ else {
 
 
 # Cleanup, remove Temp download directory since this is not needed anymore
-Remove-Item $DownloadPath 
+#Remove-Item $DownloadPath 

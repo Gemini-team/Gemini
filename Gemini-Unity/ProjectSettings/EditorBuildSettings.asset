@@ -5,13 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Content/Zeabuz/Trondheim.unity
-    guid: 9c0ba8877c83393448711a1589600da0
+    path: Assets/Content/Zeabuz/OSP.unity
+    guid: b85671b483804594992b05cf1273aecf
   m_configObjects: {}
