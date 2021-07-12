@@ -16,9 +16,7 @@ jobs:
       # Cache Library and Plugins from Setup.ps1
       - uses: actions/cache@v2
         with:
-          path: | 
-            Gemini-Unity/Library
-            Gemini-Unity/Assets/Plugins
+          path: Gemini-Unity/Library
           key: Library
 
 
