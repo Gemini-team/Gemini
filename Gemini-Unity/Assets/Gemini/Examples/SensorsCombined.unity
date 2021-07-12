@@ -860,6 +860,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Radar
       objectReference: {fileID: 0}
+    - target: {fileID: 7102921639643669179, guid: 50caf175b33e94c4dabed559d0614869,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50caf175b33e94c4dabed559d0614869, type: 3}
 --- !u!1 &996741664
@@ -931,6 +936,7 @@ MonoBehaviour:
   SensorUpdateHz: 1
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
   NrOfCameras: 4
+  FrameId: 
   WidthRes: 32768
   DepthBufferPrecision: 1
   LidarHorisontalRes: 256
