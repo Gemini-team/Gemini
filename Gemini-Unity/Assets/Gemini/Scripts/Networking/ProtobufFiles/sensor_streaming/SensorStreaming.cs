@@ -34,27 +34,27 @@ namespace Sensorstreaming {
             "SU5UMTYYBCABKA0SDQoFSU5UMzIYBSABKA0SDgoGVUlOVDMyGAYgASgNEg8K",
             "B0ZMT0FUMzIYByABKA0SDwoHRkxPQVQ2NBgIIAEoDRIMCgRuYW1lGAkgASgJ",
             "Eg4KBm9mZnNldBgKIAEoDRIQCghkYXRhdHlwZRgLIAEoDRINCgVjb3VudBgM",
-            "IAEoDSLVAQoVTGlkYXJTdHJlYW1pbmdSZXF1ZXN0EhUKDXRpbWVJblNlY29u",
+            "IAEoDSLnAQoVTGlkYXJTdHJlYW1pbmdSZXF1ZXN0EhUKDXRpbWVJblNlY29u",
             "ZHMYASABKAESDgoGaGVpZ2h0GAIgASgNEg0KBXdpZHRoGAMgASgNEisKBmZp",
             "ZWxkcxgEIAMoCzIbLnNlbnNvcnN0cmVhbWluZy5Qb2ludEZpZWxkEhMKC2lz",
             "QmlnRW5kaWFuGAUgASgIEhIKCnBvaW50X3N0ZXAYBiABKA0SEAoIcm93X3N0",
-            "ZXAYByABKA0SDAoEZGF0YRgIIAEoDBIQCghpc19kZW5zZRgJIAEoCCIpChZM",
-            "aWRhclN0cmVhbWluZ1Jlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgi0wEKFVJh",
-            "ZGFyU3RyZWFtaW5nUmVxdWVzdBIWCg5yYW5nZUluY3JlbWVudBgBIAEoAhIS",
-            "CgpyYW5nZVN0YXJ0GAIgASgCEhIKCm51bVNhbXBsZXMYAyABKA0SEQoJbnVt",
-            "U3Bva2VzGAQgASgNEhQKDG1pbkludGVuc2l0eRgFIAEoDRIUCgxtYXhJbnRl",
-            "bnNpdHkYBiABKA0SFQoNdGltZUluU2Vjb25kcxgHIAMoARIPCgdhemltdXRo",
-            "GAggAygCEhMKC3JhZGFyU3Bva2VzGAkgASgMIikKFlJhZGFyU3RyZWFtaW5n",
-            "UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCDLMAgoPU2Vuc29yU3RyZWFtaW5n",
-            "EmkKElN0cmVhbUNhbWVyYVNlbnNvchInLnNlbnNvcnN0cmVhbWluZy5DYW1l",
-            "cmFTdHJlYW1pbmdSZXF1ZXN0Giguc2Vuc29yc3RyZWFtaW5nLkNhbWVyYVN0",
-            "cmVhbWluZ1Jlc3BvbnNlIgASZgoRU3RyZWFtTGlkYXJTZW5zb3ISJi5zZW5z",
-            "b3JzdHJlYW1pbmcuTGlkYXJTdHJlYW1pbmdSZXF1ZXN0Gicuc2Vuc29yc3Ry",
-            "ZWFtaW5nLkxpZGFyU3RyZWFtaW5nUmVzcG9uc2UiABJmChFTdHJlYW1SYWRh",
-            "clNlbnNvchImLnNlbnNvcnN0cmVhbWluZy5SYWRhclN0cmVhbWluZ1JlcXVl",
-            "c3QaJy5zZW5zb3JzdHJlYW1pbmcuUmFkYXJTdHJlYW1pbmdSZXNwb25zZSIA",
-            "QjsKIGlvLmdycGMuZXhhbXBsZXMuc2Vuc29yc3RyZWFtaW5nQg9TZW5zb3JT",
-            "dHJlYW1pbmdQAaICA0hMV2IGcHJvdG8z"));
+            "ZXAYByABKA0SDAoEZGF0YRgIIAEoDBIQCghpc19kZW5zZRgJIAEoCBIQCghm",
+            "cmFtZV9pZBgKIAEoCSIpChZMaWRhclN0cmVhbWluZ1Jlc3BvbnNlEg8KB3N1",
+            "Y2Nlc3MYASABKAgi0wEKFVJhZGFyU3RyZWFtaW5nUmVxdWVzdBIWCg5yYW5n",
+            "ZUluY3JlbWVudBgBIAEoAhISCgpyYW5nZVN0YXJ0GAIgASgCEhIKCm51bVNh",
+            "bXBsZXMYAyABKA0SEQoJbnVtU3Bva2VzGAQgASgNEhQKDG1pbkludGVuc2l0",
+            "eRgFIAEoDRIUCgxtYXhJbnRlbnNpdHkYBiABKA0SFQoNdGltZUluU2Vjb25k",
+            "cxgHIAMoARIPCgdhemltdXRoGAggAygCEhMKC3JhZGFyU3Bva2VzGAkgASgM",
+            "IikKFlJhZGFyU3RyZWFtaW5nUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCDLM",
+            "AgoPU2Vuc29yU3RyZWFtaW5nEmkKElN0cmVhbUNhbWVyYVNlbnNvchInLnNl",
+            "bnNvcnN0cmVhbWluZy5DYW1lcmFTdHJlYW1pbmdSZXF1ZXN0Giguc2Vuc29y",
+            "c3RyZWFtaW5nLkNhbWVyYVN0cmVhbWluZ1Jlc3BvbnNlIgASZgoRU3RyZWFt",
+            "TGlkYXJTZW5zb3ISJi5zZW5zb3JzdHJlYW1pbmcuTGlkYXJTdHJlYW1pbmdS",
+            "ZXF1ZXN0Gicuc2Vuc29yc3RyZWFtaW5nLkxpZGFyU3RyZWFtaW5nUmVzcG9u",
+            "c2UiABJmChFTdHJlYW1SYWRhclNlbnNvchImLnNlbnNvcnN0cmVhbWluZy5S",
+            "YWRhclN0cmVhbWluZ1JlcXVlc3QaJy5zZW5zb3JzdHJlYW1pbmcuUmFkYXJT",
+            "dHJlYW1pbmdSZXNwb25zZSIAQjsKIGlvLmdycGMuZXhhbXBsZXMuc2Vuc29y",
+            "c3RyZWFtaW5nQg9TZW5zb3JTdHJlYW1pbmdQAaICA0hMV2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -62,7 +62,7 @@ namespace Sensorstreaming {
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.CameraStreamingResponse), global::Sensorstreaming.CameraStreamingResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.Vec3), global::Sensorstreaming.Vec3.Parser, new[]{ "X", "Y", "Z" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.PointField), global::Sensorstreaming.PointField.Parser, new[]{ "INT8", "UINT8", "INT16", "UINT16", "INT32", "UINT32", "FLOAT32", "FLOAT64", "Name", "Offset", "Datatype", "Count" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.LidarStreamingRequest), global::Sensorstreaming.LidarStreamingRequest.Parser, new[]{ "TimeInSeconds", "Height", "Width", "Fields", "IsBigEndian", "PointStep", "RowStep", "Data", "IsDense" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.LidarStreamingRequest), global::Sensorstreaming.LidarStreamingRequest.Parser, new[]{ "TimeInSeconds", "Height", "Width", "Fields", "IsBigEndian", "PointStep", "RowStep", "Data", "IsDense", "FrameId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.LidarStreamingResponse), global::Sensorstreaming.LidarStreamingResponse.Parser, new[]{ "Success" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.RadarStreamingRequest), global::Sensorstreaming.RadarStreamingRequest.Parser, new[]{ "RangeIncrement", "RangeStart", "NumSamples", "NumSpokes", "MinIntensity", "MaxIntensity", "TimeInSeconds", "Azimuth", "RadarSpokes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Sensorstreaming.RadarStreamingResponse), global::Sensorstreaming.RadarStreamingResponse.Parser, new[]{ "Success" }, null, null, null)
@@ -1098,6 +1098,7 @@ namespace Sensorstreaming {
       rowStep_ = other.rowStep_;
       data_ = other.data_;
       isDense_ = other.isDense_;
+      frameId_ = other.frameId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1204,6 +1205,17 @@ namespace Sensorstreaming {
       }
     }
 
+    /// <summary>Field number for the "frame_id" field.</summary>
+    public const int FrameIdFieldNumber = 10;
+    private string frameId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FrameId {
+      get { return frameId_; }
+      set {
+        frameId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as LidarStreamingRequest);
@@ -1226,6 +1238,7 @@ namespace Sensorstreaming {
       if (RowStep != other.RowStep) return false;
       if (Data != other.Data) return false;
       if (IsDense != other.IsDense) return false;
+      if (FrameId != other.FrameId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1241,6 +1254,7 @@ namespace Sensorstreaming {
       if (RowStep != 0) hash ^= RowStep.GetHashCode();
       if (Data.Length != 0) hash ^= Data.GetHashCode();
       if (IsDense != false) hash ^= IsDense.GetHashCode();
+      if (FrameId.Length != 0) hash ^= FrameId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1287,6 +1301,10 @@ namespace Sensorstreaming {
         output.WriteRawTag(72);
         output.WriteBool(IsDense);
       }
+      if (FrameId.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(FrameId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1319,6 +1337,9 @@ namespace Sensorstreaming {
       }
       if (IsDense != false) {
         size += 1 + 1;
+      }
+      if (FrameId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FrameId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1355,6 +1376,9 @@ namespace Sensorstreaming {
       }
       if (other.IsDense != false) {
         IsDense = other.IsDense;
+      }
+      if (other.FrameId.Length != 0) {
+        FrameId = other.FrameId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1401,6 +1425,10 @@ namespace Sensorstreaming {
           }
           case 72: {
             IsDense = input.ReadBool();
+            break;
+          }
+          case 82: {
+            FrameId = input.ReadString();
             break;
           }
         }
