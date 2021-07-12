@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     name: Build my project
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       # Checkout
       - name: Checkout repository
@@ -30,6 +30,7 @@ jobs:
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v2
+        run: .\setup.ps1
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
