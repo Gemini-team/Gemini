@@ -25,16 +25,16 @@ jobs:
       #  with:
       #    githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
 
-        # Build
-        - name: Build project
-          uses: game-ci/unity-builder@v2
-          env:
-            UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          with:
-            targetPlatform: StandaloneWindowsx64
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: StandaloneWindowsx64
 
-        # Output
-        - uses: actions/upload-artifact@v2
-          with:
-            name: Build
-            path: Gemini-Unity/build
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: Gemini-Unity/build
