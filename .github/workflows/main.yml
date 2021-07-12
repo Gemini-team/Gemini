@@ -31,6 +31,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
+          unityVersion: 2019.4.20f1
           projectPath: Gemini-Unity
           targetPlatform: StandaloneWindows64
 
