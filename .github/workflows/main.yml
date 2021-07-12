@@ -27,10 +27,13 @@ jobs:
       #  with:
       #    githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
 
+      # Run Setup Powershell script
+      - name: Setup shell
+        run: .\setup.ps1
+
       # Build
       - name: Build project
         uses: game-ci/unity-builder@v2
-        run: .\setup.ps1
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
