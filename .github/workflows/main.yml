@@ -13,11 +13,14 @@ jobs:
         with:
           ref: 'feature/testing'
 
-      #Cache
+      # Cache Library and Plugins from Setup.ps1
       - uses: actions/cache@v2
         with:
-          path: Gemini-Unity/Library
+          path: | 
+            Gemini-Unity/Library
+            Gemini-Unity/Assets/Plugins
           key: Library
+
 
       # Test
       #- name: Run tests
