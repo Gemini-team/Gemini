@@ -13,11 +13,11 @@ jobs:
         with:
           ref: 'feature/testing'
 
-      # Cache
-      #- uses: actions/cache@v2
-      #  with:
-      #    path: Gemini-Unity/Library
-      #    key: Library
+      #Cache
+      - uses: actions/cache@v2
+        with:
+          path: Gemini-Unity/Library
+          key: Library
 
       # Test
       #- name: Run tests
