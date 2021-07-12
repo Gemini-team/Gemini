@@ -32,7 +32,7 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           projectPath: Gemini-Unity
-          targetPlatform: StandaloneWindowsx64
+          targetPlatform: StandaloneWindows64
 
       # Output
       - uses: actions/upload-artifact@v2
