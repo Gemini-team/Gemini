@@ -13,14 +13,6 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      # Cache Library and Plugins from Setup.ps1
-
-      #- uses: actions/cache@v2
-      #  with:
-      #    path: |
-      #      Gemini-Unity/Library
-      #    key: Library
-
       - name: Cache Library 
         id: libraryCacheStep
         uses: actions/cache@v2
@@ -44,12 +36,19 @@ jobs:
         run: pwsh ./setup.ps1
 
       # Test
-      #- name: Run tests
-      #  uses: game-ci/unity-test-runner@v2
-      #  env:
-      #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      #  with:
-      #    githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
+      
+      # Tests Upload
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Test results
+          path: Gemini-Unity/Tests
 
       # Build
       - name: Build project
@@ -62,7 +61,7 @@ jobs:
           targetPlatform: StandaloneWindows64
           buildsPath: Gemini-Unity/Build
 
-      # Output
+      # Build upload
       - uses: actions/upload-artifact@v2
         with:
           name: Build
