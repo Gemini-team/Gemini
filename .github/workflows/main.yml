@@ -35,19 +35,19 @@ jobs:
         if: steps.protobufGrpcCacheStep.outputs.cache-hit != 'true'
         run: pwsh ./setup.ps1
 
-      # Test
+      # Run Tests
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
+          projectPath: Gemini-Unity
           githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
       
       # Tests Upload
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          projectPath: Gemini-Unity
           name: Test results
           path: Gemini-Unity/Tests
 
