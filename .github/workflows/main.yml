@@ -47,6 +47,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: always()
         with:
+          projectPath: Gemini-Unity
           name: Test results
           path: Gemini-Unity/Tests
 
