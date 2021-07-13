@@ -30,7 +30,7 @@ jobs:
       
       - name: Cache Protobuf and GRPC Plugins
         id: protobufGrpcCacheStep
-        uses: action/cache@v2
+        uses: actions/cache@v2
         with:
           path: |
             API/Protobuf/Plugins
