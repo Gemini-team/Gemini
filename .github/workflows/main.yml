@@ -42,7 +42,7 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           projectPath: Gemini-Unity
-          githubToken: ${{ secrets.GEMINI_CI_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
       
       # Tests Upload
       - uses: actions/upload-artifact@v2
