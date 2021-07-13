@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: 'feature/testing'
+          ref: ${{ github.ref }}
 
       # Cache Library and Plugins from Setup.ps1
 
