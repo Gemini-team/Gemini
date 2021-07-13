@@ -14,11 +14,34 @@ jobs:
           ref: 'feature/testing'
 
       # Cache Library and Plugins from Setup.ps1
-      - uses: actions/cache@v2
+
+      #- uses: actions/cache@v2
+      #  with:
+      #    path: |
+      #      Gemini-Unity/Library
+      #    key: Library
+
+      - name: Cache Library 
+        id: libraryCacheStep
+        uses: actions/cache@v2
         with:
           path: Gemini-Unity/Library
           key: Library
+      
+      - name: Cache Protobuf and GRPC Plugins
+        id: protobufGrpcCacheStep
+        uses: action/cache@v2
+        with:
+          path: |
+            API/Protobuf/Plugins
+            Gemini-Unity/Assets/Plugins
+          key:
+            Plugins
 
+      # Run Setup Powershell script
+      - name: Setup shell
+        if: steps.protobufGrpcCacheStep.outputs.cache-hit != 'true'
+        run: pwsh ./setup.ps1
 
       # Test
       #- name: Run tests
@@ -27,10 +50,6 @@ jobs:
       #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       #  with:
       #    githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
-
-      # Run Setup Powershell script
-      - name: Setup shell
-        run: pwsh ./setup.ps1
 
       # Build
       - name: Build project
