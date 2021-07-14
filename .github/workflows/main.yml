@@ -4,11 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-<<<<<<< HEAD
     name: Build Gemini
-=======
-    name: Build my project
->>>>>>> develop
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -17,17 +13,6 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-<<<<<<< HEAD
-=======
-      # Cache Library and Plugins from Setup.ps1
-
-      #- uses: actions/cache@v2
-      #  with:
-      #    path: |
-      #      Gemini-Unity/Library
-      #    key: Library
-
->>>>>>> develop
       - name: Cache Library 
         id: libraryCacheStep
         uses: actions/cache@v2
@@ -50,7 +35,6 @@ jobs:
         if: steps.protobufGrpcCacheStep.outputs.cache-hit != 'true'
         run: pwsh ./setup.ps1
 
-<<<<<<< HEAD
       # Run Tests
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
@@ -66,15 +50,6 @@ jobs:
         with:
           name: Test results
           path: artifacts 
-=======
-      # Test
-      #- name: Run tests
-      #  uses: game-ci/unity-test-runner@v2
-      #  env:
-      #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      #  with:
-      #    githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
->>>>>>> develop
 
       # Build
       - name: Build project
@@ -87,16 +62,8 @@ jobs:
           targetPlatform: StandaloneWindows64
           buildsPath: Gemini-Unity/Build
 
-<<<<<<< HEAD
       # Build upload
       - uses: actions/upload-artifact@v2
         with:
           name: Build
           path: Gemini-Unity/Build
-=======
-      # Output
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build
-          path: Gemini-Unity/Build/
->>>>>>> develop
