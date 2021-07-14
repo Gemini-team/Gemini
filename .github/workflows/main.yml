@@ -1,0 +1,69 @@
+name: CI
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    name: Build Gemini
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Cache Library 
+        id: libraryCacheStep
+        uses: actions/cache@v2
+        with:
+          path: Gemini-Unity/Library
+          key: Library
+      
+      - name: Cache Protobuf and GRPC Plugins
+        id: protobufGrpcCacheStep
+        uses: actions/cache@v2
+        with:
+          path: |
+            API/Protobuf/Plugins
+            Gemini-Unity/Assets/Plugins
+          key:
+            Plugins
+
+      # Run Setup Powershell script
+      - name: Setup shell
+        if: steps.protobufGrpcCacheStep.outputs.cache-hit != 'true'
+        run: pwsh ./setup.ps1
+
+      # Run Tests
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          projectPath: Gemini-Unity
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Tests Upload
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Test results
+          path: artifacts 
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          unityVersion: 2019.4.20f1
+          projectPath: Gemini-Unity
+          targetPlatform: StandaloneWindows64
+          buildsPath: Gemini-Unity/Build
+
+      # Build upload
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: Gemini-Unity/Build
