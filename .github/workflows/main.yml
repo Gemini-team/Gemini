@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    name: Build my project
+    name: Build Gemini
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -49,7 +49,7 @@ jobs:
         if: always()
         with:
           name: Test results
-          path: Gemini-Unity/Tests
+          path: artifacts 
 
       # Build
       - name: Build project
