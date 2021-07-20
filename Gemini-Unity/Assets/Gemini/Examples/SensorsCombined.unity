@@ -283,16 +283,7 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: RadarCP, ns: , asm: Assembly-CSharp}
-      data:
-        m_Name: Custom Pass
-        enabled: 1
-        targetColorBuffer: 0
-        targetDepthBuffer: 0
-        clearFlags: 0
-        passFoldout: 0
-        m_Version: 0
-        radar: {fileID: 218491538}
+      type: {class: , ns: , asm: }
 --- !u!1 &222572622 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d5cb2dd9d9dc04844b4a9736a565f65f,
@@ -652,6 +643,11 @@ PrefabInstance:
       propertyPath: probeLayerMask.m_Bits
       value: 14135
       objectReference: {fileID: 0}
+    - target: {fileID: 7914378615316085878, guid: d218ac0b02bb7214288518911b63553d,
+        type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 7914378616762174627, guid: d218ac0b02bb7214288518911b63553d,
         type: 3}
       propertyPath: m_RootOrder
@@ -1008,22 +1004,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGlobal: 1
   fadeRadius: 0
-  customPasses:
-  - id: 0
+  customPasses: []
   injectionPoint: 4
   references:
     version: 1
-    00000000:
-      type: {class: LidarCP, ns: Gemini.EMRS.Lidar, asm: Assembly-CSharp}
-      data:
-        m_Name: Custom Pass
-        enabled: 1
-        targetColorBuffer: 0
-        targetDepthBuffer: 0
-        clearFlags: 0
-        passFoldout: 0
-        m_Version: 0
-        lidar: {fileID: 1090243935}
 --- !u!1 &1433026294
 GameObject:
   m_ObjectHideFlags: 0
