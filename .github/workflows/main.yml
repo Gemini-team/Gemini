@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    name: Build my project
+    name: Build Gemini
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -12,14 +12,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
-
-      # Cache Library and Plugins from Setup.ps1
-
-      #- uses: actions/cache@v2
-      #  with:
-      #    path: |
-      #      Gemini-Unity/Library
-      #    key: Library
 
       - name: Cache Library 
         id: libraryCacheStep
@@ -43,13 +35,21 @@ jobs:
         if: steps.protobufGrpcCacheStep.outputs.cache-hit != 'true'
         run: pwsh ./setup.ps1
 
-      # Test
-      #- name: Run tests
-      #  uses: game-ci/unity-test-runner@v2
-      #  env:
-      #    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      #  with:
-      #    githubtoken: ${{ secrets.GEMINI_CI_TOKEN }}
+      # Run Tests
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          projectPath: Gemini-Unity
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Tests Upload
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Test results
+          path: artifacts 
 
       # Build
       - name: Build project
@@ -62,8 +62,8 @@ jobs:
           targetPlatform: StandaloneWindows64
           buildsPath: Gemini-Unity/Build
 
-      # Output
+      # Build upload
       - uses: actions/upload-artifact@v2
         with:
           name: Build
-          path: Gemini-Unity/Build/
+          path: Gemini-Unity/Build
