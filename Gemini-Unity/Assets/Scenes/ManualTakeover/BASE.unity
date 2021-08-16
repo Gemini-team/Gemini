@@ -3019,12 +3019,11 @@ MonoBehaviour:
   mounts:
   - {fileID: 2037742332566048558}
   - {fileID: 1231994921}
-  - {fileID: 2831200562986390612}
   - {fileID: 543118275}
   - {fileID: 711597404}
   speed: 0.75
   startMount: 1
-  enableFreeCam: 0
+  enableAerialCam: 1
 --- !u!1 &1314065872
 GameObject:
   m_ObjectHideFlags: 1
@@ -4678,12 +4677,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4768973030218875706, guid: 82f8b97a04038f24caecb784d19f7dc4,
     type: 3}
   m_PrefabInstance: {fileID: 7407672965125156586}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2831200562986390612 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8185919971245606099, guid: a856480e251cb81489e7779acc353618,
-    type: 3}
-  m_PrefabInstance: {fileID: 6255582614920253575}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5006512736716474914 stripped
 Transform:

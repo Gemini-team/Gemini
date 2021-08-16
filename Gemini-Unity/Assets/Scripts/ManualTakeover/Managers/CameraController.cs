@@ -5,15 +5,14 @@ using UnityEngine.Events;
 
 public class CameraController : MonoBehaviour {
     private const float 
-        MOUSE_SENSITIVITY = 1,
         SCROLL_SENSITIVITY = 20,
-        SPEED_MULT = 2,
+        AERIAL_CAM_DISTANCE = 25,
         MIN_FOV = 30;
 
     public Transform[] mounts;
     public float speed;
 	public int startMount;
-	public bool enableFreeCam;
+	public bool enableAerialCam;
     private float maxFOV;
     private Camera cam;
 
@@ -22,16 +21,16 @@ public class CameraController : MonoBehaviour {
 
 	public int? MountI { get; private set; } = null;
     public Transform Mount => MountI.HasValue ? mounts[MountI.Value] : null;
-    public bool FreeCam => !MountI.HasValue;
+    public bool IsMounted => MountI.HasValue;
 
-    private Vector3 lookRotation;
+    private Transform ferry;
 
     private void Start() {
-        lookRotation = transform.eulerAngles;
+        ferry = GameObject.FindGameObjectWithTag("Player").transform;
         cam = GetComponent<Camera>();
         maxFOV = cam.fieldOfView;
 
-		if (!enableFreeCam) startMount = Mathf.Max(startMount, 0);
+		startMount = Mathf.Max(startMount, 0);
 		MountTo(startMount);
     }
 
@@ -43,33 +42,18 @@ public class CameraController : MonoBehaviour {
             }
         }
 
+        if (enableAerialCam && Input.GetKeyDown(KeyCode.Alpha0)) {
+            MountTo(null);
+        }
+
+        if (!IsMounted) {
+            transform.position = ferry.position + Vector3.up * AERIAL_CAM_DISTANCE;
+            transform.rotation = Quaternion.Euler(90, ferry.eulerAngles.y, 0);
+        }
+
 		float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
 		if (scroll != 0) {
 			cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - scroll * SCROLL_SENSITIVITY, MIN_FOV, maxFOV);
-		}
-
-		if (enableFreeCam) {
-			Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * MOUSE_SENSITIVITY;
-			Vector3 move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("CameraYaw"), Input.GetAxis("Vertical"));
-			float switchCam = Input.GetAxisRaw("SwitchCamera");
-
-			if (switchCam != 0) {
-				int index = MountI.GetValueOrDefault(-1) + (int)Mathf.Sign(switchCam);
-				MountTo(MathTools.Mod(index, mounts.Length));
-			}
-
-			if (enableFreeCam && !FreeCam && move != Vector3.zero) {
-				MountTo(null);
-			}
-
-			if (FreeCam) {
-				// Update euler angles as a vector to avoid quaternion clamping issues
-				lookRotation += new Vector3(-look.y, look.x);
-				lookRotation.x = Mathf.Clamp(lookRotation.x, -89.9f, 89.9f);
-				transform.rotation = Quaternion.Euler(lookRotation);
-
-				transform.position += transform.rotation * move * speed * (Input.GetKey(KeyCode.LeftShift) ? SPEED_MULT : 1);
-			}
 		}
 	}
 
@@ -82,8 +66,6 @@ public class CameraController : MonoBehaviour {
         if (index.HasValue) {
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
-        } else {
-            lookRotation = transform.eulerAngles;
         }
 
         OnMount?.Invoke(index);
