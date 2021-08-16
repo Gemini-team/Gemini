@@ -1072,7 +1072,7 @@ MonoBehaviour:
   _simSettingsFlow: {fileID: 0}
   _createShadowData: 0
   _simSettingsShadow: {fileID: 0}
-  _createClipSurfaceData: 0
+  _createClipSurfaceData: 1
   _defaultClippingState: 0
   _applyTestMaterial: 0
   _showOceanProxyPlane: 0
@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542940240}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be4155a909a5ef47bdaaf1422602735, type: 3}
   m_Name: 
@@ -4376,6 +4376,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2290086434752696389, guid: f04e5e6490685764595a36cbaacadf56,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4849419073772677335, guid: f04e5e6490685764595a36cbaacadf56,
         type: 3}
       propertyPath: route
@@ -4964,6 +4969,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 379659268, guid: 82f8b97a04038f24caecb784d19f7dc4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0758dfd801d29b1499f10ef3a59509c6, type: 2}
     - target: {fileID: 4768973030218875706, guid: 82f8b97a04038f24caecb784d19f7dc4,
         type: 3}
       propertyPath: m_RootOrder
@@ -4977,7 +4986,7 @@ PrefabInstance:
     - target: {fileID: 4768973030218875706, guid: 82f8b97a04038f24caecb784d19f7dc4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.304
       objectReference: {fileID: 0}
     - target: {fileID: 4768973030218875706, guid: 82f8b97a04038f24caecb784d19f7dc4,
         type: 3}
