@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Gemini/Examples/SensorsCombined.unity
+    path: Packages/com.gemini-team.gemini/Runtime/Gemini/Examples/ExampleScene.unity
     guid: aec318325275b6a40a4ebfae7978b838
   m_configObjects: {}
