@@ -85,7 +85,7 @@ namespace Tests
         void Update()
         {
             frameCount++;
-            Debug.Log("frameCount: " + frameCount);
+            //Debug.Log("frameCount: " + frameCount);
         }
     }
 }
