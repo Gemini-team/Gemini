@@ -27,12 +27,12 @@ namespace Tests
         {
             SceneManager.LoadScene("Test");
         }
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            SceneManager.UnloadSceneAsync("Test");
-        }
+//
+//        [OneTimeTearDown]
+//        public void TearDown()
+//        {
+//            SceneManager.UnloadSceneAsync("Test");
+//        }
 
 
 
