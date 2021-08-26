@@ -6,16 +6,29 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
+
     public class LidarTest
     {
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
         [UnityTest]
-        public IEnumerator LidarTestWithEnumeratorPasses()
+        public IEnumerator LidarMonoBehaviourTest()
         {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
-            yield return null;
+            yield return new MonoBehaviourTest<LidarMonoBehaviourTest>();
+        }
+
+    }
+
+    public class LidarMonoBehaviourTest : MonoBehaviour, IMonoBehaviourTest
+    {
+        private int frameCount;
+        public bool IsTestFinished
+        {
+            get { return frameCount  == 1 ; }
+        }
+
+        void Update()
+        {
+            frameCount++;
+            Debug.Log("frameCount: " + frameCount);
         }
     }
 }
