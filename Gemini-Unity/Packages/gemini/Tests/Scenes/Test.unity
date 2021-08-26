@@ -392,7 +392,7 @@ MonoBehaviour:
   SensorUpdateHz: 1
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
   NrOfCameras: 4
-  FrameId: hshh
+  FrameId: test_frame_id
   WidthRes: 32768
   DepthBufferPrecision: 1
   LidarHorisontalRes: 256
@@ -994,7 +994,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &2082621774
 BoxCollider:
   m_ObjectHideFlags: 0
