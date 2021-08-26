@@ -355,12 +355,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd2c2bb5a7743747a6e47d27d2c0ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lidarCamera: {fileID: 1805160427}
-  format: 1
-  computeShader: {fileID: 0}
-  colorTexture: {fileID: 8400000, guid: d365499ea9738844998609497d7a012f, type: 2}
-  depthTexture: {fileID: 8400000, guid: 7a7a7903c8aead746a9c2aacf7a5b4b0, type: 2}
-  kernelHandle: 0
 --- !u!20 &1805160427
 Camera:
   m_ObjectHideFlags: 0
