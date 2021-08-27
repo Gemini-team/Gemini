@@ -41,6 +41,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
+          testMode: EditMode
           projectPath: Gemini-Unity
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       
