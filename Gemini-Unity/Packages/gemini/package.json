@@ -1,6 +1,6 @@
 {
     "name": "com.gemini-team.gemini",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "displayName": "Gemini",
     "description": "A library for simulating EMR-based sensors and API",
     "unity": "2019.4",
