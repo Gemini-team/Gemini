@@ -61,7 +61,7 @@ namespace Gemini.EMRS.Core
                 {
                     if (gate)
                     {
-                        SendMessage();
+                        //SendMessage();
                         nextActionTime = nextOSPtime + 1/(double)SensorUpdateHz;
                     }
                 }
