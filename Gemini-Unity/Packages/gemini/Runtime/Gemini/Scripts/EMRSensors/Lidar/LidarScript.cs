@@ -50,7 +50,12 @@ namespace Gemini.EMRS.Lidar {
 
         int kernelHandle;
         UnifiedArray<Vector3> particleUnifiedArray;
-        UnifiedArray<byte> lidarDataByte;
+        private UnifiedArray<byte> lidarDataByte;
+
+        public UnifiedArray<byte> LidarDataByte
+        {
+            get { return lidarDataByte; }
+        }
 
         void Start()
         {
