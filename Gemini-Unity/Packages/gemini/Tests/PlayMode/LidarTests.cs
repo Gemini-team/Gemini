@@ -64,7 +64,7 @@ namespace Tests
             { 
                 Assert.AreEqual("test_frame_id", lidar.FrameId);
 
-                LidarPoint[] points = ParseLidarPoints(lidar.lidarDataByte.array);
+                LidarPoint[] points = ParseLidarPoints(lidar.LidarDataByte.array);
 
                 for (int i = 0; i < points.Length; ++i)
                 {
