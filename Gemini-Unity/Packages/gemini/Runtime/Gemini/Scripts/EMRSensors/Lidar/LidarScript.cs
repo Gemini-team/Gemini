@@ -49,7 +49,13 @@ namespace Gemini.EMRS.Lidar {
         private SphericalProjectionFilter projectionFilter;
 
         int kernelHandle;
-        UnifiedArray<Vector3> particleUnifiedArray;
+        private UnifiedArray<Vector3> particleUnifiedArray;
+
+        public UnifiedArray<Vector3> ParticleUnifiedArray
+        {
+            get { return particleUnifiedArray; }
+        }
+
         private UnifiedArray<byte> lidarDataByte;
 
         public UnifiedArray<byte> LidarDataByte

@@ -9,12 +9,8 @@ using Gemini.EMRS.Lidar;
 
 namespace Tests
 {
-
     public class LidarTest
     {
-
-
-
         [OneTimeSetUp]
         public void LoadScene()
         {
@@ -32,7 +28,6 @@ namespace Tests
         {
             yield return new MonoBehaviourTest<LidarMonoBehaviourTest>();
         }
-
     }
 
     public class LidarMonoBehaviourTest : MonoBehaviour, IMonoBehaviourTest
@@ -57,24 +52,27 @@ namespace Tests
         GameObject lidarObject;
         private LidarScript lidar;       
         private int frameCount;
-        bool nonZeroZValue = false;
+        bool isInsideBounds = false;
+
         public bool IsTestFinished
         {
             get 
             { 
                 Assert.AreEqual("test_frame_id", lidar.FrameId);
 
-                LidarPoint[] points = ParseLidarPoints(lidar.LidarDataByte.array);
+                Vector3[] points = lidar.ParticleUnifiedArray.array;
 
                 for (int i = 0; i < points.Length; ++i)
                 {
-                    Debug.Log("Z: " + points[i].z);
-                    if (points[i].z != 0)
-                        nonZeroZValue = true;
+                    //Debug.Log("Point: " + points[i]);
+                    if (Math.Abs(points[i].z) > 8 && Math.Abs(points[i].z) < 9)
+                    {
+                        isInsideBounds = true;
+                        break;
+                    }
                 }
 
-                Assert.AreEqual(true, nonZeroZValue);
-
+                //Assert.AreEqual(true, isInsideBounds);
                 return frameCount == 1 ; 
             }
         }
