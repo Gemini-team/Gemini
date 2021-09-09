@@ -33,26 +33,11 @@ namespace Tests
     public class LidarMonoBehaviourTest : MonoBehaviour, IMonoBehaviourTest
     {
 
-        struct LidarPoint
-        {
-            public uint x;
-            public uint y;
-            public uint z;
-            public uint intensity;
-
-            LidarPoint (uint x, uint y, uint z, uint intensity)
-            {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.intensity = intensity;
-            }
-        }
-
         GameObject lidarObject;
         private LidarScript lidar;       
         private int frameCount;
-        bool isInsideBounds = false;
+        bool lidarPointIsInsideRange = false;
+        bool particleSystemLidarPointIsInsideRange = false;
 
         public bool IsTestFinished
         {
@@ -60,19 +45,23 @@ namespace Tests
             { 
                 Assert.AreEqual("test_frame_id", lidar.FrameId);
 
-                Vector3[] points = lidar.ParticleUnifiedArray.array;
+                LidarMessage message = new LidarMessage((int)lidar.NumberOfLidarPoints, 0.0, lidar.LidarDataByte.array);
+                
+                Vector4[] lidarPoints = message.ParseLidarPoints();
 
-                for (int i = 0; i < points.Length; ++i)
+                // Testing the lidar point byte array which is accessed by external sources
+                for (int i = 0; i < lidarPoints.Length; i++)
                 {
-                    //Debug.Log("Point: " + points[i]);
-                    if (Math.Abs(points[i].z) > 8 && Math.Abs(points[i].z) < 9)
+                    // Use x coordinate here because fucking NED Coordinate system in LidarCS
+                    if (Math.Abs(lidarPoints[i].x) > 8 && Math.Abs(lidarPoints[i].x) < 9)
                     {
-                        isInsideBounds = true;
+                        lidarPointIsInsideRange = true;
                         break;
                     }
                 }
 
-                //Assert.AreEqual(true, isInsideBounds);
+                Assert.AreEqual(true, lidarPointIsInsideRange);
+
                 return frameCount == 1 ; 
             }
         }
@@ -85,47 +74,6 @@ namespace Tests
         void Update()
         {
             frameCount++;
-        }
-
-
-        LidarPoint[] ParseLidarPoints(byte[] data)
-        {
-            int offset = 24;
-            LidarPoint[] points = new LidarPoint[data.Length / offset]; 
-            byte[] slice = new byte[16];
-
-            int pointIndex = 0;
-
-            for (int i = 0; i < data.Length; ++i)
-            {
-                if (i % 24 == 0)
-                {
-                    points[pointIndex] = new LidarPoint();
-
-                    // TODO: Need some check
-                    uint x = 0;
-                    uint y = 0;
-                    uint z = 0;
-                    uint intensity = 0;
-
-                    if (i + 4 < data.Length)
-                        x = BitConverter.ToUInt32(data, i);
-                    if (i + 8 < data.Length)
-                        y = BitConverter.ToUInt32(data, i + 4);
-                    if (i + 12 < data.Length)
-                        z = BitConverter.ToUInt32(data, i + 8);
-                    if (i + 16 < data.Length)
-                        intensity = BitConverter.ToUInt32(data, i + 12);
-
-                    points[pointIndex].x = x;
-                    points[pointIndex].y = y;
-                    points[pointIndex].z = z;
-                    points[pointIndex].intensity = intensity;
-
-                    pointIndex++;
-                }
-            }
-            return points;
         }
     }
 }
