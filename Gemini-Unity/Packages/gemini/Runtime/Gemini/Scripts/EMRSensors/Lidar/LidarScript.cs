@@ -39,7 +39,12 @@ namespace Gemini.EMRS.Lidar {
         [Space]
         [Header("Sensor Output")]
         [SerializeField] private uint NumberOfDepthPixels = 0;
-        [SerializeField] private uint NumberOfLidarPoints = 0;
+        [SerializeField] private uint numberOfLidarPoints = 0;
+
+        public uint NumberOfLidarPoints
+        {
+            get { return numberOfLidarPoints; }
+        }
 
         [HideInInspector] public Camera[] lidarCameras;
         private DepthCameras depthCameras;
@@ -75,12 +80,12 @@ namespace Gemini.EMRS.Lidar {
             VerticalAngle = Mathf.Rad2Deg * 2 * Mathf.Atan(Mathf.Tan(lidarVerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Cos(Mathf.PI / NrOfCameras));
 
             NumberOfDepthPixels = (uint)WidthRes * (uint)HeightRes * (uint)NrOfCameras;
-            NumberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
+            numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
 
             // Settup Game objects
 
             pointCloud = GetComponent<PointCloudManager>();
-            pointCloud.SetupPointCloud((int)NumberOfLidarPoints);
+            pointCloud.SetupPointCloud((int)numberOfLidarPoints);
 
             var frustum = new CameraFrustum(WidthRes, MaxDistance, MinDistance, 2*Mathf.PI/NrOfCameras, lidarVerticalAngle*Mathf.Deg2Rad);
             depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform,lidarShader,"CSMain");
