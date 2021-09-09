@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.3371, g: 325.05005, b: 430.21954, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -379,6 +379,21 @@ PrefabInstance:
       propertyPath: m_TagString
       value: MainCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 7914378616509649954, guid: d218ac0b02bb7214288518911b63553d,
+        type: 3}
+      propertyPath: m_TargetDisplay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7914378616509649954, guid: d218ac0b02bb7214288518911b63553d,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7914378616509649954, guid: d218ac0b02bb7214288518911b63553d,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 7914378616762174627, guid: d218ac0b02bb7214288518911b63553d,
         type: 3}
       propertyPath: m_RootOrder
@@ -486,7 +501,7 @@ MonoBehaviour:
   MaxDistance: 100
   VerticalAngle: 60
   NumberOfDepthPixels: 0
-  NumberOfLidarPoints: 0
+  numberOfLidarPoints: 0
   lidarCameras: []
   SynchronousUpdate: 1
 --- !u!114 &1474986649
