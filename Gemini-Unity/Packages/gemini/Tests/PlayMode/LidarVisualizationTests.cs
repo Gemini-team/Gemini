@@ -9,7 +9,7 @@ using Gemini.EMRS.Lidar;
 
 namespace Tests
 {
-    public class LidarTest
+    public class LidarVisualizationTest
     {
         [OneTimeSetUp]
         public void LoadScene()
@@ -26,11 +26,11 @@ namespace Tests
         [UnityTest]
         public IEnumerator LidarMonoBehaviourTest()
         {
-            yield return new MonoBehaviourTest<LidarMonoBehaviourTest>();
+            yield return new MonoBehaviourTest<LidarVisualizationMonoBehaviourTest>();
         }
     }
 
-    public class LidarMonoBehaviourTest : MonoBehaviour, IMonoBehaviourTest
+    public class LidarVisualizationMonoBehaviourTest : MonoBehaviour, IMonoBehaviourTest
     {
 
         GameObject lidarObject;
@@ -45,22 +45,19 @@ namespace Tests
             { 
                 Assert.AreEqual("test_frame_id", lidar.FrameId);
 
-                LidarMessage message = new LidarMessage((int)lidar.NumberOfLidarPoints, 0.0, lidar.LidarDataByte.array);
-                
-                Vector4[] lidarPoints = message.ParseLidarPoints();
+                Vector3[] points = lidar.ParticleUnifiedArray.array;
 
-                // Testing the lidar point byte array which is accessed by external sources
-                for (int i = 0; i < lidarPoints.Length; i++)
+                // Testing the lidar point array for visualization in Unity (particle system)
+                for (int i = 0; i < points.Length; ++i)
                 {
-                    // Use x coordinate here because fucking NED Coordinate system in LidarCS
-                    if (Math.Abs(lidarPoints[i].x) > 8 && Math.Abs(lidarPoints[i].x) < 9)
+                    if (Math.Abs(points[i].z) > 8 && Math.Abs(points[i].z) < 9)
                     {
-                        lidarPointIsInsideRange = true;
+                        particleSystemLidarPointIsInsideRange = true;
                         break;
                     }
                 }
 
-                Assert.AreEqual(true, lidarPointIsInsideRange);
+                Assert.AreEqual(true, particleSystemLidarPointIsInsideRange);
 
                 return frameCount == 1 ; 
             }
