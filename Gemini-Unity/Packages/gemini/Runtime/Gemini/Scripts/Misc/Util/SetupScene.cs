@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class SetupScene
 {
-    public void SpawnSphere(float radius, Vector3 transform)
+    public static void SpawnSphere(float radius, Vector3 position)
     {
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        // TODO: Scale by radius
-        sphere.transform = transform;
+        sphere.transform.position = position;
+        sphere.transform.localScale = new Vector3(radius, radius, radius);
     }
 }
