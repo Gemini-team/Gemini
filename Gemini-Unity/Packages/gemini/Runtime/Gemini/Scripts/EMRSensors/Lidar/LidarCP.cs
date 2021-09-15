@@ -14,16 +14,14 @@ namespace Gemini.EMRS.Lidar
         protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
         {
             shaderTags = new ShaderTagId[2]{
-            new ShaderTagId("DepthOnly"),
-            new ShaderTagId("DepthForwardOnly"),
-        };
+                new ShaderTagId("DepthOnly"),
+                new ShaderTagId("DepthForwardOnly"),
+            };
             cameras = lidar.GetComponent<LidarScript>().lidarCameras;
         }
 
         protected override void Execute(ScriptableRenderContext renderContext, CommandBuffer cmd, HDCamera camera, CullingResults cullingResult)
         {
-
-
 
             for (int i = 0; i < cameras.Length; i++)
             {
@@ -54,9 +52,13 @@ namespace Gemini.EMRS.Lidar
                 //Debug.Log(cameraProjMatrix);
 
                 Matrix4x4 scaleMatrix = Matrix4x4.identity;
-                scaleMatrix.m22 = -1.0f;
-                var v = scaleMatrix * bakingCamera.transform.localToWorldMatrix.inverse;
-                var vp = p * v;
+                scaleMatrix.m22 = -1.0f; // flip z component
+                var v = scaleMatrix * bakingCamera.transform.localToWorldMatrix.inverse; // world to local, with z-component flipped
+                // i.e. v is a transform from a left handed (unity) world, to a right handed (openGL) local frame
+                var vp = p * v; // this makes vp a transform from a left handed unity world, to a right handed openGL clip space
+
+                // These are global matrices which appear to be needed by HDRP
+                // ask Kjetil why these need to be set manually.
 
                 cmd.SetGlobalMatrix("_ViewMatrix", v);
                 cmd.SetGlobalMatrix("_InvViewMatrix", v.inverse);
