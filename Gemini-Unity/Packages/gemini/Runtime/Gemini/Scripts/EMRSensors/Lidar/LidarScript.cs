@@ -47,7 +47,12 @@ namespace Gemini.EMRS.Lidar
         [Space]
         [Header("Sensor Output")]
         [ReadOnly, SerializeField] private uint NumberOfDepthPixels = 0;
-        [ReadOnly, SerializeField] private uint NumberOfLidarPoints = 0;
+        [ReadOnly, SerializeField] private uint numberOfLidarPoints = 0;
+
+        public uint NumberOfLidarPoints
+        {
+            get { return numberOfLidarPoints; }
+        }
 
         [HideInInspector] public Camera[] lidarCameras;
         private DepthCameras depthCameras;
@@ -57,8 +62,19 @@ namespace Gemini.EMRS.Lidar
         private SphericalProjectionFilter projectionFilter;
 
         int kernelHandle;
-        UnifiedArray<Vector3> particleUnifiedArray;
-        UnifiedArray<byte> lidarDataByte;
+        private UnifiedArray<Vector3> particleUnifiedArray;
+
+        public UnifiedArray<Vector3> ParticleUnifiedArray
+        {
+            get { return particleUnifiedArray; }
+        }
+
+        private UnifiedArray<byte> lidarDataByte;
+
+        public UnifiedArray<byte> LidarDataByte
+        {
+            get { return lidarDataByte; }
+        }
 
         void Start()
         {
@@ -84,14 +100,14 @@ namespace Gemini.EMRS.Lidar
             FrustumHorizontalAngle = Mathf.Rad2Deg * 2 * Mathf.PI / NrOfCameras;
 
             NumberOfDepthPixels = (uint)FrustumWidthRes * (uint)FrustumHeightRes * (uint)NrOfCameras;
-            NumberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
+            numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
 
             // Settup Game objects
 
             pointCloud = GetComponent<PointCloudManager>();
-            pointCloud.SetupPointCloud((int)NumberOfLidarPoints);
+            pointCloud.SetupPointCloud((int)numberOfLidarPoints);
 
-            var frustum = new CameraFrustum(FrustumWidthRes, FrustumHeightRes, MaxDistance, MinDistance, Mathf.Deg2Rad * FrustumHorizontalAngle, 
+            var frustum = new CameraFrustum(FrustumWidthRes, FrustumHeightRes, MaxDistance, MinDistance, Mathf.Deg2Rad * FrustumHorizontalAngle,
                                                 Mathf.Deg2Rad * FrustumVerticalAngle, Mathf.Deg2Rad * VerticalAngle);
             depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
             lidarCameras = depthCameras.cameras;
