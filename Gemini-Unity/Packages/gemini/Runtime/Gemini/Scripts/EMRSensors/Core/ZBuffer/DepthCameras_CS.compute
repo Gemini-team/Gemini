@@ -34,38 +34,9 @@ Texture2D<float4> depthImage29;
 Texture2D<float4> depthImage30;
 Texture2D<float4> depthImage31;
 
-float4x4 CameraRotationMatrix0;
-float4x4 CameraRotationMatrix1;
-float4x4 CameraRotationMatrix2;
-float4x4 CameraRotationMatrix3;/*
-float4x4 CameraRotationMatrix4;
-float4x4 CameraRotationMatrix5;
-float4x4 CameraRotationMatrix6;
-float4x4 CameraRotationMatrix7;
-float4x4 CameraRotationMatrix8;
-float4x4 CameraRotationMatrix9;
-float4x4 CameraRotationMatrix10;
-float4x4 CameraRotationMatrix11;
-float4x4 CameraRotationMatrix12;
-float4x4 CameraRotationMatrix13;
-float4x4 CameraRotationMatrix14;
-float4x4 CameraRotationMatrix15;
-float4x4 CameraRotationMatrix16;
-float4x4 CameraRotationMatrix17;
-float4x4 CameraRotationMatrix18;
-float4x4 CameraRotationMatrix19;
-float4x4 CameraRotationMatrix20;
-float4x4 CameraRotationMatrix21;
-float4x4 CameraRotationMatrix22;
-float4x4 CameraRotationMatrix23;
-float4x4 CameraRotationMatrix24;
-float4x4 CameraRotationMatrix25;
-float4x4 CameraRotationMatrix26;
-float4x4 CameraRotationMatrix27;
-float4x4 CameraRotationMatrix28;
-float4x4 CameraRotationMatrix29;
-float4x4 CameraRotationMatrix30;
-float4x4 CameraRotationMatrix31;*/
+// Texture2D<float4> depthImages;
+
+float4x4 CameraRotationMatrices[31];
 float4x4 inv_CameraMatrix;
 float4x4 CameraMatrix;
 
@@ -74,52 +45,54 @@ uint ImageHeightRes;
 int NrOfImages;
 
 // https://stackoverflow.com/questions/32227283/getting-world-position-from-depth-buffer-value
-float3 ImageToCartesian(float4x4 projMatrixInv, float4x4 rotationMatrix, Texture2D<float4> depthImage, uint2 TexCoord) {
+float3 ImageToCartesian(Texture2D<float4> depthImage, uint2 TexCoord, uint cam_index) {
 
-	float depth = depthImage[TexCoord.xy].x;
+	float depth = depthImage[TexCoord.xy].x; 
 	float W = float(ImageWidthRes);
 	float H = float(ImageHeightRes);
 
-	// To hinder drawing points at far plane
-	float z = (1 - depth) * 2.0 - 1.0;
-	//float z = (depth - 1) * 2.0 - 1.0;
-	if ((1 - depth) == 1) {
-		z = 0;
-	}
-
-
-	// OpenGL clipspace convention
-
+	// from Unity image frame to OpenGL clip space
 	float x = 2 * TexCoord.x / W - 1;
 	float y = 2 * TexCoord.y / H - 1;
+	float z = (1 - depth) * 2.0 - 1.0;
+
+	// if depth == 0  (i.e. at far plane) -> set z to 0
+	if ((1 - depth) == 1) {
+		z = 0; // HACK what purpose does it serve to set z to zero? 
+	}
+
 	float4 clipSpacePosition = float4(x, y, z, 1.0);
-	float4 viewSpacePosition = mul(projMatrixInv, clipSpacePosition);
+	float4 viewSpacePosition = mul(inv_CameraMatrix, clipSpacePosition); // inverted projection matrix (as provided by openGL, right handed)
+	// see bottom of first answer of https://answers.unity.com/questions/1359718/what-do-the-values-in-the-matrix4x4-for-cameraproj.html
 
 	// Perspective division
 	viewSpacePosition /= viewSpacePosition.w;
-	viewSpacePosition.z *= -1;
+	viewSpacePosition.z *= -1; // convert from right handed [right, up, backward] to left handed [right, up, forward]
 
-	float4 bodySpacePosition = mul(rotationMatrix, viewSpacePosition);
+	float4 bodySpacePosition = mul(CameraRotationMatrices[cam_index], viewSpacePosition); // rotation matrix provided by Unity (in left handed land) 
 
 	return bodySpacePosition.xyz;
 }
 
 float3 ImagesToCartesian(uint2 TexCoord) {
-	if (TexCoord.x < ImageWidthRes) {
-		return ImageToCartesian(inv_CameraMatrix, CameraRotationMatrix0, depthImage0, TexCoord);
+
+	uint n_camera = TexCoord.x / ImageWidthRes;
+	TexCoord.x = TexCoord.x % ImageWidthRes;
+
+	if (n_camera == 0) {
+		return ImageToCartesian(depthImage0, TexCoord, n_camera);
 	}
-	else if (TexCoord.x < 2 * ImageWidthRes) {
-		TexCoord.x -= ImageWidthRes;
-		return ImageToCartesian(inv_CameraMatrix, CameraRotationMatrix1, depthImage1, TexCoord);
+	else if (n_camera == 1) {
+		return ImageToCartesian(depthImage1, TexCoord, n_camera);
 	}
-	else if (TexCoord.x < 3 * ImageWidthRes) {
-		TexCoord.x -= 2 * ImageWidthRes;
-		return ImageToCartesian(inv_CameraMatrix, CameraRotationMatrix2, depthImage2, TexCoord);
+	else if (n_camera == 2) {
+		return ImageToCartesian(depthImage2, TexCoord, n_camera);
 	}
-	else if (TexCoord.x < 4 * ImageWidthRes) {
-		TexCoord.x -= 3 * ImageWidthRes;
-		return ImageToCartesian(inv_CameraMatrix, CameraRotationMatrix3, depthImage3, TexCoord);
-	}/*else if(TexCoord.x < 5 * ImageWidthRes){
+	else if (n_camera == 3) {
+		return ImageToCartesian(depthImage3, TexCoord, n_camera);
+	}
+	
+	/*else if(TexCoord.x < 5 * ImageWidthRes){
 		TexCoord.x -= 4 * ImageWidthRes;
 		return ImageToCartesian(inv_CameraMatrix, CameraRotationMatrix4, depthImage4, TexCoord);
 	}else if(TexCoord.x < 6 * ImageWidthRes){
