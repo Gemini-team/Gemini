@@ -12,7 +12,8 @@ using Sensorstreaming;
 
 
 
-namespace Gemini.EMRS.Lidar {
+namespace Gemini.EMRS.Lidar
+{
     [RequireComponent(typeof(SphericalProjectionFilter))]
     [RequireComponent(typeof(PointCloudManager))]
     public class LidarScript : Sensor
@@ -23,8 +24,7 @@ namespace Gemini.EMRS.Lidar {
         [Space]
         [Header("Lidar Parameters")]
         public string FrameId;
-        public int WidthRes = 2048;
-        private int HeightRes = 32;
+        public int FullRotationWidthRes = 32768;
 
         public DepthCameras.BufferPrecision DepthBufferPrecision = DepthCameras.BufferPrecision.bit24;
 
@@ -37,9 +37,17 @@ namespace Gemini.EMRS.Lidar {
 
 
         [Space]
+        [Header("Calculated parameters")]
+        [ReadOnly, SerializeField] private float FrustumVerticalAngle = -1;
+        [ReadOnly, SerializeField] private float FrustumHorizontalAngle = -1;
+        [ReadOnly, SerializeField] private int FrustumWidthRes = -1;
+        [ReadOnly, SerializeField] private int FrustumHeightRes = -1;
+
+
+        [Space]
         [Header("Sensor Output")]
-        [SerializeField] private uint NumberOfDepthPixels = 0;
-        [SerializeField] private uint NumberOfLidarPoints = 0;
+        [ReadOnly, SerializeField] private uint NumberOfDepthPixels = 0;
+        [ReadOnly, SerializeField] private uint NumberOfLidarPoints = 0;
 
         [HideInInspector] public Camera[] lidarCameras;
         private DepthCameras depthCameras;
@@ -57,13 +65,25 @@ namespace Gemini.EMRS.Lidar {
 
             // Setting User information
 
-            WidthRes /= NrOfCameras;
+            /* 
+                Note that the frustum is a projected square, by extension its effective 
+                V_FOV is dependent on which horizontal angle you're looking at.
 
-            float lidarVerticalAngle = VerticalAngle;
-            HeightRes = (int)(WidthRes * Mathf.Tan(lidarVerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Sin(Mathf.PI / NrOfCameras));
-            VerticalAngle = Mathf.Rad2Deg * 2 * Mathf.Atan(Mathf.Tan(lidarVerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Cos(Mathf.PI / NrOfCameras));
+                E.g. at the center of a frustum, the effective V_FOV is equal to the
+                frustum V_FOV, while it gets smaller towards the edges.
 
-            NumberOfDepthPixels = (uint)WidthRes * (uint)HeightRes * (uint)NrOfCameras;
+                In order to correct for this, we need to set a larger frustum V_FOV such that
+                the effective V_FOV at the intersections between frustums (i.e. angle from center equal to H_FOV/2)
+                is equal to the configured lidar V_FOV. This correction is found as: 
+                tan(CORRECTED_FRUSTUM_V_FOV/2) = tan(LIDAR_V_FOV/2)/cos(H_FOV/2)
+            */
+            FrustumWidthRes = FullRotationWidthRes / NrOfCameras;
+            FrustumHeightRes = (int)(FrustumWidthRes * Mathf.Tan(VerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Sin(Mathf.PI / NrOfCameras));
+
+            FrustumVerticalAngle = Mathf.Rad2Deg * 2 * Mathf.Atan(Mathf.Tan(VerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Cos(Mathf.PI / NrOfCameras));
+            FrustumHorizontalAngle = Mathf.Rad2Deg * 2 * Mathf.PI / NrOfCameras;
+
+            NumberOfDepthPixels = (uint)FrustumWidthRes * (uint)FrustumHeightRes * (uint)NrOfCameras;
             NumberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
 
             // Settup Game objects
@@ -71,8 +91,9 @@ namespace Gemini.EMRS.Lidar {
             pointCloud = GetComponent<PointCloudManager>();
             pointCloud.SetupPointCloud((int)NumberOfLidarPoints);
 
-            var frustum = new CameraFrustum(WidthRes, MaxDistance, MinDistance, 2*Mathf.PI/NrOfCameras, lidarVerticalAngle*Mathf.Deg2Rad);
-            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform,lidarShader,"CSMain");
+            var frustum = new CameraFrustum(FrustumWidthRes, FrustumHeightRes, MaxDistance, MinDistance, Mathf.Deg2Rad * FrustumHorizontalAngle, 
+                                                Mathf.Deg2Rad * FrustumVerticalAngle, Mathf.Deg2Rad * VerticalAngle);
+            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
             lidarCameras = depthCameras.cameras;
 
             projectionFilter = GetComponent<SphericalProjectionFilter>();
@@ -121,7 +142,7 @@ namespace Gemini.EMRS.Lidar {
         {
             if (SynchronousUpdate)
             {
-                particleUnifiedArray.SynchUpdate(lidarShader,"CSMain");
+                particleUnifiedArray.SynchUpdate(lidarShader, "CSMain");
                 if (pointCloud != null) { pointCloud.UpdatePointCloud(particleUnifiedArray.array); }
                 gate = true;
             }
@@ -172,9 +193,9 @@ namespace Gemini.EMRS.Lidar {
         public override bool SendMessage()
         {
             //Debug.Log("Lidar message time: " + message.timeInSeconds.ToString());
-            
+
             LidarStreamingRequest lidarStreamingRequest = new LidarStreamingRequest();
-            
+
             lidarStreamingRequest.TimeInSeconds = message.timeInSeconds;
             lidarStreamingRequest.Height = message.height;
             lidarStreamingRequest.Width = message.width;
@@ -209,7 +230,8 @@ namespace Gemini.EMRS.Lidar {
                 {
                     success = _streamingClient.StreamLidarSensor(lidarStreamingRequest).Success;
                     connected = success;
-                } catch(RpcException e)
+                }
+                catch (RpcException e)
                 {
                     Debug.LogException(e);
                 }
