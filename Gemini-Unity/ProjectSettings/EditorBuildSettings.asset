@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Packages/com.gemini-team.gemini/Tests/Scenes/Test.unity
     guid: e035af7c065d74548aef82d4c1c370b4
+  - enabled: 1
+    path: Packages/com.gemini-team.gemini/Tests/Scenes/SphereTest.unity
+    guid: 16fe2fb82d490114fb8058c5154d6751
   m_configObjects: {}
