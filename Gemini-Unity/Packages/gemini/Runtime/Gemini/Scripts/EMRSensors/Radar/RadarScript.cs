@@ -77,7 +77,6 @@ namespace Gemini.EMRS.Radar
             public uint _min_intensity;   // minimum intensity in intensity range
             public uint _max_intensity;  // maximum intensity in intensity range
 
-            //public RadarMetaData[] _metaData;
             public double[] _timeInSeconds;               // timestamp of scan and coordinate frame id
             public float[] _azimuth;             // azimuth spoke angle [rad]
             public byte[] _radarSpokes;
@@ -106,7 +105,6 @@ namespace Gemini.EMRS.Radar
             string Tag = "Radar at angle " + SpokeAngle + ", with " + message._radarSpokes.Length.ToString() +" elements";
             int radarByteIndex = spokeIndex * radarSpokeResolution;
             Helper.PrintPartialByteArrayAs<byte>(message._radarSpokes, radarByteIndex, 512, Tag);
-            //Debug.Log("Radar intensity at spoke angle: " + SpokeAngle + ", index 512: " + message._radarSpokes[spokeIndex * radarSpokeResolution + 512].ToString() + " at the time: " + message._metaData[spokeIndex].timeInSeconds.ToString());
 
             
             // gRPC
@@ -127,14 +125,6 @@ namespace Gemini.EMRS.Radar
             bool success = _streamingClient.StreamRadarSensor(radarStreamingRequest).Success;
 
             return success;
-
-            /*
-            int radarByteIndex = spokeIndex * radarSpokeResolution + 512;
-            Helper.PrintPartialByteArrayAs<byte>(message._radarSpokes, radarByteIndex, 64, Tag);
-            Debug.Log("Radar time: " + message._timeInSeconds[spokeIndex].ToString() + "with array length " + message._timeInSeconds.Length.ToString());
-            Debug.Log("Radar azimuth: " + message._azimuth[spokeIndex].ToString() + "with array length " + message._azimuth.Length.ToString());
-            return true;
-            */
         }
 
         private IEnumerator UpdateRadar()
