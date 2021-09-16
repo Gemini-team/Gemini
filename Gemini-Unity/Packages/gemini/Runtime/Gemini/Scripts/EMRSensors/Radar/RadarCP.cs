@@ -20,7 +20,7 @@ class RadarCP : CustomPass{
 protected override void Execute(ScriptableRenderContext renderContext, CommandBuffer cmd, HDCamera camera, CullingResults cullingResult) {
         for (int i = 0; i < cameras.Length; i++) {
             Camera bakingCamera = cameras[i];
-            RenderTexture targetTexture = bakingCamera.targetTexture;//targetTextures[i];
+            RenderTexture targetTexture = bakingCamera.targetTexture;
 
             bakingCamera.TryGetCullingParameters(out var cullingParams);
             cullingParams.cullingOptions = CullingOptions.ShadowCasters;
