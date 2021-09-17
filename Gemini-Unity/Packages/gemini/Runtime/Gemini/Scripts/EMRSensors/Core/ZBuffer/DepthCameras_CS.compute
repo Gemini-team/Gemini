@@ -1,38 +1,42 @@
-﻿#include "UnityCG.cginc"
+﻿// #pragma require 2darray
+
+#include "UnityCG.cginc"
 #include "UnityShaderVariables.cginc"
 
-Texture2D<float4> depthImage0;
-Texture2D<float4> depthImage1;
-Texture2D<float4> depthImage2;
-Texture2D<float4> depthImage3;
-Texture2D<float4> depthImage4;
-Texture2D<float4> depthImage5;
-Texture2D<float4> depthImage6;
-Texture2D<float4> depthImage7;
-Texture2D<float4> depthImage8;
-Texture2D<float4> depthImage9;
-Texture2D<float4> depthImage10;
-Texture2D<float4> depthImage11;
-Texture2D<float4> depthImage12;
-Texture2D<float4> depthImage13;
-Texture2D<float4> depthImage14;
-Texture2D<float4> depthImage15;
-Texture2D<float4> depthImage16;
-Texture2D<float4> depthImage17;
-Texture2D<float4> depthImage18;
-Texture2D<float4> depthImage19;
-Texture2D<float4> depthImage20;
-Texture2D<float4> depthImage21;
-Texture2D<float4> depthImage22;
-Texture2D<float4> depthImage23;
-Texture2D<float4> depthImage24;
-Texture2D<float4> depthImage25;
-Texture2D<float4> depthImage26;
-Texture2D<float4> depthImage27;
-Texture2D<float4> depthImage28;
-Texture2D<float4> depthImage29;
-Texture2D<float4> depthImage30;
-Texture2D<float4> depthImage31;
+Texture2DArray<float4> depthImages;
+
+// Texture2D<float4> depthImage0;
+// Texture2D<float4> depthImage1;
+// Texture2D<float4> depthImage2;
+// Texture2D<float4> depthImage3;
+// Texture2D<float4> depthImage4;
+// Texture2D<float4> depthImage5;
+// Texture2D<float4> depthImage6;
+// Texture2D<float4> depthImage7;
+// Texture2D<float4> depthImage8;
+// Texture2D<float4> depthImage9;
+// Texture2D<float4> depthImage10;
+// Texture2D<float4> depthImage11;
+// Texture2D<float4> depthImage12;
+// Texture2D<float4> depthImage13;
+// Texture2D<float4> depthImage14;
+// Texture2D<float4> depthImage15;
+// Texture2D<float4> depthImage16;
+// Texture2D<float4> depthImage17;
+// Texture2D<float4> depthImage18;
+// Texture2D<float4> depthImage19;
+// Texture2D<float4> depthImage20;
+// Texture2D<float4> depthImage21;
+// Texture2D<float4> depthImage22;
+// Texture2D<float4> depthImage23;
+// Texture2D<float4> depthImage24;
+// Texture2D<float4> depthImage25;
+// Texture2D<float4> depthImage26;
+// Texture2D<float4> depthImage27;
+// Texture2D<float4> depthImage28;
+// Texture2D<float4> depthImage29;
+// Texture2D<float4> depthImage30;
+// Texture2D<float4> depthImage31;
 
 // Texture2D<float4> depthImages;
 
@@ -45,9 +49,10 @@ uint ImageHeightRes;
 int NrOfImages;
 
 // https://stackoverflow.com/questions/32227283/getting-world-position-from-depth-buffer-value
-float3 ImageToCartesian(Texture2D<float4> depthImage, uint2 TexCoord, uint cam_index) {
+float3 ImageToCartesian(float depthData, uint2 TexCoord, uint cam_index) {
 
-	float depth = depthImage[TexCoord.xy].x; 
+	// float depth = depthImage[TexCoord.xy].x;
+	float depth = depthData;
 	float W = float(ImageWidthRes);
 	float H = float(ImageHeightRes);
 
@@ -78,19 +83,21 @@ float3 ImagesToCartesian(uint2 TexCoord) {
 
 	uint n_camera = TexCoord.x / ImageWidthRes;
 	TexCoord.x = TexCoord.x % ImageWidthRes;
+	float depthData = depthImages[float3(TexCoord.x, TexCoord.y, n_camera)].x;
+	ImageToCartesian(depthData, TexCoord, n_camera);
 
-	if (n_camera == 0) {
-		return ImageToCartesian(depthImage0, TexCoord, n_camera);
-	}
-	else if (n_camera == 1) {
-		return ImageToCartesian(depthImage1, TexCoord, n_camera);
-	}
-	else if (n_camera == 2) {
-		return ImageToCartesian(depthImage2, TexCoord, n_camera);
-	}
-	else if (n_camera == 3) {
-		return ImageToCartesian(depthImage3, TexCoord, n_camera);
-	}
+	// if (n_camera == 0) {
+	// 	return ImageToCartesian(depthImage0, TexCoord, n_camera);
+	// }
+	// else if (n_camera == 1) {
+	// 	return ImageToCartesian(depthImage1, TexCoord, n_camera);
+	// }
+	// else if (n_camera == 2) {
+	// 	return ImageToCartesian(depthImage2, TexCoord, n_camera);
+	// }
+	// else if (n_camera == 3) {
+	// 	return ImageToCartesian(depthImage3, TexCoord, n_camera);
+	// }
 	
 	/*else if(TexCoord.x < 5 * ImageWidthRes){
 		TexCoord.x -= 4 * ImageWidthRes;
