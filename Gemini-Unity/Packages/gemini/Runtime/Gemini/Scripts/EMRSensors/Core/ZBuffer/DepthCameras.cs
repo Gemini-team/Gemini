@@ -18,6 +18,7 @@ namespace Gemini.EMRS.Core.ZBuffer
         private CameraFrustum frustums;
         public Camera[] cameras;
 
+        public Texture2DArray depthTextures;
 
         public DepthCameras(int cameraNumbers, CameraFrustum cameraFrustums, Transform transform)
         {
@@ -38,11 +39,18 @@ namespace Gemini.EMRS.Core.ZBuffer
             RenderTextureFormat format = RenderTextureFormat.Depth;
             Camera[] Cameras = new Camera[numbers];
 
-            //var depthBuffer = new RenderTexture(frustums._pixelWidth, frustums._pixelHeight, 16, format);//,// format);
-            //depthBuffer.useMipMap = false;
-            //depthBuffer.generateMips = false;
-            //depthBuffer.dimension = TextureDimension.Tex2DArray;
-            //depthBuffer.volumeDepth = 4;
+            // just lets the camera know that it is supposed to render into a textureArray
+            var depthBuffer = new RenderTexture(frustums._pixelWidth, frustums._pixelHeight, 0, format);
+            depthBuffer.useMipMap = false;
+            depthBuffer.filterMode = FilterMode.Point;
+            // // depthBuffer.generateMips = false;
+            depthBuffer.dimension = TextureDimension.Tex2DArray;
+            depthBuffer.volumeDepth = 4;
+
+            depthTextures = new Texture2DArray(frustums._pixelWidth, frustums._pixelHeight, 4, TextureFormat.RGBA32, false, true);
+            depthTextures.filterMode = FilterMode.Point;
+            // depthTextures.useMipMap = false;
+            // depthTextures.anisoLevel = 0;
 
             for (int i = 0; i < numbers; i++)
             {
@@ -55,7 +63,7 @@ namespace Gemini.EMRS.Core.ZBuffer
                 CameraObject.AddComponent<Camera>();
                 Camera cam = CameraObject.GetComponent<Camera>();
 
-                var depthBuffer = new RenderTexture(frustums._pixelWidth, frustums._pixelHeight, 16, format);//,// format);
+                //var depthBuffer = new RenderTexture(frustums._pixelWidth, frustums._pixelHeight, 16, format);//,// format);
 
                 if (cam.targetTexture == null)
                 {
@@ -109,11 +117,15 @@ namespace Gemini.EMRS.Core.ZBuffer
 
                 //Debug.Log("Camera depth texture set for: " + i.ToString());
 
-                shader.SetTexture(kernelHandle, "depthImage" + i.ToString(), cameras[i].targetTexture);
+                // shader.SetTexture(kernelHandle, "depthImage" + i.ToString(), cameras[i].targetTexture);
 
-                // shader.SetTexture(kernelHandle, "depthImages", cameras[i].targetTexture);
+
+                
             }
             // shader.SetTexture(kernelHandle, "DepthImages", cameras[0].targetTexture);
+            // this constitutes a problem, as every camera wants to render into this one
+            shader.SetTexture(kernelHandle, "depthImages", depthTextures);
+            // or try shader.SetTexture(kernelHandle, "depthImages", depthTextures, 0, RenderTextureSubElement.Depth);
             shader.SetMatrixArray("CameraRotationMatrices", RotationMatrices);
         }
 

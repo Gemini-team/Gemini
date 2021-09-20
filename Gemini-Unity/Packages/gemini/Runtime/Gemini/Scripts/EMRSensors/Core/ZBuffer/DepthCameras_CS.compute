@@ -1,4 +1,7 @@
-﻿// #pragma require 2darray
+﻿#pragma require 2darray
+#pragma require setrtarrayindexfromanyshader
+#pragma require uav
+
 
 #include "UnityCG.cginc"
 #include "UnityShaderVariables.cginc"
@@ -6,13 +9,15 @@
 // Texture2DArray<float4> depthImages;
 
 UNITY_DECLARE_TEX2DARRAY(depthImages);
-UNITY_DECLARE_TEX2DARRAY(colorImages);
-// UNITY_DECLARE_TEX2DARRAY(_TestTextureArray);
+// Texture2DArray<float> depthImages;
 
- Texture2D<float4> depthImage0;
- Texture2D<float4> depthImage1;
- Texture2D<float4> depthImage2;
- Texture2D<float4> depthImage3;
+
+
+
+//  Texture2D<float4> depthImage0;
+//  Texture2D<float4> depthImage1;
+//  Texture2D<float4> depthImage2;
+//  Texture2D<float4> depthImage3;
 // Texture2D<float4> depthImage4;
 // Texture2D<float4> depthImage5;
 // Texture2D<float4> depthImage6;
@@ -53,12 +58,13 @@ uint ImageHeightRes;
 int NrOfImages;
 
 // https://stackoverflow.com/questions/32227283/getting-world-position-from-depth-buffer-value
-float3 ImageToCartesian(Texture2D<float4> depthImage, uint2 TexCoord, uint cam_index) {
+float3 ImageToCartesian(float depthData, uint2 TexCoord, uint cam_index) {
 
-	float depth = depthImage[TexCoord.xy].x;
-	//float depth = depthData;
+	//float depth = depthImage[TexCoord.xy].x;
+	float depth = depthData;
 	float W = float(ImageWidthRes);
 	float H = float(ImageHeightRes);
+
 
 	// from Unity image frame to OpenGL clip space
 	float x = 2 * TexCoord.x / W - 1;
@@ -66,9 +72,9 @@ float3 ImageToCartesian(Texture2D<float4> depthImage, uint2 TexCoord, uint cam_i
 	float z = (1 - depth) * 2.0 - 1.0;
 
 	// if depth == 0  (i.e. at far plane) -> set z to 0
-	if ((1 - depth) == 1) {
-		z = 0; // HACK what purpose does it serve to set z to zero? 
-	}
+	// if ((1 - depth) == 1) {
+	// 	z = 0; // HACK what purpose does it serve to set z to zero? 
+	// }
 
 	float4 clipSpacePosition = float4(x, y, z, 1.0);
 	float4 viewSpacePosition = mul(inv_CameraMatrix, clipSpacePosition); // inverted projection matrix (as provided by openGL, right handed)
@@ -87,24 +93,24 @@ float3 ImagesToCartesian(uint2 TexCoord) {
 
 	uint n_camera = TexCoord.x / ImageWidthRes;
 	TexCoord.x = TexCoord.x % ImageWidthRes;
-	// float depthData = depthImages[float3(TexCoord.x, TexCoord.y, n_camera)].x;
-	// float depthData = UNITY_SAMPLE_TEX2DARRAY(depthImages, float3(TexCoord.xy, 0));
-
+	// float depthData = depthImages[uint3(TexCoord.x, TexCoord.y, n_camera)];
+	// float depthData = UNITY_SAMPLE_TEX2DARRAY(depthImages, float3(TexCoord.xy, n_camera));
+	float depthData = UNITY_SAMPLE_TEX2DARRAY(depthImages, uint3(TexCoord.xy, n_camera)).x;
 	// depthImages[float3(TexCoord.x, TexCoord.y, n_camera)].x = 0;
-	//ImageToCartesian(depthData, TexCoord, n_camera);
+	return ImageToCartesian(depthData, TexCoord, n_camera);
 
-	if (n_camera == 0) {
-		return ImageToCartesian(depthImage0, TexCoord, n_camera);
-	}
-	else if (n_camera == 1) {
-		return ImageToCartesian(depthImage1, TexCoord, n_camera);
-	}
-	else if (n_camera == 2) {
-		return ImageToCartesian(depthImage2, TexCoord, n_camera);
-	}
-	else if (n_camera == 3) {
-		return ImageToCartesian(depthImage3, TexCoord, n_camera);
-	}
+	// if (n_camera == 0) {
+	// 	return ImageToCartesian(depthImage0, TexCoord, n_camera);
+	// }
+	// else if (n_camera == 1) {
+	// 	return ImageToCartesian(depthImage1, TexCoord, n_camera);
+	// }
+	// else if (n_camera == 2) {
+	// 	return ImageToCartesian(depthImage2, TexCoord, n_camera);
+	// }
+	// else if (n_camera == 3) {
+	// 	return ImageToCartesian(depthImage3, TexCoord, n_camera);
+	// }
 	
 	/*else if(TexCoord.x < 5 * ImageWidthRes){
 		TexCoord.x -= 4 * ImageWidthRes;
