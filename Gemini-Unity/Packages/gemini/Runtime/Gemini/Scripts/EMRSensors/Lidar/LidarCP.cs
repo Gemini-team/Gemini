@@ -69,6 +69,17 @@ namespace Gemini.EMRS.Lidar
                 cmd.SetGlobalMatrix("_CameraViewProjMatrix", vp);
                 cmd.SetGlobalVector("_WorldSpaceCameraPos", Vector3.zero);
 
+                // cmd.SetGlobalTexture("depthImages", targetTexture);
+                // cmd.SetRenderTarget(targetTexture, ClearFlag.Depth, CubemapFace.Unknown, i);
+                // RenderTexture _texture = new RenderTexture(targetTexture.width, targetTexture.height, 0, RenderTextureFormat.ARGB32);
+                // _texture.dimension = UnityEngine.Rendering.TextureDimension.Tex2DArray;
+                // _texture.volumeDepth = 4;
+
+                // cmd.SetGlobalTexture("colorImages", _texture);
+
+
+                //cmd.SetRenderTarget(_texture, targetTexture, 0, CubemapFace.Unknown, i);
+                // cmd.SetTargetTexture(cmd, "depthImage" + i, targetTexture);
                 CoreUtils.SetRenderTarget(cmd, targetTexture, ClearFlag.Depth);
                 HDUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
             }

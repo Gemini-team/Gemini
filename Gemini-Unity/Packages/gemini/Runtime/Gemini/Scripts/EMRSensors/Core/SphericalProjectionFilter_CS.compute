@@ -38,8 +38,10 @@ void projectionFilterKernel(uint id : SV_DispatchThreadID)
 
 	float4 bar_Q_i = mul(CameraMatrix, Q_v); // un-normalized clip space, right handed
 	float3 Q_i = bar_Q_i.xyz / bar_Q_i.w;    // OpenGL normalized clip space: right handed [right, up, depth]
-	float x_d = 0.5*(1 + Q_i.x)*float(N_W);  // scale into pixel coords
-	float y_d = 0.5*(1 + Q_i.y)*float(N_H);  // --"--
+	float x_d = 0.5*(1 + Q_i.x)*float(N_W-1);  // scale into pixel coords
+	float y_d = 0.5*(1 + Q_i.y)*float(N_H-1);  // --"--
+
+	
 
 	// Output
 
