@@ -109,20 +109,9 @@ namespace Gemini.EMRS.Core.ZBuffer
             {
                 Quaternion angle = Quaternion.Euler(0, i * 360.0f / cameras.Length, 0);
                 RotationMatrices[i] = Matrix4x4.Rotate(angle);
-
-                //Debug.Log("Camera depth texture set for: " + i.ToString());
-
-                // shader.SetTexture(kernelHandle, "depthImage" + i.ToString(), cameras[i].targetTexture);
-
-
-                
             }
-            // shader.SetTexture(kernelHandle, "DepthImages", cameras[0].targetTexture);
-            // this constitutes a problem, as every camera wants to render into this one
             shader.SetTexture(kernelHandle, "depthImages", cameras[0].targetTexture);
-            // or try shader.SetTexture(kernelHandle, "depthImages", depthTextures, 0, RenderTextureSubElement.Depth);
             shader.SetMatrixArray("CameraRotationMatrices", RotationMatrices);
         }
-
     }
 }

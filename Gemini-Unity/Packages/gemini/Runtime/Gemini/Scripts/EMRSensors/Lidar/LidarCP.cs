@@ -11,11 +11,6 @@ namespace Gemini.EMRS.Lidar
         private Camera[] cameras;
         private ShaderTagId[] shaderTags;
 
-        //public Texture2d someTexture1;
-        //public Texture2d someTexture2;
-        //public Texture2d someTexture3;
-        //public Texture2d someTexture4;
-
         protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
         {
             shaderTags = new ShaderTagId[2]{
@@ -71,24 +66,8 @@ namespace Gemini.EMRS.Lidar
                 cmd.SetGlobalMatrix("_CameraViewProjMatrix", vp);
                 cmd.SetGlobalVector("_WorldSpaceCameraPos", Vector3.zero);
 
-                // cmd.SetGlobalTexture("depthImages", targetTexture);
-                // cmd.SetRenderTarget(targetTexture, ClearFlag.Depth, CubemapFace.Unknown, i);
-                // RenderTexture _texture = new RenderTexture(targetTexture.width, targetTexture.height, 0, RenderTextureFormat.ARGB32);
-                // _texture.dimension = UnityEngine.Rendering.TextureDimension.Tex2DArray;
-                // _texture.volumeDepth = 4;
-
-                // cmd.SetGlobalTexture("colorImages", _texture);
-
-
-                // cmd.SetRenderTarget(_texture, targetTexture, 0, CubemapFace.Unknown, i);
-                // cmd.SetTargetTexture(cmd, "depthImage" + i, targetTexture);
-                // CoreUtils.SetRenderTarget(cmd, targetTexture, ClearFlag.Depth);
-
-                // this one seems to set the targettexture, but sets the same texture for every camera
-                //RenderTexture currentActiveRT = RenderTexture.active;
                 cmd.SetRenderTarget(targetTexture, 0, CubemapFace.Unknown, i);
                 HDUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
-                //RenderTexture.active = currentActiveRT;
                 
             }
         }
