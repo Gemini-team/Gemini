@@ -11,9 +11,6 @@
 UNITY_DECLARE_TEX2DARRAY(depthImages);
 // Texture2DArray<float> depthImages;
 
-
-
-
 //  Texture2D<float4> depthImage0;
 //  Texture2D<float4> depthImage1;
 //  Texture2D<float4> depthImage2;
@@ -93,10 +90,19 @@ float3 ImagesToCartesian(uint2 TexCoord) {
 
 	uint n_camera = TexCoord.x / ImageWidthRes;
 	TexCoord.x = TexCoord.x % ImageWidthRes;
+
+	// convert to UV
+	float W = float(ImageWidthRes);
+	float H = float(ImageHeightRes);
+
+	float3 UVWCoord = float3(TexCoord.x/W, TexCoord.y/H, n_camera);
+
 	// float depthData = depthImages[uint3(TexCoord.x, TexCoord.y, n_camera)];
-	// float depthData = UNITY_SAMPLE_TEX2DARRAY(depthImages, float3(TexCoord.xy, n_camera));
-	float depthData = UNITY_SAMPLE_TEX2DARRAY(depthImages, uint3(TexCoord.xy, n_camera)).x;
-	// depthImages[float3(TexCoord.x, TexCoord.y, n_camera)].x = 0;
+	float depthData = UNITY_SAMPLE_TEX2DARRAY_LOD(depthImages, UVWCoord, 0).x;
+	
+
+	//this seems to be outputting all 1s 
+
 	return ImageToCartesian(depthData, TexCoord, n_camera);
 
 	// if (n_camera == 0) {

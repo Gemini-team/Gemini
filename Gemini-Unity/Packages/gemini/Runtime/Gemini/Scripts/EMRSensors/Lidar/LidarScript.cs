@@ -43,8 +43,6 @@ namespace Gemini.EMRS.Lidar
         [ReadOnly, SerializeField] private int FrustumWidthRes = -1;
         [ReadOnly, SerializeField] private int FrustumHeightRes = -1;
 
-        public Texture2DArray myTexture;
-
 
         [Space]
         [Header("Sensor Output")]
@@ -104,7 +102,6 @@ namespace Gemini.EMRS.Lidar
             NumberOfDepthPixels = (uint)FrustumWidthRes * (uint)FrustumHeightRes * (uint)NrOfCameras;
             numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
 
-            myTexture = new Texture2DArray(FrustumWidthRes, FrustumHeightRes, NrOfCameras, TextureFormat.R16, false);
 
             // Settup Game objects
 
@@ -156,7 +153,6 @@ namespace Gemini.EMRS.Lidar
         {
             lidarShader.SetFloat("rayDropProbability", rayDropProbability);
             lidarShader.Dispatch(kernelHandle, (int)Mathf.Ceil((float)NrOfCameras * (float)NrOfLasers * (float)LidarHorisontalRes / 1024.0f), 1, 1);
-            Graphics.CopyTexture(depthCameras.depthTextures, 0, 0, myTexture, 0, 0);
         }
 
         void PointCloudRendering(ScriptableRenderContext context, Camera[] cameras)

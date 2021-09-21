@@ -18,8 +18,6 @@ namespace Gemini.EMRS.Core.ZBuffer
         private CameraFrustum frustums;
         public Camera[] cameras;
 
-        public Texture2DArray depthTextures;
-
         public DepthCameras(int cameraNumbers, CameraFrustum cameraFrustums, Transform transform)
         {
             frustums = cameraFrustums;
@@ -46,9 +44,6 @@ namespace Gemini.EMRS.Core.ZBuffer
             // // depthBuffer.generateMips = false;
             depthBuffer.dimension = TextureDimension.Tex2DArray;
             depthBuffer.volumeDepth = 4;
-
-            depthTextures = new Texture2DArray(frustums._pixelWidth, frustums._pixelHeight, 4, TextureFormat.RGBA32, false, true);
-            depthTextures.filterMode = FilterMode.Point;
             // depthTextures.useMipMap = false;
             // depthTextures.anisoLevel = 0;
 
@@ -124,7 +119,7 @@ namespace Gemini.EMRS.Core.ZBuffer
             }
             // shader.SetTexture(kernelHandle, "DepthImages", cameras[0].targetTexture);
             // this constitutes a problem, as every camera wants to render into this one
-            shader.SetTexture(kernelHandle, "depthImages", depthTextures);
+            shader.SetTexture(kernelHandle, "depthImages", cameras[0].targetTexture);
             // or try shader.SetTexture(kernelHandle, "depthImages", depthTextures, 0, RenderTextureSubElement.Depth);
             shader.SetMatrixArray("CameraRotationMatrices", RotationMatrices);
         }
