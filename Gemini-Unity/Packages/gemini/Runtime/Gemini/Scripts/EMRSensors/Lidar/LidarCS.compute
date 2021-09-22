@@ -28,9 +28,8 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 {
 	int cameraID = id.x / (N_theta*N_phi);
 	uint2 coord = sphericalPixelCoordinates[id.x % (N_theta*N_phi)];
-	coord.x += ImageWidthRes * cameraID;
 
-	float3 pixelCoordinates = ImagesToCartesian(coord); // output in the left handed [right, up, forward] unity frame
+	float3 pixelCoordinates = ImageToCartesian(coord, cameraID); // output in the left handed [right, up, forward] unity frame
 
 	// FIXME this is dreadful... This is an ad hoc removal of points above 3m in height, in the local lidar frame..
 	// this made sense for removing points at the ocean surface for the upside down (3m above sea level) lidars on mA2

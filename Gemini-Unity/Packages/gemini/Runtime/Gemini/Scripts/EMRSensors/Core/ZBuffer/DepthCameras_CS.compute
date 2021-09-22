@@ -1,6 +1,4 @@
 ﻿#pragma require 2darray
-#pragma require setrtarrayindexfromanyshader
-#pragma require uav
 
 #include "UnityCG.cginc"
 #include "UnityShaderVariables.cginc"
@@ -16,22 +14,24 @@ uint ImageHeightRes;
 int NrOfImages;
 
 // https://stackoverflow.com/questions/32227283/getting-world-position-from-depth-buffer-value
-float3 ImageToCartesian(float depthData, uint2 TexCoord, uint cam_index) {
+float3 ImageToCartesian(uint2 TexCoord, uint CameraId) {
 
-	//float depth = depthImage[TexCoord.xy].x;
-	float depth = depthData;
+	//index by UVZ
+	float3 UVWCoord = float3(TexCoord.x/float(ImageWidthRes), TexCoord.y/float(ImageHeightRes), CameraId);
+	// need explicit mipmap level of 0 here, as d3d11 tries to to some gradient stuff without it
+	float depth = UNITY_SAMPLE_TEX2DARRAY_LOD(depthImages, UVWCoord, 0).x; 
+
 	float W = float(ImageWidthRes);
 	float H = float(ImageHeightRes);
-
 
 	// from Unity image frame to OpenGL clip space
 	float x = 2 * TexCoord.x / W - 1;
 	float y = 2 * TexCoord.y / H - 1;
 	float z = (1 - depth) * 2.0 - 1.0;
 
-	// if depth == 0  (i.e. at far plane) -> set z to 0
+	// force dead points (no objects within far plane) to have reflections at near plane
 	if ((1 - depth) == 1) {
-		z = -1; // HACK what purpose does it serve to set z to zero? 
+		z = -1; 
 	}
 
 	float4 clipSpacePosition = float4(x, y, z, 1.0);
@@ -42,20 +42,7 @@ float3 ImageToCartesian(float depthData, uint2 TexCoord, uint cam_index) {
 	viewSpacePosition /= viewSpacePosition.w;
 	viewSpacePosition.z *= -1; // convert from right handed [right, up, backward] to left handed [right, up, forward]
 
-	float4 bodySpacePosition = mul(CameraRotationMatrices[cam_index], viewSpacePosition); // rotation matrix provided by Unity (in left handed land) 
+	float4 bodySpacePosition = mul(CameraRotationMatrices[CameraId], viewSpacePosition); // rotation matrix provided by Unity (in left handed land) 
 
 	return bodySpacePosition.xyz;
-}
-
-float3 ImagesToCartesian(uint2 TexCoord) {
-
-	uint n_camera = TexCoord.x / ImageWidthRes;
-	TexCoord.x = TexCoord.x % ImageWidthRes;
-
-	float3 UVWCoord = float3(TexCoord.x/float(ImageWidthRes), TexCoord.y/float(ImageHeightRes), n_camera); //index by UVZ
-
-	float depthData = UNITY_SAMPLE_TEX2DARRAY_LOD(depthImages, UVWCoord, 0).x;
-
-	return ImageToCartesian(depthData, TexCoord, n_camera);
-
 }
