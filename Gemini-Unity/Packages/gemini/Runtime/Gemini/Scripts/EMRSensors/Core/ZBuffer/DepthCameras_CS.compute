@@ -18,7 +18,7 @@ float3 ImageToCartesian(uint2 TexCoord, uint CameraId) {
 
 	//index by UVZ
 	float3 UVWCoord = float3(TexCoord.x/float(ImageWidthRes), TexCoord.y/float(ImageHeightRes), CameraId);
-	// need explicit mipmap level of 0 here, as d3d11 tries to to some gradient stuff without it
+	// need explicit mipmap level of 0 here, as d3d11 tries to do some gradient stuff without it
 	float depth = UNITY_SAMPLE_TEX2DARRAY_LOD(depthImages, UVWCoord, 0).x; 
 
 	float W = float(ImageWidthRes);
@@ -29,7 +29,7 @@ float3 ImageToCartesian(uint2 TexCoord, uint CameraId) {
 	float y = 2 * TexCoord.y / H - 1;
 	float z = (1 - depth) * 2.0 - 1.0;
 
-	// force dead points (no objects within far plane) to have reflections at near plane
+	// place dead points (no objects within far plane) at near plane
 	if ((1 - depth) == 1) {
 		z = -1; 
 	}

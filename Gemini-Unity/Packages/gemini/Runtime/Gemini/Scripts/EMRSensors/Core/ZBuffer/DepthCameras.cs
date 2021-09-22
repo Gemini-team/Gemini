@@ -37,15 +37,11 @@ namespace Gemini.EMRS.Core.ZBuffer
             RenderTextureFormat format = RenderTextureFormat.Depth;
             Camera[] Cameras = new Camera[numbers];
 
-            // just lets the camera know that it is supposed to render into a textureArray
             var depthBuffer = new RenderTexture(frustums._pixelWidth, frustums._pixelHeight, 0, format);
             depthBuffer.useMipMap = false;
             depthBuffer.filterMode = FilterMode.Point;
-            // // depthBuffer.generateMips = false;
             depthBuffer.dimension = TextureDimension.Tex2DArray;
             depthBuffer.volumeDepth = 4;
-            // depthTextures.useMipMap = false;
-            // depthTextures.anisoLevel = 0;
 
             for (int i = 0; i < numbers; i++)
             {

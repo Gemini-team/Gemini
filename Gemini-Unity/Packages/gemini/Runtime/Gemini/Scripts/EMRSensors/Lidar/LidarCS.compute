@@ -49,15 +49,12 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 		pixelCoordinates = float3(0, 0, 0);
 	}
 
-	if (id.x <= N_phi * N_theta*NrOfImages) {
-		
-		// This is the output shown in Unity	
-		lines[id.x] = pixelCoordinates; // left handed: [right, up, forward]
+	// This is the output shown in Unity	
+	lines[id.x] = pixelCoordinates; // left handed: [right, up, forward]
 
-		// Transform to the LiDAR specific coordinate system
-		LidarData[id.x].position = float3(pixelCoordinates.z, -pixelCoordinates.x, pixelCoordinates.y); // right handed: [forward, left, up] frame
-		LidarData[id.x].intensity = 6;
-		LidarData[id.x].ring = int(N_phi*(float(coord.y)/float(ImageHeightRes))) ;
-		LidarData[id.x].time = 1.0;
-	}
+	// Transform to the LiDAR specific coordinate system
+	LidarData[id.x].position = float3(pixelCoordinates.z, -pixelCoordinates.x, pixelCoordinates.y); // right handed: [forward, left, up] frame
+	LidarData[id.x].intensity = 6;
+	LidarData[id.x].ring = int(N_phi*(float(coord.y)/float(ImageHeightRes))) ;
+	LidarData[id.x].time = 1.0;
 }
