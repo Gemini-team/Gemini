@@ -71,11 +71,7 @@ float3 ImageToCartesian(float4x4 projMatrixInv, float4x4 rotationMatrix, Texture
 	float W = float(ImageWidthRes);
 	float H = float(ImageHeightRes);
 
-	// To hinder drawing points at far plane
 	float z = (1 - depth) * 2.0 - 1.0;
-	//if ((1 - depth) == 1) {
-		//z = 0;
-	//}
 
 	// OpenGL clipspace convention
 
@@ -250,7 +246,6 @@ void RadarDataKernel(uint id : SV_GroupThreadID) {
 	uint thirdByte = 0;
 	uint fourthByte = 0;
 	for (int range = 0; range < radarResolution; range += 4) {
-		//spokeData[id*radarResolution + range] = uint(15 * RadarSpokesFloat[id*radarResolution + range] / normalization);
 		firstByte = uint(15 * RadarSpokesFloat[id*radarResolution + range + 0] / normalization);
 		secondByte = uint(15 * RadarSpokesFloat[id*radarResolution + range + 1] / normalization);
 		thirdByte = uint(15 * RadarSpokesFloat[id*radarResolution + range + 2] / normalization);

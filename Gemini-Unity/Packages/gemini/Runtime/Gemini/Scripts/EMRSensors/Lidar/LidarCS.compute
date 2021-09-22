@@ -18,7 +18,6 @@ struct lidarFields
 RWStructuredBuffer<float3> lines;
 RWStructuredBuffer<lidarFields> LidarData;
 RWStructuredBuffer<uint2> sphericalPixelCoordinates;
-//RWStructuredBuffer<float> Debug_vector_main;
 int N_theta;
 int N_phi;
 float rayDropProbability;
@@ -31,9 +30,16 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 
 	float3 pixelCoordinates = ImageToCartesian(coord, cameraID); // output in the left handed [right, up, forward] unity frame
 
-	// FIXME this is dreadful... This is an ad hoc removal of points above 3m in height, in the local lidar frame..
-	// this made sense for removing points at the ocean surface for the upside down (3m above sea level) lidars on mA2
-	// HOWEVER, we have no business trying to landmask (or watermask hah) points in the local lidar frame
+	// TODO: The following remove points if statements needs to be cleaned up 
+	// when implementing Stencil buffer filtering
+	/*
+	// Remove points at ocean surface
+	if (pixelCoordinates.y < -3.00) {
+		pixelCoordinates = float3(0,0,0);
+	}
+	*/
+
+	// Remove points at ocean surface
 	if (pixelCoordinates.y > 3.00) {
 		pixelCoordinates = float3(0, 0, 0);
 	}
@@ -44,9 +50,10 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 	}
 
 	if (id.x <= N_phi * N_theta*NrOfImages) {
+		
 		// This is the output shown in Unity	
 		lines[id.x] = pixelCoordinates; // left handed: [right, up, forward]
-		// This will be used for sending of pointclouds
+
 		// Transform to the LiDAR specific coordinate system
 		LidarData[id.x].position = float3(pixelCoordinates.z, -pixelCoordinates.x, pixelCoordinates.y); // right handed: [forward, left, up] frame
 		LidarData[id.x].intensity = 6;

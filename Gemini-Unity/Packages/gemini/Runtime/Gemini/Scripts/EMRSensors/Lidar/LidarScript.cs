@@ -197,20 +197,10 @@ namespace Gemini.EMRS.Lidar
             lidarDataByte.AsynchUpdate(request);
             message = new LidarMessage(LidarHorisontalRes * NrOfLasers * NrOfCameras, OSPtime, lidarDataByte.array);
             gate = true;
-
-
-            /*
-            var stringarray = System.BitConverter.ToSingle(lidarDataByte.array, lidarDataByte.array.Length - 12);
-            Debug.Log("x in bytes: " + stringarray.ToString());
-            Debug.Log("CPU is little endian: " + System.BitConverter.IsLittleEndian.ToString());
-            */
         }
 
-        // Memo: hadde lønnt seg å lage en konstruktor for dette i den autogenererte koden
         public override bool SendMessage()
         {
-            //Debug.Log("Lidar message time: " + message.timeInSeconds.ToString());
-
             LidarStreamingRequest lidarStreamingRequest = new LidarStreamingRequest();
 
             lidarStreamingRequest.TimeInSeconds = message.timeInSeconds;
@@ -256,7 +246,5 @@ namespace Gemini.EMRS.Lidar
 
             return success;
         }
-
     }
-
 }

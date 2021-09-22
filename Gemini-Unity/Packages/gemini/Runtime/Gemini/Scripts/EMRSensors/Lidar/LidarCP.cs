@@ -42,14 +42,7 @@ namespace Gemini.EMRS.Lidar
                 };
 
                 Matrix4x4 cameraProjMatrix = cameras[0].projectionMatrix;
-                //cameraProjMatrix.m22 *= -1;
-                //cameraProjMatrix.m23 *= -1;
-                //cameraProjMatrix.m32 *= -1;
-                //bakingCamera.projectionMatrix = cameraProjMatrix;
-                //var p = cameraProjMatrix;
                 var p = GL.GetGPUProjectionMatrix(cameraProjMatrix, true);
-                //Debug.Log(p);
-                //Debug.Log(cameraProjMatrix);
 
                 Matrix4x4 scaleMatrix = Matrix4x4.identity;
                 scaleMatrix.m22 = -1.0f; // flip z component
