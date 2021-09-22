@@ -113,6 +113,13 @@ namespace Gemini.EMRS.Lidar
             depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
             lidarCameras = depthCameras.cameras;
 
+
+            float minHorizRes = LidarTolerances.minHorizRes(0.01f, frustum, 24);
+            Debug.Log("Minimal horiz res: " + minHorizRes);
+
+            float minTol = LidarTolerances.minAchieveableTol(frustum, 24);
+            Debug.Log("Minimal achieveable tol: " + minTol);
+
             projectionFilter = GetComponent<SphericalProjectionFilter>();
             projectionFilter.SetupSphericalProjectionFilter(LidarHorisontalRes, NrOfLasers, frustum);
             pixelCoordinatesBuffer = projectionFilter.filterCoordinates.buffer;
