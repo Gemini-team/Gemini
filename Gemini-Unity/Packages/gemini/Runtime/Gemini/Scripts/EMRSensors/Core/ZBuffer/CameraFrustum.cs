@@ -39,19 +39,19 @@ namespace Gemini.EMRS.Core.ZBuffer
             _cameraMatrix = MakeCameraMatrix(_aspectRatio, _verticalAngle, farPlane, nearPlane);
         }
 
-        public CameraFrustum(int WidthRes, int HeightRes, float farPlane, float nearPlane, float horisontalAngle, float verticalAngle, float lidarVerticalAngle)
+        public CameraFrustum(int WidthRes, float farPlane, float nearPlane, float horisontalAngle, float lidarVerticalAngle)
         {
             _horisontalAngle = horisontalAngle;
-            _verticalAngle = verticalAngle;
+            _verticalAngle = 2f * Mathf.Atan(Mathf.Tan(lidarVerticalAngle / 2f) / Mathf.Cos(horisontalAngle / 2f));
             _verticalSideAngles = lidarVerticalAngle;
 
             _farPlane = farPlane;
             _nearPlane = nearPlane;
 
-            _pixelHeight = HeightRes;
-            _pixelWidth = WidthRes;
-
             _aspectRatio = Mathf.Tan(_horisontalAngle / 2) / Mathf.Tan(_verticalAngle / 2);
+
+            _pixelHeight = (int)Mathf.Ceil((float)WidthRes / _aspectRatio);
+            _pixelWidth = WidthRes;
 
             _cameraMatrix = new Matrix4x4();
             _cameraMatrix = MakeCameraMatrix(_aspectRatio, _verticalAngle, farPlane, nearPlane);
