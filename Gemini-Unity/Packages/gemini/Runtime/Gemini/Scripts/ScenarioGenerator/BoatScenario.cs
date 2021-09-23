@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Gemini.Misc.Util;
 
 namespace Gemini.EMRS.ScenarioGenerator
 {
