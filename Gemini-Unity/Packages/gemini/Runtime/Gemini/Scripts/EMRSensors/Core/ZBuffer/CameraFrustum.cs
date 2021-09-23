@@ -23,6 +23,20 @@ namespace Gemini.EMRS.Core.ZBuffer
         public float _verticalSideAngles { get; }
         public Matrix4x4 _cameraMatrix { get; }
 
+        /* 
+            Note that the frustum is a projected square, by extension its effective 
+            V_FOV is dependent on which horizontal angle you're looking at.
+
+            E.g. at the center of a frustum, the effective V_FOV is equal to the
+            frustum V_FOV, while it gets smaller towards the edges.
+
+            In order to correct for this, we need to set a larger frustum V_FOV such that
+            the effective V_FOV at the intersections between frustums (i.e. angle from center equal to H_FOV/2)
+            is equal to the configured lidar V_FOV. This correction is found as: 
+            tan(CORRECTED_FRUSTUM_V_FOV/2) = tan(LIDAR_V_FOV/2)/cos(H_FOV/2).
+            TODO ref to page in Kjetils thesis
+        */
+
         public CameraFrustum(int pixelWidth, int pixelHeight, float farPlane, float nearPlane, float focalLengthMilliMeters, float pixelSizeInMicroMeters)
         {
             _pixelWidth = pixelWidth;
