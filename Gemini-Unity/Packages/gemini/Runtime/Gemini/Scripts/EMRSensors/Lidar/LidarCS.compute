@@ -28,7 +28,8 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 	int cameraID = id.x / (N_theta*N_phi);
 	uint2 coord = sphericalPixelCoordinates[id.x % (N_theta*N_phi)];
 
-	float3 pixelCoordinates = ImageToCartesian(coord, cameraID); // output in the left handed [right, up, forward] unity frame
+	// output in the left handed [right, up, forward] unity frame
+	float3 pixelCoordinates = ImageToCartesian(coord, cameraID);
 
 	// TODO: The following remove points if statements needs to be cleaned up 
 	// when implementing Stencil buffer filtering
@@ -49,11 +50,13 @@ void CSMain(uint3 id : SV_DispatchThreadID)
 		pixelCoordinates = float3(0, 0, 0);
 	}
 
-	// This is the output shown in Unity	
-	lines[id.x] = pixelCoordinates; // left handed: [right, up, forward]
+	// This is the output shown in Unity
+	// left handed: [right, up, forward]	
+	lines[id.x] = pixelCoordinates; 
 
 	// Transform to the LiDAR specific coordinate system
-	LidarData[id.x].position = float3(pixelCoordinates.z, -pixelCoordinates.x, pixelCoordinates.y); // right handed: [forward, left, up] frame
+	// right handed: [forward, left, up] frame
+	LidarData[id.x].position = float3(pixelCoordinates.z, -pixelCoordinates.x, pixelCoordinates.y); 
 	LidarData[id.x].intensity = 6;
 	LidarData[id.x].ring = int(N_phi*(float(coord.y)/float(ImageHeightRes))) ;
 	LidarData[id.x].time = 1.0;
