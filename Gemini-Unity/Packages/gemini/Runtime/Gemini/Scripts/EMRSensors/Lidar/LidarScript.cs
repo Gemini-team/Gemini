@@ -47,7 +47,6 @@ namespace Gemini.EMRS.Lidar
         [Space]
         [Header("Sensor Output")]
         public string FrameId;
-        [ReadOnly, SerializeField] private uint NumberOfDepthPixels = 0;
         [ReadOnly, SerializeField] private uint numberOfLidarPoints = 0;
 
         public uint NumberOfLidarPoints
@@ -82,18 +81,7 @@ namespace Gemini.EMRS.Lidar
 
             // Setting User information
 
-            /* 
-                Note that the frustum is a projected square, by extension its effective 
-                V_FOV is dependent on which horizontal angle you're looking at.
 
-                E.g. at the center of a frustum, the effective V_FOV is equal to the
-                frustum V_FOV, while it gets smaller towards the edges.
-
-                In order to correct for this, we need to set a larger frustum V_FOV such that
-                the effective V_FOV at the intersections between frustums (i.e. angle from center equal to H_FOV/2)
-                is equal to the configured lidar V_FOV. This correction is found as: 
-                tan(CORRECTED_FRUSTUM_V_FOV/2) = tan(LIDAR_V_FOV/2)/cos(H_FOV/2)
-            */
 
             // Setup depth cameras
 
@@ -102,6 +90,9 @@ namespace Gemini.EMRS.Lidar
             var frustum = new CameraFrustum(1000, MaxDistance, MinDistance,
                 2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
+
+
+            // TODO move to lidarTolerance
             float minTol = LidarTolerances.minAchieveableTol(frustum, 24);
             float minTolPadding = 1.5f;
             float paddedMinTol = minTol * minTolPadding;
@@ -143,7 +134,6 @@ namespace Gemini.EMRS.Lidar
 
             Debug.Log("Frustum res: " + frustum._pixelWidth.ToString() + " x " + frustum._pixelHeight.ToString());
 
-            NumberOfDepthPixels = (uint)frustum._pixelWidth * (uint)frustum._pixelHeight * (uint)NrOfCameras;
             numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes;
             depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
             lidarCameras = depthCameras.cameras;
