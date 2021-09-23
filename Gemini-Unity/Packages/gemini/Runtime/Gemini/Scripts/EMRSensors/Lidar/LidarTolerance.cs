@@ -22,6 +22,10 @@ namespace Gemini.EMRS.Lidar
             return Mathf.Abs(-1f * pos.z / (C_1 + pos.z)) * errorVec.magnitude;
         }
 
+        // Kjetil claims in his thesis that the worst case error is at this point,
+        // i.e. the the far, bottom left corner of a frustum.
+        // Given the symmetric nature of the frustum and the clip space coordinates
+        // I would expect any of the far corners to produce the same error 
         private static Vector3 worstCasePos(CameraFrustum frustum)
         {
             return new Vector3(frustum._farPlane * Mathf.Tan(frustum._horisontalAngle / 2f), frustum._farPlane * Mathf.Tan(frustum._verticalSideAngles / 2f), frustum._farPlane) * (-1.0f);
@@ -53,6 +57,8 @@ namespace Gemini.EMRS.Lidar
             return Mathf.Ceil(frustum._aspectRatio * minVerticalRes);
         }
 
+        // Note that this is a theoretical best-case for INFINITE camera resolution,
+        // and is included mostly to have some sane bound for tolerance.
         public static float minAchieveableTol(CameraFrustum frustum, uint depthBufferSizeInBits)
         {
             // formulate as an equation of A*(C_2)^2 + B*C_2 + C = 0
