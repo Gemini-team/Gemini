@@ -7,6 +7,7 @@ using Gemini.EMRS.PointCloud;
 
 namespace Gemini.EMRS.Lidar
 {
+    // TODO move to depthcameras/zbuffer for general use
     static public class LidarTolerances
     {
         // pos is in a right handed [right, up, backwards] frame
