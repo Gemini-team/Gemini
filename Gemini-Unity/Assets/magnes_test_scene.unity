@@ -726,7 +726,7 @@ PrefabInstance:
     - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
         type: 3}
       propertyPath: ErrorTolerance
-      value: 0.012
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
         type: 3}
