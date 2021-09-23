@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 261.89966, g: 324.45435, b: 429.4328, a: 1}
+  m_IndirectSpecularColor: {r: 262.3371, g: 325.05005, b: 430.21954, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -722,6 +722,16 @@ PrefabInstance:
         type: 3}
       propertyPath: VerticalAngle
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
+        type: 3}
+      propertyPath: ErrorTolerance
+      value: 0.012
+      objectReference: {fileID: 0}
+    - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
+        type: 3}
+      propertyPath: LidarHorisontalRes
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
         type: 3}

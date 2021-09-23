@@ -19,33 +19,34 @@ namespace Gemini.EMRS.Lidar
     public class LidarScript : Sensor
     {
         public ComputeShader lidarShader;
-        [Range(3, 5)] public int NrOfCameras = 4;
 
         [Space]
         [Header("Lidar Parameters")]
-        public string FrameId;
-        public int FullRotationWidthRes = 32768;
-
-        public DepthCameras.BufferPrecision DepthBufferPrecision = DepthCameras.BufferPrecision.bit24;
-
-        public int LidarHorisontalRes = 1024;
+        public int LidarHorisontalRes = 2048; // full rotation res..
         public int NrOfLasers = 16;
-        [Range(0.0f, 1f)] public float rayDropProbability = 0.1f;
+        [Range(0.012f, 1f)] public float ErrorTolerance = 0.02f;
         [Range(0.01f, 2f)] public float MinDistance = 0.1F;
         [Range(5f, 1000f)] public float MaxDistance = 100F;
         [Range(5.0f, 90f)] public float VerticalAngle = 30f;
+        [Range(0.0f, 1f)] public float rayDropProbability = 0.1f;
 
+
+        // [Space]
+        // [Header("Calculated parameters")]
+        // [ReadOnly, SerializeField] private float FrustumVerticalAngle = -1;
+        // [ReadOnly, SerializeField] private float FrustumHorizontalAngle = -1;
+        // [ReadOnly, SerializeField] private int FrustumWidthRes = -1;
+        // [ReadOnly, SerializeField] private int FrustumHeightRes = -1;
 
         [Space]
-        [Header("Calculated parameters")]
-        [ReadOnly, SerializeField] private float FrustumVerticalAngle = -1;
-        [ReadOnly, SerializeField] private float FrustumHorizontalAngle = -1;
-        [ReadOnly, SerializeField] private int FrustumWidthRes = -1;
-        [ReadOnly, SerializeField] private int FrustumHeightRes = -1;
+        [Header("Camera Parameters")]
+        public DepthCameras.BufferPrecision DepthBufferPrecision = DepthCameras.BufferPrecision.bit24;
+        [Range(3, 5)] public int NrOfCameras = 4;
 
 
         [Space]
         [Header("Sensor Output")]
+        public string FrameId;
         [ReadOnly, SerializeField] private uint NumberOfDepthPixels = 0;
         [ReadOnly, SerializeField] private uint numberOfLidarPoints = 0;
 
@@ -93,35 +94,69 @@ namespace Gemini.EMRS.Lidar
                 is equal to the configured lidar V_FOV. This correction is found as: 
                 tan(CORRECTED_FRUSTUM_V_FOV/2) = tan(LIDAR_V_FOV/2)/cos(H_FOV/2)
             */
-            FrustumWidthRes = FullRotationWidthRes / NrOfCameras;
-            FrustumHeightRes = (int)(FrustumWidthRes * Mathf.Tan(VerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Sin(Mathf.PI / NrOfCameras));
 
-            FrustumVerticalAngle = Mathf.Rad2Deg * 2 * Mathf.Atan(Mathf.Tan(VerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Cos(Mathf.PI / NrOfCameras));
-            FrustumHorizontalAngle = Mathf.Rad2Deg * 2 * Mathf.PI / NrOfCameras;
+            // Setup depth cameras
 
-            NumberOfDepthPixels = (uint)FrustumWidthRes * (uint)FrustumHeightRes * (uint)NrOfCameras;
-            numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
+            // Placeholder horizontal res of 1000, is replaced by 
+            // resolution determined by configured ErrorTolerance. 
+            var frustum = new CameraFrustum(1000, MaxDistance, MinDistance,
+                2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
+            float minTol = LidarTolerances.minAchieveableTol(frustum, 24);
+            float minTolPadding = 1.5f;
+            float paddedMinTol = minTol * minTolPadding;
 
-            // Settup Game objects
+            if (ErrorTolerance < paddedMinTol)
+            {
+                Debug.LogError("Configured lidar tolerance: " + ErrorTolerance.ToString() +
+                    " is set below minimal allowed tolerance: " + paddedMinTol.ToString() + ".\n" +
+                    "This tolerance is set as the theoretical tolerance for infinite resolution: "
+                     + minTol.ToString() + " scaled by " + minTolPadding.ToString()
+                );
+                // FIXME throw some exception here...
+                Application.Quit();
+            }
+
+            uint depthBits = 24;
+            switch (DepthBufferPrecision)
+            {
+                case DepthCameras.BufferPrecision.bit16:
+                    depthBits = 16;
+                    break;
+                case DepthCameras.BufferPrecision.bit24:
+                    depthBits = 24;
+                    break;
+                case DepthCameras.BufferPrecision.bit32:
+                    depthBits = 32;
+                    break;
+                default:
+                    // FIXME throw some exception here
+                    Debug.LogError("LidarScript: No suitable mapping for DepthBufferPrecision found.");
+                    Application.Quit();
+                    break;
+            }
+
+            float requiredWidthRes = LidarTolerances.minHorizRes(ErrorTolerance, frustum, depthBits);
+
+            frustum = new CameraFrustum((int)requiredWidthRes, MaxDistance, MinDistance,
+                2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
+
+            Debug.Log("Frustum res: " + frustum._pixelWidth.ToString() + " x " + frustum._pixelHeight.ToString());
+
+            NumberOfDepthPixels = (uint)frustum._pixelWidth * (uint)frustum._pixelHeight * (uint)NrOfCameras;
+            numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes;
+            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
+            lidarCameras = depthCameras.cameras;
+
+            // Setup Game objects
+
+            int horizontalReflectionsPerCamera = (int)((float)LidarHorisontalRes / NrOfCameras);
 
             pointCloud = GetComponent<PointCloudManager>();
             pointCloud.SetupPointCloud((int)numberOfLidarPoints);
 
-            var frustum = new CameraFrustum(FrustumWidthRes, FrustumHeightRes, MaxDistance, MinDistance, Mathf.Deg2Rad * FrustumHorizontalAngle,
-                                                Mathf.Deg2Rad * FrustumVerticalAngle, Mathf.Deg2Rad * VerticalAngle);
-            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
-            lidarCameras = depthCameras.cameras;
-
-
-            float minHorizRes = LidarTolerances.minHorizRes(0.01f, frustum, 24);
-            Debug.Log("Minimal horiz res: " + minHorizRes);
-
-            float minTol = LidarTolerances.minAchieveableTol(frustum, 24);
-            Debug.Log("Minimal achieveable tol: " + minTol);
-
             projectionFilter = GetComponent<SphericalProjectionFilter>();
-            projectionFilter.SetupSphericalProjectionFilter(LidarHorisontalRes, NrOfLasers, frustum);
+            projectionFilter.SetupSphericalProjectionFilter(horizontalReflectionsPerCamera, NrOfLasers, frustum);
             pixelCoordinatesBuffer = projectionFilter.filterCoordinates.buffer;
 
             // Setting up Compute Buffers
@@ -129,19 +164,19 @@ namespace Gemini.EMRS.Lidar
             kernelHandle = lidarShader.FindKernel("CSMain");
 
             lidarShader.SetBuffer(kernelHandle, "sphericalPixelCoordinates", pixelCoordinatesBuffer);
-            lidarShader.SetInt("N_theta", LidarHorisontalRes);
+            lidarShader.SetInt("N_theta", horizontalReflectionsPerCamera); // horizontal reflections per camera.. 
             lidarShader.SetInt("N_phi", NrOfLasers);
             lidarShader.SetFloat("rayDropProbability", rayDropProbability);
 
-            UnifiedArray<uint> RandomStateVector = new UnifiedArray<uint>(NrOfCameras * NrOfLasers * LidarHorisontalRes, sizeof(float), "_state_xorshift");
+            UnifiedArray<uint> RandomStateVector = new UnifiedArray<uint>(NrOfLasers * LidarHorisontalRes, sizeof(float), "_state_xorshift");
             RandomStateVector.SetBuffer(lidarShader, "CSMain");
             RandomStateVector.SetBuffer(lidarShader, "RNG_Initialize");
             RandomStateVector.SynchUpdate(lidarShader, "RNG_Initialize");
 
-            particleUnifiedArray = new UnifiedArray<Vector3>(NrOfCameras * NrOfLasers * LidarHorisontalRes, sizeof(float) * 3, "lines");
+            particleUnifiedArray = new UnifiedArray<Vector3>(NrOfLasers * LidarHorisontalRes, sizeof(float) * 3, "lines");
             particleUnifiedArray.SetBuffer(lidarShader, "CSMain");
 
-            lidarDataByte = new UnifiedArray<byte>(NrOfCameras * NrOfLasers * LidarHorisontalRes, sizeof(float) * 6, "LidarData");
+            lidarDataByte = new UnifiedArray<byte>(NrOfLasers * LidarHorisontalRes, sizeof(float) * 6, "LidarData");
             lidarDataByte.SetBuffer(lidarShader, "CSMain");
         }
 
