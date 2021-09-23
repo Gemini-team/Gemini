@@ -18,6 +18,8 @@ namespace Gemini.EMRS.Core.ZBuffer
         private CameraFrustum frustums;
         public Camera[] cameras;
 
+        // TODO add a readonly field here with NumberOfDepthPixels
+
         public DepthCameras(int cameraNumbers, CameraFrustum cameraFrustums, Transform transform)
         {
             frustums = cameraFrustums;
@@ -41,7 +43,7 @@ namespace Gemini.EMRS.Core.ZBuffer
             depthBuffer.useMipMap = false;
             depthBuffer.filterMode = FilterMode.Point;
             depthBuffer.dimension = TextureDimension.Tex2DArray;
-            depthBuffer.volumeDepth = 4;
+            depthBuffer.volumeDepth = numbers;
 
             for (int i = 0; i < numbers; i++)
             {
@@ -53,8 +55,6 @@ namespace Gemini.EMRS.Core.ZBuffer
                 //CameraObject.layer = LayerMask.NameToLayer(LidarLayer);
                 CameraObject.AddComponent<Camera>();
                 Camera cam = CameraObject.GetComponent<Camera>();
-
-                //var depthBuffer = new RenderTexture(frustums._pixelWidth, frustums._pixelHeight, 16, format);//,// format);
 
                 if (cam.targetTexture == null)
                 {
