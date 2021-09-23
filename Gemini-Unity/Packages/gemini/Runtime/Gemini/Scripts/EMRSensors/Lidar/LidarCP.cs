@@ -61,7 +61,6 @@ namespace Gemini.EMRS.Lidar
 
                 cmd.SetRenderTarget(targetTexture, 0, CubemapFace.Unknown, i);
                 HDUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
-                
             }
         }
     }
