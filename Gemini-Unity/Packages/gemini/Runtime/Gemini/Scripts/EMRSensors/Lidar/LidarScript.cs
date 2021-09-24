@@ -22,7 +22,7 @@ namespace Gemini.EMRS.Lidar
 
         [Space]
         [Header("Lidar Parameters")]
-        public int LidarHorisontalRes = 2048;
+        public int HorizontalResPerBeam = 2048;
         public int NrOfLasers = 16;
         [Range(0.01f, 1f)] public float ErrorTolerance = 0.02f;
         [Range(0.01f, 2f)] public float MinDistance = 0.1F;
@@ -90,13 +90,13 @@ namespace Gemini.EMRS.Lidar
                 2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
 
-            numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes;
+            numberOfLidarPoints = (uint)NrOfLasers * (uint)HorizontalResPerBeam;
             depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain", DepthBufferPrecision);
             lidarCameras = depthCameras.cameras;
 
             // Setup Game objects
 
-            int horizontalReflectionsPerCamera = (int)((float)LidarHorisontalRes / NrOfCameras);
+            int horizontalReflectionsPerCamera = (int)((float)HorizontalResPerBeam / NrOfCameras);
 
             pointCloud = GetComponent<PointCloudManager>();
             pointCloud.SetupPointCloud((int)numberOfLidarPoints);
@@ -114,15 +114,15 @@ namespace Gemini.EMRS.Lidar
             lidarShader.SetInt("N_phi", NrOfLasers);
             lidarShader.SetFloat("rayDropProbability", rayDropProbability);
 
-            UnifiedArray<uint> RandomStateVector = new UnifiedArray<uint>(NrOfLasers * LidarHorisontalRes, sizeof(float), "_state_xorshift");
+            UnifiedArray<uint> RandomStateVector = new UnifiedArray<uint>(NrOfLasers * HorizontalResPerBeam, sizeof(float), "_state_xorshift");
             RandomStateVector.SetBuffer(lidarShader, "CSMain");
             RandomStateVector.SetBuffer(lidarShader, "RNG_Initialize");
             RandomStateVector.SynchUpdate(lidarShader, "RNG_Initialize");
 
-            particleUnifiedArray = new UnifiedArray<Vector3>(NrOfLasers * LidarHorisontalRes, sizeof(float) * 3, "lines");
+            particleUnifiedArray = new UnifiedArray<Vector3>(NrOfLasers * HorizontalResPerBeam, sizeof(float) * 3, "lines");
             particleUnifiedArray.SetBuffer(lidarShader, "CSMain");
 
-            lidarDataByte = new UnifiedArray<byte>(NrOfLasers * LidarHorisontalRes, sizeof(float) * 6, "LidarData");
+            lidarDataByte = new UnifiedArray<byte>(NrOfLasers * HorizontalResPerBeam, sizeof(float) * 6, "LidarData");
             lidarDataByte.SetBuffer(lidarShader, "CSMain");
         }
 
@@ -140,7 +140,7 @@ namespace Gemini.EMRS.Lidar
         void LidarUpdate(ScriptableRenderContext context, Camera[] cameras)
         {
             lidarShader.SetFloat("rayDropProbability", rayDropProbability);
-            lidarShader.Dispatch(kernelHandle, (int)Mathf.Ceil((float)NrOfCameras * (float)NrOfLasers * (float)LidarHorisontalRes / 1024.0f), 1, 1);
+            lidarShader.Dispatch(kernelHandle, (int)Mathf.Ceil((float)NrOfLasers * (float)HorizontalResPerBeam / 1024.0f), 1, 1);
         }
 
         void PointCloudRendering(ScriptableRenderContext context, Camera[] cameras)
