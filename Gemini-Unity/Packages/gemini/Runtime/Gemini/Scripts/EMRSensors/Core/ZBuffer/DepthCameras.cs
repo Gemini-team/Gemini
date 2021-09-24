@@ -8,19 +8,11 @@ namespace Gemini.EMRS.Core.ZBuffer
 {
     public class DepthCameras
     {
-        // public enum BufferPrecision
-        // {
-        //     bit16,
-        //     bit24,
-        //     bit32
-        // };
-
         private string CameraTag = "DepthCam";
         private CameraFrustum frustums;
         public Camera[] cameras;
         private DepthBits DepthBufferPrecision = DepthBits.Depth24;
-
-        // TODO add a readonly field here with NumberOfDepthPixels
+        private uint TotalNumberOfDepthPixels;
 
         public DepthCameras(int cameraNumbers, CameraFrustum cameraFrustums, Transform transform)
         {
@@ -33,6 +25,7 @@ namespace Gemini.EMRS.Core.ZBuffer
             DepthBufferPrecision = depthBits;
             cameras = SpawnDepthCameras(cameraNumbers, transform);
             SetCameraBuffers(shader, kernelName);
+            TotalNumberOfDepthPixels = (uint)(frustums._pixelWidth * frustums._pixelHeight * cameraNumbers);
         }
 
         private Camera[] SpawnDepthCameras(int numbers, Transform transform)
@@ -45,6 +38,14 @@ namespace Gemini.EMRS.Core.ZBuffer
             depthBuffer.filterMode = FilterMode.Point;
             depthBuffer.dimension = TextureDimension.Tex2DArray;
             depthBuffer.volumeDepth = numbers;
+            depthBuffer.depth = (int)DepthBufferPrecision;
+            if (!(DepthBufferPrecision == DepthBits.Depth16
+                || DepthBufferPrecision == DepthBits.Depth24
+                || DepthBufferPrecision == DepthBits.Depth32))
+            {
+                throw new System.ArgumentException(System.String.Format("{0} is not a valid depth buffer size.",
+                    DepthBufferPrecision), "DepthBufferPrecision");
+            }
 
             for (int i = 0; i < numbers; i++)
             {
@@ -57,22 +58,7 @@ namespace Gemini.EMRS.Core.ZBuffer
                 CameraObject.AddComponent<Camera>();
                 Camera cam = CameraObject.GetComponent<Camera>();
 
-                if (cam.targetTexture == null)
-                {
-                    depthBuffer.depth = (int)DepthBufferPrecision;
-                    if (!(DepthBufferPrecision == DepthBits.Depth16
-                        || DepthBufferPrecision == DepthBits.Depth24
-                        || DepthBufferPrecision == DepthBits.Depth32))
-                    {
-                        throw new System.ArgumentException(System.String.Format("{0} is not a valid depth buffer size.",
-                            DepthBufferPrecision), "DepthBufferPrecision");
-                        Application.Quit();
-                    }
-
-                }
-
                 cam.targetTexture = depthBuffer;
-
                 cam.usePhysicalProperties = false;
 
                 // Projection Matrix Setup

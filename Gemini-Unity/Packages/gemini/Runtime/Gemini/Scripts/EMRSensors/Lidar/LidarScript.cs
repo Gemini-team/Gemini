@@ -82,10 +82,9 @@ namespace Gemini.EMRS.Lidar
             {
                 throw new System.ArgumentException(System.String.Format("{0} is not a valid depth buffer size.",
                     DepthBufferPrecision), "DepthBufferPrecision");
-                Application.Quit();
             }
 
-            float requiredWidthRes = LidarTolerances.validateTolAndGetHorizRes(ErrorTolerance, 1.5f, temp_frustum, (uint)DepthBufferPrecision);
+            float requiredWidthRes = DepthCameraPrecisionUtil.validateTolAndGetHorizRes(ErrorTolerance, 1.5f, temp_frustum, (uint)DepthBufferPrecision);
 
             CameraFrustum frustum = new CameraFrustum((int)requiredWidthRes, MaxDistance, MinDistance,
                 2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);

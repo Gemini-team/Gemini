@@ -1,19 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-using Gemini.EMRS.Core;
-using Gemini.EMRS.Core.ZBuffer;
-using Gemini.EMRS.PointCloud;
-
-namespace Gemini.EMRS.Lidar
+namespace Gemini.EMRS.Core.ZBuffer
 {
-    // TODO move to depthcameras/zbuffer for general use
-    static public class LidarTolerances
+    /*
+    A static util class for dynamically determining frustum resolution based on a error tolerance.
+    Handles checking that the specified tolerance (worst case error in meters)
+    is feasible with the current frustum and depth buffer configuration. 
+    */
+    static public class DepthCameraPrecisionUtil
     {
-
         public static float validateTolAndGetHorizRes(float tol, float minTolPadding, CameraFrustum frustum, uint depthBufferSizeInBits)
         {
-            float minTol = LidarTolerances.minAchieveableTol(frustum, depthBufferSizeInBits);
+            float minTol = minAchieveableTol(frustum, depthBufferSizeInBits);
             float paddedMinTol = minTol * minTolPadding;
 
             if (tol < paddedMinTol)
@@ -23,14 +22,12 @@ namespace Gemini.EMRS.Lidar
                     "This tolerance is set as the theoretical tolerance for infinite resolution: "
                      + minTol.ToString() + " scaled by " + minTolPadding.ToString()
                 );
-                throw new System.ArgumentException(System.String.Format("{0} is set too close to the theoretical min," +
-                    " will result in too large GPU memory allocation.", tol), "tol");
-                Application.Quit();
+                throw new System.ArgumentException(System.String.Format("{0} is set too close to the theoretical min, " +
+                    "this will result in too much GPU memory allocation.", tol), "tol");
             }
 
-            return LidarTolerances.minHorizRes(tol, frustum, depthBufferSizeInBits);
+            return minHorizRes(tol, frustum, depthBufferSizeInBits);
         }
-
 
         // pos is in a right handed [right, up, backwards] frame
         private static float euclidianError(Vector3 pos, CameraFrustum frustum, uint depthBufferSizeInBits)
@@ -46,12 +43,14 @@ namespace Gemini.EMRS.Lidar
         }
 
         // Kjetil claims in his thesis that the worst case error is at this point,
-        // i.e. the the far, bottom left corner of a frustum.
+        // given that the depthBuffer is sufficiently large relative to the 
+        // range ratio f/n and the image resolution.
         // Given the symmetric nature of the frustum and the clip space coordinates
         // I would expect any of the far corners to produce the same error 
         private static Vector3 worstCasePos(CameraFrustum frustum)
         {
-            return new Vector3(frustum._farPlane * Mathf.Tan(frustum._horisontalAngle / 2f), frustum._farPlane * Mathf.Tan(frustum._verticalSideAngles / 2f), frustum._farPlane) * (-1.0f);
+            return new Vector3(frustum._farPlane * Mathf.Tan(frustum._horisontalAngle / 2f),
+                frustum._farPlane * Mathf.Tan(frustum._verticalSideAngles / 2f), frustum._farPlane) * (-1.0f);
         }
 
         private static float minHorizRes(float tol, CameraFrustum frustum, uint depthBufferSizeInBits)
@@ -85,7 +84,7 @@ namespace Gemini.EMRS.Lidar
         private static float minAchieveableTol(CameraFrustum frustum, uint depthBufferSizeInBits)
         {
             // formulate as an equation of A*(C_2)^2 + B*C_2 + C = 0
-            // solve for C in B^2 = 4*A*C 
+            // solve for C in B^2 = 4*A*C
             // solve for tol as a function of C
 
             // Find A, B, C
