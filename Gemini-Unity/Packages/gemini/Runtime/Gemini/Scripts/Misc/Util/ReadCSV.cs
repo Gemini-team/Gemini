@@ -2,7 +2,7 @@
 using System.IO;
 using System;
 
-namespace Gemini.EMRS.ScenarioGenerator
+namespace Gemini.Misc.Util
 {
     public class ReadCSV
     {
