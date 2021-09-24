@@ -34,7 +34,7 @@ namespace Gemini.EMRS.Core.ZBuffer
             the effective V_FOV at the intersections between frustums (i.e. angle from center equal to H_FOV/2)
             is equal to the configured lidar V_FOV. This correction is found as: 
             tan(CORRECTED_FRUSTUM_V_FOV/2) = tan(LIDAR_V_FOV/2)/cos(H_FOV/2).
-            TODO ref to page in Kjetils thesis
+            See Kjetils thesis: https://folk.ntnu.no/edmundfo/msc2020-2021/vassteinMSc.pdf equation 4.17 of page 42. 
         */
 
         public CameraFrustum(int pixelWidth, int pixelHeight, float farPlane, float nearPlane, float focalLengthMilliMeters, float pixelSizeInMicroMeters)
