@@ -169,7 +169,7 @@ namespace Gemini.EMRS.Lidar
             if (SynchronousUpdate)
             {
                 lidarDataByte.SynchUpdate(lidarShader, "CSMain");
-                message = new LidarMessage(LidarHorisontalRes * NrOfLasers * NrOfCameras, OSPtime, lidarDataByte.array);
+                message = new LidarMessage(HorizontalResPerBeam * NrOfLasers, OSPtime, lidarDataByte.array);
                 gate = true;
             }
             else
@@ -183,7 +183,7 @@ namespace Gemini.EMRS.Lidar
         void PointCloudDataCompleted(AsyncGPUReadbackRequest request)
         {
             lidarDataByte.AsynchUpdate(request);
-            message = new LidarMessage(LidarHorisontalRes * NrOfLasers * NrOfCameras, OSPtime, lidarDataByte.array);
+            message = new LidarMessage(HorizontalResPerBeam * NrOfLasers, OSPtime, lidarDataByte.array);
             gate = true;
         }
 
