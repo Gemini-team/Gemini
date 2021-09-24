@@ -89,7 +89,6 @@ namespace Gemini.EMRS.Lidar
             CameraFrustum frustum = new CameraFrustum((int)requiredWidthRes, MaxDistance, MinDistance,
                 2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
-            Debug.Log("Frustum res: " + frustum._pixelWidth.ToString() + " x " + frustum._pixelHeight.ToString());
 
             numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes;
             depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain", DepthBufferPrecision);
