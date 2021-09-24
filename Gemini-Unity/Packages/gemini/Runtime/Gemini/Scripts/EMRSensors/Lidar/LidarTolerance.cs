@@ -10,8 +10,30 @@ namespace Gemini.EMRS.Lidar
     // TODO move to depthcameras/zbuffer for general use
     static public class LidarTolerances
     {
+
+        public static float validateTolAndGetHorizRes(float tol, float minTolPadding, CameraFrustum frustum, uint depthBufferSizeInBits)
+        {
+            float minTol = LidarTolerances.minAchieveableTol(frustum, depthBufferSizeInBits);
+            float paddedMinTol = minTol * minTolPadding;
+
+            if (tol < paddedMinTol)
+            {
+                Debug.LogError("Configured lidar tolerance: " + tol.ToString() +
+                    " is set below minimal allowed tolerance: " + paddedMinTol.ToString() + ".\n" +
+                    "This tolerance is set as the theoretical tolerance for infinite resolution: "
+                     + minTol.ToString() + " scaled by " + minTolPadding.ToString()
+                );
+                throw new System.ArgumentException(System.String.Format("{0} is set too close to the theoretical min," +
+                    " will result in too large GPU memory allocation.", tol), "tol");
+                Application.Quit();
+            }
+
+            return LidarTolerances.minHorizRes(tol, frustum, depthBufferSizeInBits);
+        }
+
+
         // pos is in a right handed [right, up, backwards] frame
-        public static float euclidianError(Vector3 pos, CameraFrustum frustum, uint depthBufferSizeInBits)
+        private static float euclidianError(Vector3 pos, CameraFrustum frustum, uint depthBufferSizeInBits)
         {
             // constants 
             float N_cd = Mathf.Pow(2f, depthBufferSizeInBits);
@@ -32,7 +54,7 @@ namespace Gemini.EMRS.Lidar
             return new Vector3(frustum._farPlane * Mathf.Tan(frustum._horisontalAngle / 2f), frustum._farPlane * Mathf.Tan(frustum._verticalSideAngles / 2f), frustum._farPlane) * (-1.0f);
         }
 
-        public static float minHorizRes(float tol, CameraFrustum frustum, uint depthBufferSizeInBits)
+        private static float minHorizRes(float tol, CameraFrustum frustum, uint depthBufferSizeInBits)
         {
             // formulate as an equation of A*(C_2)^2 + B*C_2 + C = 0
             // solve for C_2
@@ -60,7 +82,7 @@ namespace Gemini.EMRS.Lidar
 
         // Note that this is a theoretical best-case for INFINITE camera resolution,
         // and is included mostly to have some sane bound for tolerance.
-        public static float minAchieveableTol(CameraFrustum frustum, uint depthBufferSizeInBits)
+        private static float minAchieveableTol(CameraFrustum frustum, uint depthBufferSizeInBits)
         {
             // formulate as an equation of A*(C_2)^2 + B*C_2 + C = 0
             // solve for C in B^2 = 4*A*C 

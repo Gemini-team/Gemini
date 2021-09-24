@@ -22,25 +22,17 @@ namespace Gemini.EMRS.Lidar
 
         [Space]
         [Header("Lidar Parameters")]
-        public int LidarHorisontalRes = 2048; // full rotation res..
+        public int LidarHorisontalRes = 2048;
         public int NrOfLasers = 16;
-        [Range(0.012f, 1f)] public float ErrorTolerance = 0.02f;
+        [Range(0.01f, 1f)] public float ErrorTolerance = 0.02f;
         [Range(0.01f, 2f)] public float MinDistance = 0.1F;
         [Range(5f, 1000f)] public float MaxDistance = 100F;
         [Range(5.0f, 90f)] public float VerticalAngle = 30f;
         [Range(0.0f, 1f)] public float rayDropProbability = 0.1f;
 
-
-        // [Space]
-        // [Header("Calculated parameters")]
-        // [ReadOnly, SerializeField] private float FrustumVerticalAngle = -1;
-        // [ReadOnly, SerializeField] private float FrustumHorizontalAngle = -1;
-        // [ReadOnly, SerializeField] private int FrustumWidthRes = -1;
-        // [ReadOnly, SerializeField] private int FrustumHeightRes = -1;
-
         [Space]
         [Header("Camera Parameters")]
-        public DepthCameras.BufferPrecision DepthBufferPrecision = DepthCameras.BufferPrecision.bit24;
+        public DepthBits DepthBufferPrecision = DepthBits.Depth32;
         [Range(3, 5)] public int NrOfCameras = 4;
 
 
@@ -79,63 +71,29 @@ namespace Gemini.EMRS.Lidar
         void Start()
         {
 
-            // Setting User information
-
-
-
-            // Setup depth cameras
-
             // Placeholder horizontal res of 1000, is replaced by 
             // resolution determined by configured ErrorTolerance. 
-            var frustum = new CameraFrustum(1000, MaxDistance, MinDistance,
+            CameraFrustum temp_frustum = new CameraFrustum(1000, MaxDistance, MinDistance,
                 2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
-
-
-            // TODO move to lidarTolerance
-            float minTol = LidarTolerances.minAchieveableTol(frustum, 24);
-            float minTolPadding = 1.5f;
-            float paddedMinTol = minTol * minTolPadding;
-
-            if (ErrorTolerance < paddedMinTol)
+            if (!(DepthBufferPrecision == DepthBits.Depth16
+                || DepthBufferPrecision == DepthBits.Depth24
+                || DepthBufferPrecision == DepthBits.Depth32))
             {
-                Debug.LogError("Configured lidar tolerance: " + ErrorTolerance.ToString() +
-                    " is set below minimal allowed tolerance: " + paddedMinTol.ToString() + ".\n" +
-                    "This tolerance is set as the theoretical tolerance for infinite resolution: "
-                     + minTol.ToString() + " scaled by " + minTolPadding.ToString()
-                );
-                // FIXME throw some exception here...
+                throw new System.ArgumentException(System.String.Format("{0} is not a valid depth buffer size.",
+                    DepthBufferPrecision), "DepthBufferPrecision");
                 Application.Quit();
             }
 
-            uint depthBits = 24;
-            switch (DepthBufferPrecision)
-            {
-                case DepthCameras.BufferPrecision.bit16:
-                    depthBits = 16;
-                    break;
-                case DepthCameras.BufferPrecision.bit24:
-                    depthBits = 24;
-                    break;
-                case DepthCameras.BufferPrecision.bit32:
-                    depthBits = 32;
-                    break;
-                default:
-                    // FIXME throw some exception here
-                    Debug.LogError("LidarScript: No suitable mapping for DepthBufferPrecision found.");
-                    Application.Quit();
-                    break;
-            }
+            float requiredWidthRes = LidarTolerances.validateTolAndGetHorizRes(ErrorTolerance, 1.5f, temp_frustum, (uint)DepthBufferPrecision);
 
-            float requiredWidthRes = LidarTolerances.minHorizRes(ErrorTolerance, frustum, depthBits);
-
-            frustum = new CameraFrustum((int)requiredWidthRes, MaxDistance, MinDistance,
+            CameraFrustum frustum = new CameraFrustum((int)requiredWidthRes, MaxDistance, MinDistance,
                 2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
             Debug.Log("Frustum res: " + frustum._pixelWidth.ToString() + " x " + frustum._pixelHeight.ToString());
 
             numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes;
-            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain");
+            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain", DepthBufferPrecision);
             lidarCameras = depthCameras.cameras;
 
             // Setup Game objects

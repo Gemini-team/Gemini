@@ -2,21 +2,23 @@
 using System.Collections;
 
 using UnityEngine.Rendering;
+using System.Linq;
 
 namespace Gemini.EMRS.Core.ZBuffer
 {
     public class DepthCameras
     {
-        public enum BufferPrecision // your custom enumeration
-        {
-            bit16,
-            bit24,
-            bit32
-        };
+        // public enum BufferPrecision
+        // {
+        //     bit16,
+        //     bit24,
+        //     bit32
+        // };
 
         private string CameraTag = "DepthCam";
         private CameraFrustum frustums;
         public Camera[] cameras;
+        private DepthBits DepthBufferPrecision = DepthBits.Depth24;
 
         // TODO add a readonly field here with NumberOfDepthPixels
 
@@ -25,14 +27,13 @@ namespace Gemini.EMRS.Core.ZBuffer
             frustums = cameraFrustums;
             cameras = SpawnDepthCameras(cameraNumbers, transform);
         }
-        public DepthCameras(int cameraNumbers, CameraFrustum cameraFrustums, Transform transform, ComputeShader shader, string kernelName)
+        public DepthCameras(int cameraNumbers, CameraFrustum cameraFrustums, Transform transform, ComputeShader shader, string kernelName, DepthBits depthBits)
         {
             frustums = cameraFrustums;
+            DepthBufferPrecision = depthBits;
             cameras = SpawnDepthCameras(cameraNumbers, transform);
             SetCameraBuffers(shader, kernelName);
         }
-
-        private BufferPrecision DepthBufferPrecision = BufferPrecision.bit24;
 
         private Camera[] SpawnDepthCameras(int numbers, Transform transform)
         {
@@ -58,21 +59,17 @@ namespace Gemini.EMRS.Core.ZBuffer
 
                 if (cam.targetTexture == null)
                 {
-                    if (DepthBufferPrecision == BufferPrecision.bit16)
+                    depthBuffer.depth = (int)DepthBufferPrecision;
+                    if (!(DepthBufferPrecision == DepthBits.Depth16
+                        || DepthBufferPrecision == DepthBits.Depth24
+                        || DepthBufferPrecision == DepthBits.Depth32))
                     {
-                        depthBuffer.depth = 16;
+                        throw new System.ArgumentException(System.String.Format("{0} is not a valid depth buffer size.",
+                            DepthBufferPrecision), "DepthBufferPrecision");
+                        Application.Quit();
                     }
-                    else if (DepthBufferPrecision == BufferPrecision.bit24)
-                    {
-                        depthBuffer.depth = 24;
 
-                    }
-                    else if (DepthBufferPrecision == BufferPrecision.bit32)
-                    {
-                        depthBuffer.depth = 32;
-                    }
                 }
-
 
                 cam.targetTexture = depthBuffer;
 

@@ -720,13 +720,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
         type: 3}
+      propertyPath: NrOfCameras
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
+        type: 3}
       propertyPath: VerticalAngle
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
         type: 3}
       propertyPath: ErrorTolerance
-      value: 0.02
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 395701103345083865, guid: 09268176065dbca4e9866fc0d6269b0d,
         type: 3}
