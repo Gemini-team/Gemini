@@ -195,7 +195,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &218491538
 GameObject:
@@ -284,12 +284,37 @@ MonoBehaviour:
     version: 1
     00000000:
       type: {class: , ns: , asm: }
---- !u!1 &222572622 stripped
+--- !u!1 &222572622
 GameObject:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d5cb2dd9d9dc04844b4a9736a565f65f,
     type: 3}
   m_PrefabInstance: {fileID: 821161749}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 222572623}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &222572623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 821161749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222572622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1690406624}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &227152378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7102921639643669176, guid: 50caf175b33e94c4dabed559d0614869,
@@ -624,7 +649,7 @@ Transform:
   - {fileID: 1744864175}
   - {fileID: 1433026295}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &737302449
 PrefabInstance:
@@ -931,18 +956,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SensorUpdateHz: 1
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
-  NrOfCameras: 4
-  FrameId: 
-  WidthRes: 32768
-  DepthBufferPrecision: 1
-  LidarHorisontalRes: 256
+  HorizontalResPerBeam: 2048
   NrOfLasers: 64
-  rayDropProbability: 0.3
+  ErrorTolerance: 0.02
   MinDistance: 0.1
   MaxDistance: 100
   VerticalAngle: 60
-  NumberOfDepthPixels: 0
-  NumberOfLidarPoints: 0
+  rayDropProbability: 0.3
+  DepthBufferPrecision: 24
+  NrOfCameras: 4
+  FrameId: 
+  numberOfLidarPoints: 0
   lidarCameras: []
   SynchronousUpdate: 1
 --- !u!114 &1090243937
@@ -1133,7 +1157,38 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1690406623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 821161749}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1690406624}
+  m_Layer: 0
+  m_Name: Midoy (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1690406624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 821161749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690406623}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 222572623}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1744864174
 GameObject:
@@ -1297,5 +1352,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

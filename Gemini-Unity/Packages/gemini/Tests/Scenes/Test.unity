@@ -490,17 +490,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SensorUpdateHz: 1
   lidarShader: {fileID: 7200000, guid: 3f04fe23a11589a429dcfb34708869f7, type: 3}
-  NrOfCameras: 4
-  FrameId: test_frame_id
-  WidthRes: 32768
-  DepthBufferPrecision: 1
   LidarHorisontalRes: 256
   NrOfLasers: 64
-  rayDropProbability: 0
+  ErrorTolerance: 0.02
   MinDistance: 0.1
   MaxDistance: 100
   VerticalAngle: 60
-  NumberOfDepthPixels: 0
+  rayDropProbability: 0
+  DepthBufferPrecision: 24
+  NrOfCameras: 4
+  FrameId: test_frame_id
   numberOfLidarPoints: 0
   lidarCameras: []
   SynchronousUpdate: 1
