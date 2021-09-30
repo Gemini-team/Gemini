@@ -16,8 +16,21 @@ public class DataTransceiverWrapper : MonoBehaviour {
     [DllImport("data_transceiver")]
     private static extern int triple_input(int x);
 
+    [DllImport("data_transceiver")]
+    private static extern uint send_external(byte[] byteArr);
+
+    [DllImport("data_transceiver")]
+    private static extern void listen_external();
+
     void Start() {
-        Debug.Log(double_input(4)); // 8
-        Debug.Log(triple_input(4)); // 12
+        //listen_external();
+    }
+
+    void Update() {
+        byte[] buf = new byte[1]; 
+        buf[0] = 0xFF;
+
+        uint res = send_external(buf);
+        Debug.Log(res);
     }
 }
