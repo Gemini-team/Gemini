@@ -12,34 +12,34 @@ using Sensorstreaming;
 
 
 
-namespace Gemini.EMRS.Lidar {
+namespace Gemini.EMRS.Lidar
+{
     [RequireComponent(typeof(SphericalProjectionFilter))]
     [RequireComponent(typeof(PointCloudManager))]
     public class LidarScript : Sensor
     {
         public ComputeShader lidarShader;
-        [Range(3, 5)] public int NrOfCameras = 4;
 
         [Space]
         [Header("Lidar Parameters")]
-        public string FrameId;
-        public int WidthRes = 2048;
-        private int HeightRes = 32;
-
-        public DepthCameras.BufferPrecision DepthBufferPrecision = DepthCameras.BufferPrecision.bit24;
-
-        public int LidarHorisontalRes = 1024;
+        public int HorizontalResPerBeam = 2048;
         public int NrOfLasers = 16;
-        [Range(0.0f, 1f)] public float rayDropProbability = 0.1f;
+        [Range(0.01f, 1f)] public float ErrorTolerance = 0.02f;
         [Range(0.01f, 2f)] public float MinDistance = 0.1F;
         [Range(5f, 1000f)] public float MaxDistance = 100F;
         [Range(5.0f, 90f)] public float VerticalAngle = 30f;
+        [Range(0.0f, 1f)] public float rayDropProbability = 0.1f;
+
+        [Space]
+        [Header("Camera Parameters")]
+        public DepthBits DepthBufferPrecision = DepthBits.Depth32;
+        [Range(3, 5)] public int NrOfCameras = 4;
 
 
         [Space]
         [Header("Sensor Output")]
-        [SerializeField] private uint NumberOfDepthPixels = 0;
-        [SerializeField] private uint numberOfLidarPoints = 0;
+        public string FrameId;
+        [ReadOnly, SerializeField] private uint numberOfLidarPoints = 0;
 
         public uint NumberOfLidarPoints
         {
@@ -71,28 +71,38 @@ namespace Gemini.EMRS.Lidar {
         void Start()
         {
 
-            // Setting User information
+            // Placeholder horizontal res of 1000, is replaced by 
+            // resolution determined by configured ErrorTolerance. 
+            CameraFrustum temp_frustum = new CameraFrustum(1000, MaxDistance, MinDistance,
+                2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
-            WidthRes /= NrOfCameras;
+            if (!(DepthBufferPrecision == DepthBits.Depth16
+                || DepthBufferPrecision == DepthBits.Depth24
+                || DepthBufferPrecision == DepthBits.Depth32))
+            {
+                throw new System.ArgumentException(System.String.Format("{0} is not a valid depth buffer size.",
+                    DepthBufferPrecision), "DepthBufferPrecision");
+            }
 
-            float lidarVerticalAngle = VerticalAngle;
-            HeightRes = (int)(WidthRes * Mathf.Tan(lidarVerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Sin(Mathf.PI / NrOfCameras));
-            VerticalAngle = Mathf.Rad2Deg * 2 * Mathf.Atan(Mathf.Tan(lidarVerticalAngle * Mathf.Deg2Rad / 2) / Mathf.Cos(Mathf.PI / NrOfCameras));
+            float requiredWidthRes = DepthCameraPrecisionUtil.validateTolAndGetHorizRes(ErrorTolerance, 1.5f, temp_frustum, (uint)DepthBufferPrecision);
 
-            NumberOfDepthPixels = (uint)WidthRes * (uint)HeightRes * (uint)NrOfCameras;
-            numberOfLidarPoints = (uint)NrOfLasers * (uint)LidarHorisontalRes * (uint)NrOfCameras;
+            CameraFrustum frustum = new CameraFrustum((int)requiredWidthRes, MaxDistance, MinDistance,
+                2f * Mathf.PI / NrOfCameras, Mathf.Deg2Rad * VerticalAngle);
 
-            // Settup Game objects
+
+            numberOfLidarPoints = (uint)NrOfLasers * (uint)HorizontalResPerBeam;
+            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform, lidarShader, "CSMain", DepthBufferPrecision);
+            lidarCameras = depthCameras.cameras;
+
+            // Setup Game objects
+
+            int horizontalReflectionsPerCamera = (int)((float)HorizontalResPerBeam / NrOfCameras);
 
             pointCloud = GetComponent<PointCloudManager>();
             pointCloud.SetupPointCloud((int)numberOfLidarPoints);
 
-            var frustum = new CameraFrustum(WidthRes, MaxDistance, MinDistance, 2*Mathf.PI/NrOfCameras, lidarVerticalAngle*Mathf.Deg2Rad);
-            depthCameras = new DepthCameras(NrOfCameras, frustum, this.transform,lidarShader,"CSMain");
-            lidarCameras = depthCameras.cameras;
-
             projectionFilter = GetComponent<SphericalProjectionFilter>();
-            projectionFilter.SetupSphericalProjectionFilter(LidarHorisontalRes, NrOfLasers, frustum);
+            projectionFilter.SetupSphericalProjectionFilter(horizontalReflectionsPerCamera, NrOfLasers, frustum);
             pixelCoordinatesBuffer = projectionFilter.filterCoordinates.buffer;
 
             // Setting up Compute Buffers
@@ -100,19 +110,19 @@ namespace Gemini.EMRS.Lidar {
             kernelHandle = lidarShader.FindKernel("CSMain");
 
             lidarShader.SetBuffer(kernelHandle, "sphericalPixelCoordinates", pixelCoordinatesBuffer);
-            lidarShader.SetInt("N_theta", LidarHorisontalRes);
+            lidarShader.SetInt("N_theta", horizontalReflectionsPerCamera); // horizontal reflections per camera.. 
             lidarShader.SetInt("N_phi", NrOfLasers);
             lidarShader.SetFloat("rayDropProbability", rayDropProbability);
 
-            UnifiedArray<uint> RandomStateVector = new UnifiedArray<uint>(NrOfCameras * NrOfLasers * LidarHorisontalRes, sizeof(float), "_state_xorshift");
+            UnifiedArray<uint> RandomStateVector = new UnifiedArray<uint>(NrOfLasers * HorizontalResPerBeam, sizeof(float), "_state_xorshift");
             RandomStateVector.SetBuffer(lidarShader, "CSMain");
             RandomStateVector.SetBuffer(lidarShader, "RNG_Initialize");
             RandomStateVector.SynchUpdate(lidarShader, "RNG_Initialize");
 
-            particleUnifiedArray = new UnifiedArray<Vector3>(NrOfCameras * NrOfLasers * LidarHorisontalRes, sizeof(float) * 3, "lines");
+            particleUnifiedArray = new UnifiedArray<Vector3>(NrOfLasers * HorizontalResPerBeam, sizeof(float) * 3, "lines");
             particleUnifiedArray.SetBuffer(lidarShader, "CSMain");
 
-            lidarDataByte = new UnifiedArray<byte>(NrOfCameras * NrOfLasers * LidarHorisontalRes, sizeof(float) * 6, "LidarData");
+            lidarDataByte = new UnifiedArray<byte>(NrOfLasers * HorizontalResPerBeam, sizeof(float) * 6, "LidarData");
             lidarDataByte.SetBuffer(lidarShader, "CSMain");
         }
 
@@ -130,14 +140,14 @@ namespace Gemini.EMRS.Lidar {
         void LidarUpdate(ScriptableRenderContext context, Camera[] cameras)
         {
             lidarShader.SetFloat("rayDropProbability", rayDropProbability);
-            lidarShader.Dispatch(kernelHandle, (int)Mathf.Ceil((float)NrOfCameras * (float)NrOfLasers * (float)LidarHorisontalRes / 1024.0f), 1, 1);
+            lidarShader.Dispatch(kernelHandle, (int)Mathf.Ceil((float)NrOfLasers * (float)HorizontalResPerBeam / 1024.0f), 1, 1);
         }
 
         void PointCloudRendering(ScriptableRenderContext context, Camera[] cameras)
         {
             if (SynchronousUpdate)
             {
-                particleUnifiedArray.SynchUpdate(lidarShader,"CSMain");
+                particleUnifiedArray.SynchUpdate(lidarShader, "CSMain");
                 if (pointCloud != null) { pointCloud.UpdatePointCloud(particleUnifiedArray.array); }
                 gate = true;
             }
@@ -159,7 +169,7 @@ namespace Gemini.EMRS.Lidar {
             if (SynchronousUpdate)
             {
                 lidarDataByte.SynchUpdate(lidarShader, "CSMain");
-                message = new LidarMessage(LidarHorisontalRes * NrOfLasers * NrOfCameras, OSPtime, lidarDataByte.array);
+                message = new LidarMessage(HorizontalResPerBeam * NrOfLasers, OSPtime, lidarDataByte.array);
                 gate = true;
             }
             else
@@ -173,14 +183,14 @@ namespace Gemini.EMRS.Lidar {
         void PointCloudDataCompleted(AsyncGPUReadbackRequest request)
         {
             lidarDataByte.AsynchUpdate(request);
-            message = new LidarMessage(LidarHorisontalRes * NrOfLasers * NrOfCameras, OSPtime, lidarDataByte.array);
+            message = new LidarMessage(HorizontalResPerBeam * NrOfLasers, OSPtime, lidarDataByte.array);
             gate = true;
         }
 
         public override bool SendMessage()
         {
             LidarStreamingRequest lidarStreamingRequest = new LidarStreamingRequest();
-            
+
             lidarStreamingRequest.TimeInSeconds = message.timeInSeconds;
             lidarStreamingRequest.Height = message.height;
             lidarStreamingRequest.Width = message.width;
@@ -215,7 +225,8 @@ namespace Gemini.EMRS.Lidar {
                 {
                     success = _streamingClient.StreamLidarSensor(lidarStreamingRequest).Success;
                     connected = success;
-                } catch(RpcException e)
+                }
+                catch (RpcException e)
                 {
                     Debug.LogException(e);
                 }

@@ -9,7 +9,8 @@ using Unity.Collections;
 using UnityEngine.Rendering;
 
 
-namespace Gemini.EMRS.Core.ZBuffer{
+namespace Gemini.EMRS.Core.ZBuffer
+{
     public class CameraFrustum
     {
         public int _pixelWidth { get; }
@@ -21,20 +22,20 @@ namespace Gemini.EMRS.Core.ZBuffer{
         public float _aspectRatio { get; }
         public float _verticalSideAngles { get; }
         public Matrix4x4 _cameraMatrix { get; }
-        public CameraFrustum(int pixelWidth, int pixelHeight, float farPlane, float nearPlane, float verticalAngle)
-        {
-            _pixelWidth = pixelWidth;
-            _pixelHeight = pixelHeight;
-            _farPlane = farPlane;
-            _nearPlane = nearPlane;
-            _verticalAngle = verticalAngle;
 
-            _aspectRatio = (float)_pixelWidth / (float)_pixelHeight;
-            _horisontalAngle = 2 * Mathf.Atan(_aspectRatio * Mathf.Tan(_verticalAngle / 2));
-            _verticalSideAngles = 2 * Mathf.Atan(Mathf.Cos(_horisontalAngle / 2) * Mathf.Tan(_verticalAngle / 2));
-            _cameraMatrix = new Matrix4x4();
-            _cameraMatrix = MakeCameraMatrix(_aspectRatio, _verticalAngle, farPlane, nearPlane);
-        }
+        /* 
+            Note that the frustum is a projected square, by extension its effective 
+            V_FOV is dependent on which horizontal angle you're looking at.
+
+            E.g. at the center of a frustum, the effective V_FOV is equal to the
+            frustum V_FOV, while it gets smaller towards the edges.
+
+            In order to correct for this, we need to set a larger frustum V_FOV such that
+            the effective V_FOV at the intersections between frustums (i.e. angle from center equal to H_FOV/2)
+            is equal to the configured lidar V_FOV. This correction is found as: 
+            tan(CORRECTED_FRUSTUM_V_FOV/2) = tan(LIDAR_V_FOV/2)/cos(H_FOV/2).
+            See Kjetils thesis: https://folk.ntnu.no/edmundfo/msc2020-2021/vassteinMSc.pdf equation 4.17 of page 42. 
+        */
 
         public CameraFrustum(int pixelWidth, int pixelHeight, float farPlane, float nearPlane, float focalLengthMilliMeters, float pixelSizeInMicroMeters)
         {
@@ -42,7 +43,7 @@ namespace Gemini.EMRS.Core.ZBuffer{
             _pixelHeight = pixelHeight;
             _farPlane = farPlane;
             _nearPlane = nearPlane;
-            _verticalAngle = 2 * Mathf.Atan((float)pixelHeight*pixelSizeInMicroMeters*Mathf.Pow(10,-3)/(2 * focalLengthMilliMeters));
+            _verticalAngle = 2 * Mathf.Atan((float)pixelHeight * pixelSizeInMicroMeters * Mathf.Pow(10, -3) / (2 * focalLengthMilliMeters));
             Debug.Log("_VerticalAngle" + _verticalAngle.ToString() + " power " + ((float)pixelHeight).ToString());
 
             _aspectRatio = (float)_pixelWidth / (float)_pixelHeight;
@@ -52,41 +53,25 @@ namespace Gemini.EMRS.Core.ZBuffer{
             _cameraMatrix = MakeCameraMatrix(_aspectRatio, _verticalAngle, farPlane, nearPlane);
         }
 
-        // Verified
-        public CameraFrustum(int pixelWidth, float farPlane, float nearPlane, float horisontalAngle, float verticalSideAngles)
+        public CameraFrustum(int WidthRes, float farPlane, float nearPlane, float horisontalAngle, float lidarVerticalAngle)
         {
             _horisontalAngle = horisontalAngle;
-            _verticalSideAngles = verticalSideAngles;
-            _farPlane = farPlane;
-            _nearPlane = nearPlane;
-            _pixelWidth = pixelWidth;
+            _verticalAngle = 2f * Mathf.Atan(Mathf.Tan(lidarVerticalAngle / 2f) / Mathf.Cos(horisontalAngle / 2f));
+            _verticalSideAngles = lidarVerticalAngle;
 
-            _verticalAngle = 2 * Mathf.Atan(Mathf.Tan(_verticalSideAngles / 2) / Mathf.Cos(_horisontalAngle / 2));
-            _aspectRatio = Mathf.Tan(_horisontalAngle / 2) / Mathf.Tan(_verticalAngle / 2);
-            _pixelHeight = (int)((float)pixelWidth / _aspectRatio);
-            _cameraMatrix = new Matrix4x4();
-            _cameraMatrix = MakeCameraMatrix(_aspectRatio, _verticalAngle, farPlane, nearPlane);
-        }
-        public CameraFrustum(float imageMemorySize, DepthCameras.BufferPrecision depthPrecision, float farPlane, float nearPlane, float horisontalAngle, float verticalSideAngles)
-        {
-            _horisontalAngle = horisontalAngle;
-            _verticalSideAngles = verticalSideAngles;
             _farPlane = farPlane;
             _nearPlane = nearPlane;
 
-            _verticalAngle = 2 * Mathf.Atan(Mathf.Tan(_verticalSideAngles / 2) / Mathf.Cos(_horisontalAngle / 2));
             _aspectRatio = Mathf.Tan(_horisontalAngle / 2) / Mathf.Tan(_verticalAngle / 2);
 
-            int precision = 0;
-            if (depthPrecision == DepthCameras.BufferPrecision.bit16) { precision = 16; }
-            if (depthPrecision == DepthCameras.BufferPrecision.bit24) { precision = 24; }
-            if (depthPrecision == DepthCameras.BufferPrecision.bit32) { precision = 32; }
-            _pixelHeight = (int)Mathf.Sqrt(8 * imageMemorySize / (_aspectRatio * precision));
-            _pixelWidth = (int)(_pixelHeight * _aspectRatio);
+            _pixelHeight = (int)Mathf.Ceil((float)WidthRes / _aspectRatio);
+            _pixelWidth = WidthRes;
+
             _cameraMatrix = new Matrix4x4();
             _cameraMatrix = MakeCameraMatrix(_aspectRatio, _verticalAngle, farPlane, nearPlane);
         }
-        // Verified
+
+
         private Matrix4x4 MakeCameraMatrix(float a, float VFOV, float f, float n)
         {
             float P_2 = 1 / Mathf.Tan(VFOV / 2);
