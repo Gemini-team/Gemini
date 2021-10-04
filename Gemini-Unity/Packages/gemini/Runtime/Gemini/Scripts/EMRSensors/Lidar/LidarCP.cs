@@ -20,19 +20,21 @@ namespace Gemini.EMRS.Lidar
             cameras = lidar.GetComponent<LidarScript>().lidarCameras;
         }
 
-        protected override void Execute(ScriptableRenderContext renderContext, CommandBuffer cmd, HDCamera camera, CullingResults cullingResult)
+    
+        protected override void Execute(CustomPassContext ctx)
         {
+            RenderTexture targetTexture;
+            Camera bakingCamera;            
 
             for (int i = 0; i < cameras.Length; i++)
             {
-                Camera bakingCamera = cameras[i];
-                RenderTexture targetTexture = bakingCamera.targetTexture;
+                bakingCamera = cameras[i];
+                targetTexture = bakingCamera.targetTexture;
 
                 ScriptableCullingParameters cullingParams;
                 bakingCamera.TryGetCullingParameters(out cullingParams);
                 cullingParams.cullingOptions = CullingOptions.ShadowCasters;
-                cullingResult = renderContext.Cull(ref cullingParams);
-                var result = new RendererListDesc(shaderTags, cullingResult, bakingCamera)
+                var result = new RendererListDesc(shaderTags, ctx.renderContext.Cull(ref cullingParams), bakingCamera)
                 {
                     rendererConfiguration = PerObjectData.None,
                     renderQueueRange = RenderQueueRange.all,
@@ -50,17 +52,20 @@ namespace Gemini.EMRS.Lidar
                 // i.e. v is a transform from a left handed (unity) world, to a right handed (openGL) local frame
                 var vp = p * v; // this makes vp a transform from a left handed unity world, to a right handed openGL clip space
 
-                cmd.SetGlobalMatrix("_ViewMatrix", v);
-                cmd.SetGlobalMatrix("_InvViewMatrix", v.inverse);
-                cmd.SetGlobalMatrix("_ProjMatrix", p);
-                cmd.SetGlobalMatrix("_InvProjMatrix", p.inverse);
-                cmd.SetGlobalMatrix("_ViewProjMatrix", vp);
-                cmd.SetGlobalMatrix("_InvViewProjMatrix", vp.inverse);
-                cmd.SetGlobalMatrix("_CameraViewProjMatrix", vp);
-                cmd.SetGlobalVector("_WorldSpaceCameraPos", Vector3.zero);
+                
+                ctx.cmd.SetGlobalMatrix("_ViewMatrix", v);
+                ctx.cmd.SetGlobalMatrix("_InvViewMatrix", v.inverse);
+                ctx.cmd.SetGlobalMatrix("_ProjMatrix", p);
+                ctx.cmd.SetGlobalMatrix("_InvProjMatrix", p.inverse);
+                ctx.cmd.SetGlobalMatrix("_ViewProjMatrix", vp);
+                ctx.cmd.SetGlobalMatrix("_InvViewProjMatrix", vp.inverse);
+                ctx.cmd.SetGlobalMatrix("_CameraViewProjMatrix", vp);
+                ctx.cmd.SetGlobalVector("_WorldSpaceCameraPos", Vector3.zero);
 
-                cmd.SetRenderTarget(targetTexture, 0, CubemapFace.Unknown, i);
-                HDUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
+                ctx.cmd.SetRenderTarget(targetTexture, 0, CubemapFace.Unknown, i);
+                // TODO: Clear here? 
+                // CoreUtils.ClearRenderTarget(ctx.cmd, clearFlags, Color.black);
+                CoreUtils.DrawRendererList(ctx.renderContext, ctx.cmd, RendererList.Create(result));
             }
         }
     }

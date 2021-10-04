@@ -61,7 +61,7 @@ namespace Gemini.EMRS.Core.ZBuffer
                 cmd.SetGlobalVector("_WorldSpaceCameraPos", Vector3.zero);
 
                 CoreUtils.SetRenderTarget(cmd, targetTexture, ClearFlag.Depth);
-                HDUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
+                CoreUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
         }
     }
 }

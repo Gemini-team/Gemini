@@ -49,10 +49,15 @@ namespace Tests
                 
                 Vector4[] lidarPoints = message.ParseLidarPoints();
 
+
+
                 // Testing the lidar point byte array which is accessed by external sources
                 for (int i = 0; i < lidarPoints.Length; i++)
                 {
-                    // Use x coordinate here because fucking NED Coordinate system in LidarCS
+                    float distance = (float)Math.Sqrt(Math.Pow(lidarPoints[i].x, 2) + Math.Pow(lidarPoints[i].y, 2) + Math.Pow(lidarPoints[i].z, 2));
+                    if (distance > 2.0f)
+                        Debug.Log(Math.Abs(distance));
+                    // Use x coordinate here because NED Coordinate system in LidarCS
                     if (Math.Abs(lidarPoints[i].x) > 8 && Math.Abs(lidarPoints[i].x) < 9)
                     {
                         lidarPointIsInsideRange = true;
