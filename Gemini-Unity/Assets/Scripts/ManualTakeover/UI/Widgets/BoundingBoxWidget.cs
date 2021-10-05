@@ -43,8 +43,8 @@ public class BoundingBoxWidget : MonoBehaviour {
         target.transform.rotation = Quaternion.identity;
 
         Bounds oobb = new Bounds(target.transform.position, Vector3.zero);
-        foreach (Renderer renderer in target.GetComponentsInChildren<Renderer>()) {
-            oobb.Encapsulate(renderer.bounds);
+        foreach (Collider col in target.GetComponentsInChildren<Collider>()) {
+            oobb.Encapsulate(col.bounds);
         }
 
         Bounds bounds = new Bounds(cam.WorldToScreenPoint(oobb.center), Vector3.zero);
