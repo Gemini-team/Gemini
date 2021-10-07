@@ -125,7 +125,7 @@ public abstract class Scenario : ExtendedMonoBehaviour {
 
         endTime = Time.timeSinceLevelLoad;
 
-        if (!ManualTakeoverRequired && Input.GetButtonDown("ManualTakeover")) {
+        if (!ManualTakeoverRequired && FerryInput.GetButtonDown("ManualTakeover")) {
             if (Playing) Pause();
             else Resume();
         }

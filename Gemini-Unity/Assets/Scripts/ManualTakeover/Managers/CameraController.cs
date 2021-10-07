@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour {
     private const float 
         AERIAL_CAM_DISTANCE = 25,
         MIN_FOV = 30,
-        ZOOM_SPEED = 20,
+        ZOOM_SPEED = 5,
 		PAN_SPEED = 50,
 		PAN_RANGE = 179;
 
@@ -37,6 +37,7 @@ public class CameraController : MonoBehaviour {
 
     private Transform ferry;
 	private Vector3 panEuler;
+	private int switchCam;
 
     private void Start() {
         ferry = GameObject.FindGameObjectWithTag("Player").transform;
@@ -55,15 +56,26 @@ public class CameraController : MonoBehaviour {
             }
         }
 
+		int switchCam_ = MathTools.Sign(Input.GetAxisRaw("SwitchCamera"));
+		if (switchCam == 0 && switchCam_ != 0) {
+			int index = MathTools.Mod(MountI.GetValueOrDefault(0) + switchCam_, mounts.Count);
+			MountTo(index);
+        }
+		switchCam = switchCam_;
+
         if (enableAerialCam && Input.GetKeyDown(KeyCode.Alpha0)) {
             MountTo(null);
         }
 
 		if (IsMounted) {
+			if (Input.GetButtonDown("CameraReset")) {
+				MountTo(MountI);
+            }
+
 			if (MountedTo.canPan) {
 				float lim = PAN_RANGE / 2,
-					panX = Input.GetAxisRaw("HorizontalArrows"),
-					panY = Input.GetAxisRaw("VerticalArrows");
+					panX = Input.GetAxisRaw("CameraPanX"),
+					panY = Input.GetAxisRaw("CameraPanY");
 
 				panEuler += new Vector3(-panY, panX, 0) * Time.deltaTime * PAN_SPEED;
 				panEuler = new Vector3(Mathf.Clamp(panEuler.x, -lim, lim), Mathf.Clamp(panEuler.y, -lim, lim), 0);
@@ -75,9 +87,9 @@ public class CameraController : MonoBehaviour {
 			transform.rotation = Quaternion.Euler(90, ferry.eulerAngles.y, 0);
 		}
 
-		float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
-		if (scroll != 0) {
-			cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - scroll * ZOOM_SPEED, MIN_FOV, maxFOV);
+		float zoomDelta = Input.GetAxisRaw("CameraZoom");
+		if (zoomDelta != 0) {
+			cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - zoomDelta * ZOOM_SPEED, MIN_FOV, maxFOV);
 		}
 	}
 

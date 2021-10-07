@@ -11,7 +11,8 @@ public static class FerryInput {
 		{ "Forward", KeyCode.W },
 		{ "YawLeft", KeyCode.Q },
 		{ "YawRight", KeyCode.E },
-		{ "Dock", KeyCode.F }
+		{ "Dock", KeyCode.F },
+		{ "ManualTakeover", KeyCode.G }
 	};
 
 	private static readonly Dictionary<string, (string, string)> axes = new Dictionary<string, (string, string)>() {
@@ -67,7 +68,7 @@ public static class FerryInput {
 	public static float GetAxisRaw(string name) {
 		var (negative, positive) = axes[name];
 
-		float res = 0;
+		int res = 0;
 		if (GetButton(negative)) res -= 1;
 		if (GetButton(positive)) res += 1;
 
