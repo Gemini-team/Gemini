@@ -9,7 +9,7 @@ public class PassengerCountWidget : MonoBehaviour {
 
         GameObject ferry = GameObject.FindGameObjectWithTag("Player");
         PassengerBoarder boarder = ferry.GetComponent<PassengerBoarder>();
-        boarder.OnBoarding.AddListener(() => {
+        boarder.OnPassengerRegistered.AddListener(() => {
             text.text = boarder.PassengerCount.ToString();
         });
 

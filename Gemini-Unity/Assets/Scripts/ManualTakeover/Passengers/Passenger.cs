@@ -19,20 +19,29 @@ public class Passenger : MonoBehaviour {
     private bool idle;
     private Quaternion idleRotation = Quaternion.identity;
 
-    public bool ReachedDestination => agent == null || !agent.enabled || agent.remainingDistance <= agent.stoppingDistance;
+    public bool ReachedDestination => agent == null || !agent.enabled || 
+		(!waitingForDestination && Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance);
 
-	private static SyncTicket syncTicket = new SyncTicket(0.5f, 1);
+	private bool waitingForDestination;
+	private static SyncTicket syncTicket = new SyncTicket(0.7f, 1);  // Ticket system shared by all passengers
 
     public void SetDestinationImmediate(Vector3 destination) {
         if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
 
+		if (waitingForDestination) {
+			Debug.LogWarning("Destination set while already waiting for destination");
+		}
 		agent.SetDestination(destination);
     }
 
     public void SetDestinationSynced(Vector3 destination) {
         if (agent == null) agent = GetComponentInChildren<NavMeshAgent>();
 
-        StartCoroutine(syncTicket.TakeTicketAndWait(() => agent.SetDestination(destination)));
+		waitingForDestination = true;
+        StartCoroutine(syncTicket.TakeTicketAndWait(() => {
+			agent.SetDestination(destination);
+			waitingForDestination = false;
+		}));
     }
 
     private void Start() {

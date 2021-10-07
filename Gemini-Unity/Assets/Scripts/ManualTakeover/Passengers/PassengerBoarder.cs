@@ -7,7 +7,7 @@ public class PassengerBoarder : MonoBehaviour {
     private const float SEAT_OFFSET = 0.25f;
 
     [HideInInspector]
-    public UnityEvent OnBoardingBegin, OnBoarding, OnBoardingCompleted;
+    public UnityEvent OnBoardingBegin, OnPassengerRegistered, OnBoardingCompleted;
     public Vector3[] seats;
 
     private List<Passenger> passengers = new List<Passenger>();
@@ -33,43 +33,40 @@ public class PassengerBoarder : MonoBehaviour {
         });
     }
 
-    private void Update() {
-        if (ferry.boarding) {
-            bool boardingCompleted = true;
-            foreach (Passenger passenger in passengers) {
-                if (!passenger.ReachedDestination) {
-                    boardingCompleted = false;
-                    break;
-                }
-            }
-
-            if (boardingCompleted) {
-                ferry.boarding = false;
-                OnBoardingCompleted?.Invoke();
-            }
-        }
-    }
-
     public bool CanBoardFrom(DockController dock) {
 		return passengers.Count < seats.Length && dock.Equals(ferry.AtDock);
     }
 
-    public void Board(Passenger passenger) {
-        int seatIndex = passengers.Count;
-        if (ferry.DockDirection < 0) seatIndex = seats.Length - seatIndex - 1;
+	public void BeginBoarding() {
+		IEnumerator WaitUntilBoardingComplete() {
+			yield return new WaitUntil(() => passengers.TrueForAll(x => x.ReachedDestination));
 
-        Vector3 seat = seats[seatIndex] + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * SEAT_OFFSET;
+			ferry.boarding = false;
+			OnBoardingCompleted?.Invoke();
+		}
+		
+		if (ferry.boarding) return;  // Check if boarding is already in progress
 
-        passenger.transform.SetParent(transform);
-        passenger.SetDestinationSynced(transform.position + transform.rotation * seat);
-        passengers.Add(passenger);
-
-		if (!ferry.boarding) {
-			ferry.boarding = true;
-			OnBoardingBegin?.Invoke();
+		for (int i = 0; i < passengers.Count; i++) {
+			Vector3 seat = seats[i] + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * SEAT_OFFSET;
+			passengers[i].SetDestinationSynced(transform.position + transform.rotation * seat);
 		}
 
-        OnBoarding?.Invoke();
+		ferry.boarding = true;
+		OnBoardingBegin?.Invoke();
+
+		StartCoroutine(WaitUntilBoardingComplete());
+	}
+
+	public void RegisterPassenger(Passenger passenger) {
+		if (passengers.Count >= seats.Length) {
+			throw new System.ArgumentOutOfRangeException("Couldn't register passenger (no vacant seats)\nUse PassengerBoarder.CanBoardFrom to check if passenger can be registered for boarding");
+		}
+
+        passenger.transform.SetParent(transform);
+        passengers.Add(passenger);
+
+        OnPassengerRegistered?.Invoke();
     }
 
     private void OnDrawGizmosSelected() {

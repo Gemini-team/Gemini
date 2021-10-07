@@ -88,7 +88,7 @@ public class CameraController : MonoBehaviour {
 		}
 
 		float zoomDelta = Input.GetAxisRaw("CameraZoom");
-		if (zoomDelta != 0) {
+		if (!Mathf.Approximately(zoomDelta, 0)) {
 			cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - zoomDelta * ZOOM_SPEED, MIN_FOV, maxFOV);
 		}
 	}

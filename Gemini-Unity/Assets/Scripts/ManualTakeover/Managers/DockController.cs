@@ -32,10 +32,12 @@ public class DockController : ExtendedMonoBehaviour {
     }
 
     public void PassengerDeparture() {
+		// Register passengers for boarding until either queue is empty OR all seats are taken
         while (queue.Count > 0 && boarder.CanBoardFrom(this)) {
             Passenger passenger = queue.Dequeue();
-            boarder.Board(passenger);
+            boarder.RegisterPassenger(passenger);
         }
+		boarder.BeginBoarding();
     }
 
     public void PassengerArrival(IList<Passenger> passengers) {
