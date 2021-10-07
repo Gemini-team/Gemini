@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour {
     private const float 
         AERIAL_CAM_DISTANCE = 25,
         MIN_FOV = 30,
-        ZOOM_SPEED = 20,
+        ZOOM_SPEED = 5,
 		PAN_SPEED = 50,
 		PAN_RANGE = 179;
 
@@ -75,7 +75,8 @@ public class CameraController : MonoBehaviour {
 			transform.rotation = Quaternion.Euler(90, ferry.eulerAngles.y, 0);
 		}
 
-		float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+		float scroll = (Input.GetKey(KeyCode.PageUp) ? 1 : 0) 
+			+ (Input.GetKey(KeyCode.PageDown) ? -1 : 0);
 		if (scroll != 0) {
 			cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - scroll * ZOOM_SPEED, MIN_FOV, maxFOV);
 		}
