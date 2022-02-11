@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 using System.Linq;
 
 namespace Gemini.EMRS.Core.ZBuffer
@@ -56,6 +57,7 @@ namespace Gemini.EMRS.Core.ZBuffer
                 CameraObject.transform.localPosition = new Vector3(0, 0, 0);
                 //CameraObject.layer = LayerMask.NameToLayer(LidarLayer);
                 CameraObject.AddComponent<Camera>();
+
                 Camera cam = CameraObject.GetComponent<Camera>();
 
                 cam.targetTexture = depthBuffer;

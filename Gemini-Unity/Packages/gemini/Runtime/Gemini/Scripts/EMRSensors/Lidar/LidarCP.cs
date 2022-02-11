@@ -22,7 +22,6 @@ namespace Gemini.EMRS.Lidar
 
         protected override void Execute(ScriptableRenderContext renderContext, CommandBuffer cmd, HDCamera camera, CullingResults cullingResult)
         {
-
             for (int i = 0; i < cameras.Length; i++)
             {
                 Camera bakingCamera = cameras[i];
@@ -59,8 +58,10 @@ namespace Gemini.EMRS.Lidar
                 cmd.SetGlobalMatrix("_CameraViewProjMatrix", vp);
                 cmd.SetGlobalVector("_WorldSpaceCameraPos", Vector3.zero);
 
-                cmd.SetRenderTarget(targetTexture, 0, CubemapFace.Unknown, i);
+                //cmd.SetRenderTarget(targetTexture, 0, CubemapFace.Unknown, i);
+                CoreUtils.SetRenderTarget(cmd, targetTexture, ClearFlag.All,0,CubemapFace.Unknown,i);
                 HDUtils.DrawRendererList(renderContext, cmd, RendererList.Create(result));
+                
             }
         }
     }
